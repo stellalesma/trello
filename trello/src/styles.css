@@ -1,0 +1,370 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(to right, #8a2be2, #00ced1);
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+main {
+    height: 100vh;
+    display: flex;
+    padding: 0 20px;
+    overflow-x: auto;
+    flex-direction: row;
+}
+
+p {
+    margin: 0;
+}
+
+.header {
+    margin: 0;
+    height: 25px;
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    color: rgba(245, 245, 245, 0.5);
+    background-color: rgba(128, 128, 128, 0.5);
+}
+
+.liLists {
+    width: 300px;
+    padding: 10px;
+    margin-right: 20px;
+    border-radius: 10px;
+    height: fit-content;
+    box-sizing: border-box;
+    background-color: whitesmoke;
+}
+
+.titleEditing {
+    width: 250px;
+    height: 30px;
+    display: flex;
+    /* font-size: medium; */
+    border-radius: 3px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+    box-sizing: border-box;
+    outline-color: rgb(1, 210, 238); /*border-color if focus*/
+    /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; */
+}
+
+ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.ulLists {
+    display: flex;
+    margin: 15px 0;
+    flex-direction: row;
+}
+
+.addList {
+    width: 300px;
+    display: flex;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.addList.button {
+    height: 50px;    
+    color: white;
+    padding: 0 10px;
+    font-weight: 600;
+    align-items: center;
+    justify-content: left;
+    background-color: rgba(245, 245, 245, 0.3);
+}
+
+.addList.button:hover {
+    background-color:  rgba(245, 245, 245, 0.1);
+}
+
+.addList.form {
+    padding: 10px;
+    flex-direction: column;
+    background-color: white;
+}
+
+.input {
+    height: 30px;
+    padding-left: 10px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    outline-color: rgb(1, 210, 238); /*border-color if focus*/
+}
+
+.input:not(:focus) {
+    border-color: gainsboro;
+}
+
+.listMenu {
+    left: 5px;
+    padding: 7px;
+    position: relative;
+    border-radius: 5px;
+}
+
+.listMenu:hover {
+    background-color: rgb(223, 236, 238);
+}
+
+button {
+    width: 70px;
+    height: 30px;
+    border-width: 0;
+    border-radius: 3px;
+}
+
+button.enable {
+    color: white;
+    background-color: rgb(1, 210, 238);
+}
+
+button.disable {
+    color: rgb(74, 74, 74);
+    background-color: transparent;
+}
+
+button.disable:hover {
+    background-color: rgb(236, 233, 233);
+}
+
+.addCard {
+    display: flex;
+    box-sizing: border-box;
+}
+
+.addCard.button {
+    height: 35px;
+    margin-top: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.addCard.button:hover {
+    background-color: rgb(232, 224, 236);
+}
+
+.addCard.form {
+    margin-top: 10px;
+    flex-direction: column;
+}
+
+.card {
+    padding: 10px;
+    border-radius: 7px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    background-color: white;
+    border: 1px solid rgba(177, 0, 242, 0.25);
+    border-bottom: 2px solid rgba(101, 0, 242, 0.347);
+}
+
+.cardEditing:hover {
+    opacity: 1;
+    position: relative;
+    border: 1px solid turquoise;
+    border-bottom-width: 2px;
+}
+
+textarea {
+    height: 80px;
+    resize: none;
+    outline: none;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* .ulCard {
+    height: 100;
+    overflow-y: auto;
+} */
+
+.editIcon {
+    top: 3px;
+    right: 0;
+    opacity: 0;
+    padding: 8px;
+    margin-right: 3px;
+    position: absolute;
+}
+
+.card:hover .editIcon {
+    opacity: 1;
+}
+
+.editIcon:hover {
+    border-radius: 50%;
+    background-color: rgb(232, 224, 236);
+}
+
+.cardTitleEditing {
+    width: 280px;
+    padding: 10px;
+    border-radius: 7px;
+    margin-bottom: 3px;
+    box-sizing: border-box;
+    border-color: rgb(1, 210, 238); /*border-color if focus*/
+}
+
+.overlay {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: fixed;
+    background: rgba(29, 29, 29, 0.672);
+}
+
+.modal {
+    top: 50%;
+    left: 50%;
+    width: 700px;
+    height: 780px;
+    padding: 20px;
+    z-index: 1000;
+    position: fixed;
+    border-radius: 12px;
+    background-color: whitesmoke;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.optionsTitle {
+    display: flex;
+    font-size: larger;
+    font-weight: bold;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.optionsOthers {
+    display: flex;
+    font-size: large;
+    font-weight: bold;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.description {
+    width: 510px;
+    padding: 10px;
+    margin-left: 34px;
+    font-size: 15px;
+    border-radius: 5px;
+    margin-bottom: 40px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    border-color: transparent;
+    background-color: rgba(229, 229, 230, 0.772);
+}
+
+/* .description:hover {
+    background-color: rgba(206, 206, 208, 0.772);
+} */
+
+.descriptionDefault {
+    height: 80px;
+}
+
+.activity {
+    width: 510px;
+    height: 40px;
+    padding: 10px;
+    font-size: 15px;
+    margin-left: 34px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    background-color: white;
+    border: 1px solid rgba(202, 200, 200, 0.421);
+    border-bottom: 1.5px solid rgba(202, 200, 200, 0.975);
+}
+
+/* .activity:hover {
+    background-color: rgb(232, 232, 232);
+} */
+
+.inputsDA {
+    margin-bottom: 5px;
+    background-color: white;
+}
+
+.inputsDA:focus {
+    border: 1px solid rgba(100, 158, 234, 0.711);
+    border-bottom: 2px solid rgb(203, 156, 232);
+}
+
+.activities {
+    width: 510px;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    background-color: white;
+    border: 1px solid rgba(100, 158, 234, 0.711);
+    border-bottom: 2px solid rgb(203, 156, 232);
+}
+
+.actions {
+    font-weight: bold;
+    font-size: smaller;
+    margin-bottom: 10px;
+}
+
+.actionsList {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    font-size: 15px;
+    padding: 10px;
+    width: 150px;
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: rgba(229, 229, 230, 0.772);
+}
+
+.moveCard {
+    background-color: white;
+    position: relative;
+    right: 200px;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow:  0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+}
+
+.closeMove {
+   position: fixed;
+   /* right: 0; */
+   right: 80px;
+   padding: 5px;
+   border-radius: 50%;
+}
+
+.closeMove:hover {
+    background-color: rgb(232, 231, 231);
+}
