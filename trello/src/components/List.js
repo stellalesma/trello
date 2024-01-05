@@ -27,9 +27,9 @@ function List({ currentList, id, onListEditing }) {
         onListEditing(id, setList(tmp));
 	};
 
-    const handleCardEditing = (id, newCard) => {
+    const handleCardEditing = (index, newCard) => {
         let tmp = list;
-		tmp.cards[id] = newCard;
+		tmp.cards[index] = newCard;
         onListEditing(id, setList(tmp));
     }
 

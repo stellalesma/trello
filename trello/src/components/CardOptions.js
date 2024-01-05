@@ -68,7 +68,7 @@ function CardOptions ({ listName, card, onAddDescription, onAddActivity, onClose
 
                         {isDescriptionEditing ? (
                             <form onSubmit={handleDescriptionSubmit}>
-                                <textarea type="text" id="descriptionEditing" name="descriptionEditing" className="description inputsDA" style={{ height: '120px' }} placeholder="Add a more detailed description..." value={description} onChange={handleDescription} autoFocus></textarea>
+                                <textarea id="descriptionEditing" name="descriptionEditing" className="description inputsDA" style={{ height: '120px' }} placeholder="Add a more detailed description..." value={description} onChange={handleDescription} autoFocus />
                                 <div style={{ marginLeft: '34px', marginBottom: '40px' }}>
                                     <button type="submit" style={{ marginRight: '10px' }} className="enable">Save</button>
                                     <button type="reset" onClick={() => { setIsDescriptionEditing(false); setDescription(card.description) }} className="disable">Cancel</button>
@@ -85,7 +85,7 @@ function CardOptions ({ listName, card, onAddDescription, onAddActivity, onClose
 
                         {isActivityEditing ? (
                             <form onSubmit={handleActivitySubmit}>
-                                <textarea type="text" id="activityEditing" name="activityEditing" className="activity inputsDA" style={{ height: '70px' }} placeholder="Write a comment..." value={activity} onChange={handleActivity} autoFocus></textarea>
+                                <textarea id="activityEditing" name="activityEditing" className="activity inputsDA" style={{ height: '70px' }} placeholder="Write a comment..." value={activity} onChange={handleActivity} autoFocus />
                                 <div style={{ marginLeft: '34px', marginBottom: '20px' }}>
                                     <button type="submit" style={{ marginRight: '10px' }} className="enable">Save</button>
                                     <button type="reset" onClick={() => { setIsActivityEditing(false); setActivity("") }} className="disable">Cancel</button>

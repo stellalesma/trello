@@ -12,14 +12,6 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-main {
-    height: 100vh;
-    display: flex;
-    padding: 0 20px;
-    overflow-x: auto;
-    flex-direction: row;
-}
-
 p {
     margin: 0;
 }
@@ -33,6 +25,14 @@ p {
     justify-content: center;
     color: rgba(245, 245, 245, 0.5);
     background-color: rgba(128, 128, 128, 0.5);
+}
+
+.main {
+    height: 100vh;
+    display: flex;
+    padding: 0 15px;
+    overflow-x: auto;
+    flex-direction: row;
 }
 
 .liLists {

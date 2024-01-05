@@ -17,7 +17,7 @@ function Home() {
 	};
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div className="main" style={{ display: 'flex', flexDirection: 'row' }}>
             <AllLists lists={lists} onListEditing={handleListEditing}/>
             <AddList onAddList={handleAddList}/>
         </div>
