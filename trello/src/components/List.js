@@ -30,7 +30,7 @@ function List({ currentList, id, onListEditing }) {
     const handleCardEditing = (index, newCard) => {
         let tmp = list;
 		tmp.cards[index] = newCard;
-        onListEditing(id, setList(tmp));
+        // onListEditing(id, setList(tmp));
     }
 
     return (

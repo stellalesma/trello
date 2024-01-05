@@ -28,7 +28,7 @@ function Card({ card, id, onCardEditing, onCardOptions }) {
                     </div>
                 </form>
             ) : (
-                <p className="card cardEditing" onClick={() => onCardOptions(card)}>
+                <p className="card cardEditing" onClick={() => onCardOptions(card, id)}>
                     {cardTitle}
                     <MdOutlineModeEditOutline className="editIcon" onClick={(event) => { event.stopPropagation(); setIsTitleEditing(true) }} />
                 </p>
