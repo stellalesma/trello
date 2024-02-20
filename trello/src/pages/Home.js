@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import AddList from '../components/AddList';
-import AllLists from "../components/AllLists";
+import AddList from '../components/ManageList/AddList';
+import AllLists from "../components/ManageList/AllLists";
 
 function Home() {
 	const [lists, setLists] = useState([])
@@ -16,10 +16,15 @@ function Home() {
 		setLists(tmp);
 	};
 
+    const handleReorganizeLists = (newLists) => {
+		console.log("all home", lists);
+        setLists(newLists);
+    };
+
     return (
         <div className="main" style={{ display: 'flex', flexDirection: 'row' }}>
-            <AllLists lists={lists} onListEditing={handleListEditing}/>
-            <AddList onAddList={handleAddList}/>
+            <AllLists lists={lists} onListEditing={handleListEditing} onReorganize={handleReorganizeLists} />
+            <AddList onAddList={handleAddList} />
         </div>
     );
 }

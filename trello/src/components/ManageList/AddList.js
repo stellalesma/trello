@@ -10,6 +10,13 @@ function AddList({ onAddList }) {
         setListTitle(e.target.value);
     };
 
+    const handleNoFocus = () => {
+        if (!listTitle.trim()) {
+            setShowForm(false);
+            setListTitle("");   
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -24,7 +31,7 @@ function AddList({ onAddList }) {
         <div>
             {showForm ? (
                 <form onSubmit={handleSubmit} className="addList form">
-                    <input type="text" id="list" name="list" placeholder="Enter list title..." value={listTitle} onChange={handleTitle} className="input" autoFocus/>
+                    <input type="text" id="list" name="list" placeholder="Enter list title..." value={listTitle} onChange={handleTitle} onBlur={handleNoFocus} className="input" autoFocus/>
 
                     <div>
                         <button style={{marginRight: '10px'}} type="submit" className="enable">Add list</button>

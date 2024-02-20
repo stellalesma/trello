@@ -10,6 +10,11 @@ function AddCard({ onAddCard }) {
         setCardTitle(e.target.value);
     };
 
+    const handleBlur = () => {
+        if (!cardTitle.trim())
+            setShowForm(false);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -24,7 +29,7 @@ function AddCard({ onAddCard }) {
         <div>
             {showForm ? (
                 <form onSubmit={handleSubmit} className="addCard form">
-                    <textarea id="card" name="card" placeholder="Enter a title for this card..." value={cardTitle} onChange={handleTitle} className="card" autoFocus />
+                    <textarea id="card" name="card" placeholder="Enter a title for this card..." value={cardTitle} onChange={handleTitle} onBlur={handleBlur} className="card" autoFocus />
 
                     <div>
                         <button style={{marginRight: '10px'}} type="submit" className="enable">Add card</button>

@@ -6,6 +6,13 @@ function Card({ card, id, onCardEditing, onCardOptions }) {
     const [isTitleEditing, setIsTitleEditing] = useState(false);
     const [cardTitle, setCardTitle] = useState(card.title)
 
+    const handleBlur = () => {
+        if (!cardTitle.trim()) {
+            setIsTitleEditing(false);
+            setCardTitle(card.title);
+        }
+    };
+
     const handleSubmit = (event, id) => {
         event.preventDefault();
         
@@ -21,14 +28,14 @@ function Card({ card, id, onCardEditing, onCardOptions }) {
         <div>
             {isTitleEditing ? (
                 <form onSubmit={(event) => handleSubmit(event, id)}>
-                    <textarea className="cardTitleEditing" id='cardEditing' name="cardEditing" value={cardTitle} onChange={(event) => { setCardTitle(event.target.value) }} autoFocus />
+                    <textarea className="cardTitleEditing" id='cardEditing' name="cardEditing" value={cardTitle} onChange={(event) => { setCardTitle(event.target.value) }}  onBlur={handleBlur} autoFocus />
                     <div style={{ marginBottom: '10px'}}>
                         <button type="submit" style={{ marginRight: '10px' }} className="enable">Save</button>
                         <button type="reset" onClick={() => { setIsTitleEditing(false); setCardTitle(card.title) }} className="disable">Cancel</button>
                     </div>
                 </form>
             ) : (
-                <p className="card cardEditing" onClick={() => onCardOptions(card, id)}>
+                <p className="card cardEditing" onClick={() => onCardOptions(card)}>
                     {cardTitle}
                     <MdOutlineModeEditOutline className="editIcon" onClick={(event) => { event.stopPropagation(); setIsTitleEditing(true) }} />
                 </p>
