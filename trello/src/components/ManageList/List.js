@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ListContext } from "../../utils/ListContext";
 
 import { GoKebabHorizontal } from "react-icons/go";
 
@@ -6,14 +7,12 @@ import ListActions from "./ListActions";
 import AddCard from "./ManageCard/AddCard";
 import AllCards from "./ManageCard/AllCards";
 
-function List({ allLists, id, onListEditing, onReorganize }) {
-    const [list, setList] = useState(allLists[id]);
+function List({ currentList, id }) {
+    const [list, setList] = useState(currentList);
     const [title, setTitle] = useState(list.title);
     const [isListActions, setIsListActions] = useState(false);
     const [isTitleEditing, setIsTitleEditing] = useState(false);
-
-    // console.log("all 1", allLists);
-    // console.log("cards 1", list.cards);
+    const { handleListEditing } = useContext(ListContext);
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
@@ -21,7 +20,7 @@ function List({ allLists, id, onListEditing, onReorganize }) {
                 let tmp = list;
                 tmp.title = title;
                 setList(tmp);
-                onListEditing(id, tmp);
+                handleListEditing(id, tmp);
                 setIsTitleEditing(false);
             }
         }
@@ -35,7 +34,7 @@ function List({ allLists, id, onListEditing, onReorganize }) {
             let tmp = list;
             tmp.title = title;
             setList(tmp);
-            onListEditing(id, tmp);
+            handleListEditing(id, tmp);
             setIsTitleEditing(false);        
         }
     };
@@ -48,7 +47,7 @@ function List({ allLists, id, onListEditing, onReorganize }) {
         let tmp = list;
 		tmp.cards.push(newCard);
         setList(tmp);
-        onListEditing(id, tmp);
+        handleListEditing(id, tmp);
     };
 
     const handleCardEditing = (index, newCard) => {
@@ -70,7 +69,7 @@ function List({ allLists, id, onListEditing, onReorganize }) {
 
             {isListActions ? <ListActions onClose={() => setIsListActions(false)} /> : null}
 
-            <AllCards allLists={allLists} listName={list.title} cards={list.cards} onCardEditing={handleCardEditing} onReorganize={onReorganize} />
+            <AllCards listName={list.title} cards={list.cards} onCardEditing={handleCardEditing} />
             <AddCard onAddCard={handleAddCard} />
 
         </div>

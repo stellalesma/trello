@@ -4,7 +4,7 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 
 import MoveCard from "./MoveCard";
 
-function CardActions({ allLists, card, listName, onReorganize }) {
+function CardActions({ card, listName }) {
     const [isMoveCard, setIsMoveCard] = useState(false);
 
     return (
@@ -14,7 +14,7 @@ function CardActions({ allLists, card, listName, onReorganize }) {
                 <IoIosArrowRoundForward style={{ marginRight: '10px', fontSize: '1.2em' }} />
                 Move
             </p>
-            {isMoveCard ? <MoveCard allLists={allLists} listName={listName} card={card} onClose={() => { setIsMoveCard(false) }} onReorganize={onReorganize} /> : null}
+            {isMoveCard ? <MoveCard listName={listName} card={card} onClose={() => { setIsMoveCard(false) }} /> : null}
         </div>
 
     );

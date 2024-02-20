@@ -66,58 +66,49 @@ function DescriptionActivities({ card, onAddDescription, onAddActivity }) {
 
     return (
         <div style={{ width: "550px", marginRight: "10px" }}>
-        <div className="optionsOthers">
-            <IoMenuOutline style={{ marginRight: "10px", fontSize: "1.2em" }} />
-            <p>Description</p>
-        </div>
+            <div className="optionsOthers">
+                <IoMenuOutline style={{ marginRight: "10px", fontSize: "1.2em" }} />
+                <p>Description</p>
+            </div>
 
-        {isDescriptionEditing ? (
-            <Form
-            value={description}
-            staticAttributs={descriptionAttrs}
-            onChange={handleDescription}
-            onClick={handleDescriptionReset}
-            onSubmit={handleDescriptionSubmit}
-            />
-        ) : (
-            <p
-            className={
-                description ? "description" : "description descriptionDefault"
-            }
-            onClick={() => {
-                setIsDescriptionEditing(true);
-            }}
-            >
-            {description ? description : "Add a more detailed description..."}
-            </p>
-        )}
+            {isDescriptionEditing ? (
+                <Form
+                    value={description}
+                    staticAttributs={descriptionAttrs}
+                    onChange={handleDescription}
+                    onClick={handleDescriptionReset}
+                    onSubmit={handleDescriptionSubmit}
+                />
+            ) : (
+                <p
+                    className={description ? "description" : "description descriptionDefault"}
+                    onClick={() => { setIsDescriptionEditing(true); }}
+                >
+                    {description ? description : "Add a more detailed description..."}
+                </p>
+            )}
 
-        <div className="optionsOthers">
-            <IoListOutline style={{ marginRight: "10px", fontSize: "1.2em" }} />
-            <p>Activity</p>
-        </div>
+            <div className="optionsOthers">
+                <IoListOutline style={{ marginRight: "10px", fontSize: "1.2em" }} />
+                <p>Activity</p>
+            </div>
 
-        {isActivityEditing ? (
-            <Form
-            value={activity}
-            staticAttributs={activityAttrs}
-            onChange={handleActivity}
-            onClick={handleActivityReset}
-            onSubmit={handleActivitySubmit}
-            onBlur={() => !activity.trim() && handleActivityReset()}
-            />
-        ) : (
-            <p
-            className="activity"
-            onClick={() => {
-                setIsActivityEditing(true);
-            }}
-            >
-            Write a comment...
-            </p>
-        )}
+            {isActivityEditing ? (
+                <Form
+                    value={activity}
+                    staticAttributs={activityAttrs}
+                    onChange={handleActivity}
+                    onClick={handleActivityReset}
+                    onSubmit={handleActivitySubmit}
+                    onBlur={() => !activity.trim() && handleActivityReset()}
+                />
+            ) : (
+                <p className="activity" onClick={() => { setIsActivityEditing(true); }}>
+                    Write a comment...
+                </p>
+            )}
 
-        <AllActivities card={card} />
+            <AllActivities card={card} />
         </div>
     );
 }

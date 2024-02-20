@@ -1,26 +1,19 @@
-// import { useState } from "react";
+import { useContext } from "react";
+import { ListContext } from "../../utils/ListContext";
+
 import List from "./List";
 
-function AllLists({ lists, onListEditing, onReorganize }) {
-    // const [changedLists, setChangedLits] = useState(lists);
+// un probleme avec les index ??
 
-    // const handleReorganizeLists = (newLists) => {
-    //     console.log("all 0", lists);
-    //     // console.log("cards 0", list.cards);
-    //     setChangedLits(newLists);
-    // };
+function AllLists() {
+
+    const { lists } = useContext(ListContext);
 
     return (
         <ul className="ulLists">
             {lists.map((list, index) => (
                 <li key={index} className="liLists">
-                    <List
-                        allLists={lists}
-                        currentList={list}
-                        id={index}
-                        onListEditing={onListEditing}
-                        onReorganize={onReorganize}
-                    />
+                    <List currentList={list} id={index} />
                 </li>
             ))}
         </ul>

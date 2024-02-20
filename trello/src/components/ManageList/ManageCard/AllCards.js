@@ -3,12 +3,9 @@ import { useState } from "react";
 import Card from "./Card";
 import CardOptions from "./CardOptions";
 
-function AllCards({ allLists, listName, cards, onCardEditing, onReorganize }) {
+function AllCards({ listName, cards, onCardEditing }) {
     const [isCardOptions, setIsCardOptions] = useState(false);
     const [modalCard, setModalCard] = useState(null);
-
-    // console.log("all 2", allLists);
-    // console.log("cards 2", cards);
 
     const handleAddDescription = (card, newDescription) => {
         let tmp = card;
@@ -28,7 +25,7 @@ function AllCards({ allLists, listName, cards, onCardEditing, onReorganize }) {
                         <Card card={card} id={index} onCardEditing={onCardEditing} onCardOptions={(mCard) => { setModalCard(mCard); setIsCardOptions(true) }} />
                     </li>
 
-                    {isCardOptions ? <CardOptions allLists={allLists} listName={listName} card={modalCard} onAddDescription={(description) => handleAddDescription(modalCard, description)} onAddActivity={(activity) => handleAddActivity(modalCard, activity)} onClose={() => { setIsCardOptions(false) }} onReorganize={onReorganize} /> : null}
+                    {isCardOptions ? <CardOptions listName={listName} card={modalCard} onAddDescription={(description) => handleAddDescription(modalCard, description)} onAddActivity={(activity) => handleAddActivity(modalCard, activity)} onClose={() => { setIsCardOptions(false) }} /> : null}
                 </div>
             )}
         </ul>

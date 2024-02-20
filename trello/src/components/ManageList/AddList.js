@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ListContext } from "../../utils/ListContext";
 
 import { FaPlus } from "react-icons/fa6";
 
-function AddList({ onAddList }) {
-    const [showForm, setShowForm] = useState(false);
+function AddList() {
     const [listTitle, setListTitle] = useState("");
+    const [showForm, setShowForm] = useState(false);
+    const { handleAddList } = useContext(ListContext);
 
     const handleTitle = (e) => {
         setListTitle(e.target.value);
@@ -21,7 +23,7 @@ function AddList({ onAddList }) {
         e.preventDefault();
 
         if (listTitle.trim()) {
-            onAddList({ title: listTitle, cards: [] });
+            handleAddList({ title: listTitle, cards: [] });
             setListTitle("");
             setShowForm(false);
         }

@@ -3,7 +3,7 @@ import { IoCardOutline, IoCloseOutline } from "react-icons/io5";
 import CardActions from "./CardActions";
 import DescriptionActivities from "./DescriptionActivities";
 
-function CardOptions ({ allLists, listName, card, onAddDescription, onAddActivity, onClose, onReorganize }) {
+function CardOptions ({ listName, card, onAddDescription, onAddActivity, onClose }) {
     const handleClickOutside = (event) => {
         if (!event.target.closest(".modal")) {
             onClose();
@@ -27,7 +27,7 @@ function CardOptions ({ allLists, listName, card, onAddDescription, onAddActivit
 
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <DescriptionActivities card={card} onAddDescription={onAddDescription} onAddActivity={onAddActivity} />
-                    <CardActions allLists={allLists} card={card} listName={listName} onReorganize={onReorganize} />
+                    <CardActions card={card} listName={listName} />
                 </div>
 
             </div>

@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ListContext } from "../../../utils/ListContext"
 
 import { IoMdClose } from "react-icons/io";
 
-export default function MoveCard({ allLists, listName, card, onClose, onReorganize }) {
-    const findAList = (allLists, searchedTitle) => {
-        return allLists.find(objet => objet.title === searchedTitle);
+export default function MoveCard({ listName, card, onClose }) {
+    const { lists, handleReorganizeLists } = useContext(ListContext);
+
+    const findAList = (lists, searchedTitle) => {
+        return lists.find(objet => objet.title === searchedTitle);
     };
     
     const findCardsNb = (cards) => {
@@ -15,15 +18,15 @@ export default function MoveCard({ allLists, listName, card, onClose, onReorgani
         return cards.findIndex(objet => objet.title === cardTitle);
     };
 
-    const currentList = findAList(allLists, listName);
+    const currentList = findAList(lists, listName);
     const [selectedList, setSelectedList] = useState(listName);
     const currentPosition = findCardIndex(currentList.cards, card.title) + 1;
     const [selectedPosition, setSelectedPosition] = useState(currentPosition);
-    const suggestedPosition = findCardsNb(findAList(allLists, selectedList).cards) + 1;
+    const suggestedPosition = findCardsNb(findAList(lists, selectedList).cards) + 1;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const chosenList = findAList(allLists, selectedList);
+        const chosenList = findAList(lists, selectedList);
 
         if (listName !== selectedList) {
             currentList.cards.splice(currentPosition - 1, 1);
@@ -33,7 +36,7 @@ export default function MoveCard({ allLists, listName, card, onClose, onReorgani
             currentList.cards.splice(selectedPosition - 1, 0, card);
         }
         
-        onReorganize(allLists);
+        handleReorganizeLists(lists);
         onClose();
     };
 
@@ -50,7 +53,7 @@ export default function MoveCard({ allLists, listName, card, onClose, onReorgani
                 <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: 'rgba(229, 229, 230, 0.772)', height: '70px', padding: '10px', borderRadius: '5px', marginBottom: '10px', cursor: 'pointer' }}>
                     <label htmlFor="dropDownList" style={{ fontWeight: 'bold', fontSize: '13px' }}>List</label>
                     <select id="dropDownList" name="dropDownList" value={selectedList} onChange={(e) => { setSelectedList(e.target.value) }} className="dropDown">
-                        {allLists.map((list, index) => 
+                        {lists.map((list, index) => 
                             <option key={index} value={list.title}>{list.title}</option>
                         )}
                     </select>
@@ -59,7 +62,7 @@ export default function MoveCard({ allLists, listName, card, onClose, onReorgani
                 <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: 'rgba(229, 229, 230, 0.772)', height: '70px', padding: '10px', borderRadius: '5px', marginBottom: '10px', cursor: 'pointer' }}>
                     <label htmlFor="dropDownPosition" style={{ fontWeight: 'bold', fontSize: '13px' }}>Position</label>
                     <select id="dropDownPosition" name="dropDownPosition" value={selectedPosition} onChange={(e) => { setSelectedPosition(e.target.value) }} className="dropDown">
-                        {findAList(allLists, selectedList).cards.map((_, index) => 
+                        {findAList(lists, selectedList).cards.map((_, index) => 
                             <option key={index} value={index + 1}>{index + 1}</option>
                         )}
                         <option value={suggestedPosition}>{suggestedPosition}</option>
