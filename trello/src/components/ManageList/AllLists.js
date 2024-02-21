@@ -12,8 +12,8 @@ function AllLists() {
     return (
         <ul className="ulLists">
             {lists.map((list, index) => (
-                <li key={index} className="liLists">
-                    <List currentList={list} id={index} />
+                <li key={list.title} className="liLists">
+                    <List list={list} id={index} />
                 </li>
             ))}
         </ul>

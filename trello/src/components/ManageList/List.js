@@ -7,19 +7,18 @@ import ListActions from "./ListActions";
 import AddCard from "./ManageCard/AddCard";
 import AllCards from "./ManageCard/AllCards";
 
-function List({ currentList, id }) {
-    const [list, setList] = useState(currentList);
+function List({ list, id }) {
+    const { handleListEditing } = useContext(ListContext);
+
     const [title, setTitle] = useState(list.title);
     const [isListActions, setIsListActions] = useState(false);
     const [isTitleEditing, setIsTitleEditing] = useState(false);
-    const { handleListEditing } = useContext(ListContext);
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             if (title.trim()) {
                 let tmp = list;
                 tmp.title = title;
-                setList(tmp);
                 handleListEditing(id, tmp);
                 setIsTitleEditing(false);
             }
@@ -33,7 +32,6 @@ function List({ currentList, id }) {
         } else {
             let tmp = list;
             tmp.title = title;
-            setList(tmp);
             handleListEditing(id, tmp);
             setIsTitleEditing(false);        
         }
@@ -46,7 +44,6 @@ function List({ currentList, id }) {
     const handleAddCard = (newCard) => {
         let tmp = list;
 		tmp.cards.push(newCard);
-        setList(tmp);
         handleListEditing(id, tmp);
     };
 
@@ -69,7 +66,7 @@ function List({ currentList, id }) {
 
             {isListActions ? <ListActions onClose={() => setIsListActions(false)} /> : null}
 
-            <AllCards listName={list.title} cards={list.cards} onCardEditing={handleCardEditing} />
+            <AllCards list={list} onCardEditing={handleCardEditing} />
             <AddCard onAddCard={handleAddCard} />
 
         </div>

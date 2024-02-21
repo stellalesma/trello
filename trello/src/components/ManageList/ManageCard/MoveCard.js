@@ -3,17 +3,17 @@ import { ListContext } from "../../../utils/ListContext"
 
 import { IoMdClose } from "react-icons/io";
 
-export default function MoveCard({ listName, card, onClose }) {
+export default function MoveCard({ listName, card, onClose, onMainClose }) {
     const { lists, handleReorganizeLists } = useContext(ListContext);
 
     const findAList = (lists, searchedTitle) => {
         return lists.find(objet => objet.title === searchedTitle);
     };
-    
+
     const findCardsNb = (cards) => {
         return cards.length;
     };
-    
+
     const findCardIndex = (cards, cardTitle) => {
         return cards.findIndex(objet => objet.title === cardTitle);
     };
@@ -38,6 +38,7 @@ export default function MoveCard({ listName, card, onClose }) {
         
         handleReorganizeLists(lists);
         onClose();
+        onMainClose();
     };
 
     return (
@@ -53,8 +54,8 @@ export default function MoveCard({ listName, card, onClose }) {
                 <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: 'rgba(229, 229, 230, 0.772)', height: '70px', padding: '10px', borderRadius: '5px', marginBottom: '10px', cursor: 'pointer' }}>
                     <label htmlFor="dropDownList" style={{ fontWeight: 'bold', fontSize: '13px' }}>List</label>
                     <select id="dropDownList" name="dropDownList" value={selectedList} onChange={(e) => { setSelectedList(e.target.value) }} className="dropDown">
-                        {lists.map((list, index) => 
-                            <option key={index} value={list.title}>{list.title}</option>
+                        {lists.map((list, _) => 
+                            <option key={list.title} value={list.title}>{list.title}</option>
                         )}
                     </select>
                 </div>
@@ -62,8 +63,8 @@ export default function MoveCard({ listName, card, onClose }) {
                 <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: 'rgba(229, 229, 230, 0.772)', height: '70px', padding: '10px', borderRadius: '5px', marginBottom: '10px', cursor: 'pointer' }}>
                     <label htmlFor="dropDownPosition" style={{ fontWeight: 'bold', fontSize: '13px' }}>Position</label>
                     <select id="dropDownPosition" name="dropDownPosition" value={selectedPosition} onChange={(e) => { setSelectedPosition(e.target.value) }} className="dropDown">
-                        {findAList(lists, selectedList).cards.map((_, index) => 
-                            <option key={index} value={index + 1}>{index + 1}</option>
+                        {findAList(lists, selectedList).cards.map((card, index) => 
+                            <option key={card.title} value={index + 1}>{index + 1}</option>
                         )}
                         <option value={suggestedPosition}>{suggestedPosition}</option>
                     </select>

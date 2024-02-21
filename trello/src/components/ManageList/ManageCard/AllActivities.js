@@ -3,11 +3,11 @@ import { IoMdContact } from "react-icons/io";
 function AllActivities({ card }) {
     return (
         <ul>
-            {card.activities.map((activity, index) =>
-                <div key={index}>
+            {card.activities.map((activity, _) =>
+                <div key={activity}>
                     <div style={{ display: 'flex' }}>
                         <IoMdContact style={{ marginRight: '5px', fontSize: '1.9em' }} />
-                        <li key={index} className="activities">
+                        <li className="activities">
                             {activity}
                         </li>
                     </div>

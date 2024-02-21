@@ -27,7 +27,7 @@ function CardOptions ({ listName, card, onAddDescription, onAddActivity, onClose
 
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <DescriptionActivities card={card} onAddDescription={onAddDescription} onAddActivity={onAddActivity} />
-                    <CardActions card={card} listName={listName} />
+                    <CardActions card={card} listName={listName} onMainClose={onClose} />
                 </div>
 
             </div>
