@@ -1,10 +1,15 @@
-import { useState } from "react";
-
+import { useState, useContext } from "react";
+import { ListContext } from "../../../utils/ListContext";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 
-function Card({ card, id, onCardEditing, onCardOptions }) {
+import CardOptions from "./CardOptions";
+
+function Card({ card, listName, listIndex }) {
+    const [cardTitle, setCardTitle] = useState(card.title);
     const [isTitleEditing, setIsTitleEditing] = useState(false);
-    const [cardTitle, setCardTitle] = useState(card.title)
+    const [showCardOptions, setShowCardOptions] = useState(false);
+
+    const { lists, handleListEditing } = useContext(ListContext);
 
     const handleBlur = () => {
         if (!cardTitle.trim()) {
@@ -13,13 +18,18 @@ function Card({ card, id, onCardEditing, onCardOptions }) {
         }
     };
 
-    const handleSubmit = (event, id) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
-        
+
         if (cardTitle.trim()) {
-            let tmp = card;
-            tmp.title = cardTitle;
-            onCardEditing(id, tmp);
+            const list = lists[listIndex];
+            const newCard = {...card, title: cardTitle};
+            const tmp = {
+                ...list,
+                cards: list.cards.map((object) => object.id === card.id ? newCard : object)
+            };
+    
+            handleListEditing(listIndex, tmp);
             setIsTitleEditing(false);
         }
     };
@@ -27,7 +37,7 @@ function Card({ card, id, onCardEditing, onCardOptions }) {
     return (
         <div>
             {isTitleEditing ? (
-                <form onSubmit={(event) => handleSubmit(event, id)}>
+                <form onSubmit={(event) => handleSubmit(event)}>
                     <textarea className="cardTitleEditing" id='cardEditing' name="cardEditing" value={cardTitle} onChange={(event) => { setCardTitle(event.target.value) }}  onBlur={handleBlur} autoFocus />
                     <div style={{ marginBottom: '10px'}}>
                         <button type="submit" style={{ marginRight: '10px' }} className="enable">Save</button>
@@ -35,11 +45,13 @@ function Card({ card, id, onCardEditing, onCardOptions }) {
                     </div>
                 </form>
             ) : (
-                <p className="card cardEditing" onClick={() => onCardOptions(card)}>
+                <p className="card cardEditing" onClick={() => setShowCardOptions(true)}>
                     {cardTitle}
                     <MdOutlineModeEditOutline className="editIcon" onClick={(event) => { event.stopPropagation(); setIsTitleEditing(true) }} />
                 </p>
             )}
+
+            {showCardOptions ? <CardOptions listName={listName} card={card} onClose={() => { setShowCardOptions(false) }} /> : null}
         </div>
     );
 }

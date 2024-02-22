@@ -6,7 +6,7 @@ import { FaPlus } from "react-icons/fa6";
 function AddList() {
     const [listTitle, setListTitle] = useState("");
     const [showForm, setShowForm] = useState(false);
-    const { handleAddList } = useContext(ListContext);
+    const { updatedId, handleAddList } = useContext(ListContext);
 
     const handleTitle = (e) => {
         setListTitle(e.target.value);
@@ -23,7 +23,7 @@ function AddList() {
         e.preventDefault();
 
         if (listTitle.trim()) {
-            handleAddList({ title: listTitle, cards: [] });
+            handleAddList({ id: updatedId(), title: listTitle, cards: [] });
             setListTitle("");
             setShowForm(false);
         }

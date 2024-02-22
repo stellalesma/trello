@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ListContext } from "../../../utils/ListContext";
 
 import { FaPlus } from "react-icons/fa6";
 
-function AddCard({ onAddCard }) {
-    const [showForm, setShowForm] = useState(false);
+function AddCard({ list, listIndex }) {
     const [cardTitle, setCardTitle] = useState("");
+    const [showForm, setShowForm] = useState(false);
+    const { updatedId, handleListEditing } = useContext(ListContext);
 
     const handleTitle = (e) => {
         setCardTitle(e.target.value);
@@ -19,7 +21,8 @@ function AddCard({ onAddCard }) {
         e.preventDefault();
 
         if (cardTitle.trim()) {
-            onAddCard({ title: cardTitle, description: "", activities: [] });
+            const newCard = { listId: list.id, id: updatedId(), title: cardTitle, description: "", activities: [] };
+            handleListEditing(listIndex, {...list, cards: [...list.cards, newCard]});
             setCardTitle("");
             setShowForm(false);
         }

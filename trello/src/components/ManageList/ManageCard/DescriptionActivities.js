@@ -1,15 +1,17 @@
-import { useState } from "react";
-
+import { useState, useContext } from "react";
+import { ListContext } from "../../../utils/ListContext";
 import { IoMenuOutline, IoListOutline } from "react-icons/io5";
 
 import Form from "../../Form";
 import AllActivities from "./AllActivities";
 
-function DescriptionActivities({ card, onAddDescription, onAddActivity }) {
+function DescriptionActivities({ card }) {
     const [activity, setActivity] = useState("");
     const [description, setDescription] = useState(card.description);
     const [isActivityEditing, setIsActivityEditing] = useState(false);
     const [isDescriptionEditing, setIsDescriptionEditing] = useState(false);
+
+    const { updatedId, lists, handleModifiedLists } = useContext(ListContext);
 
     const descriptionAttrs = {
         id: "descriptionEditing",
@@ -17,8 +19,9 @@ function DescriptionActivities({ card, onAddDescription, onAddActivity }) {
         className: "description inputsDA",
         placeholder: "Add a more detailed description...",
         styles: {
-        height: "120px",
-        marginBottom: "40px",
+            height: "120px",
+            marginLeft: '34px',
+            marginBottom: "40px",
         },
     };
 
@@ -28,8 +31,9 @@ function DescriptionActivities({ card, onAddDescription, onAddActivity }) {
         className: "activity inputsDA",
         placeholder: "Write a comment...",
         styles: {
-        height: "70px",
-        marginBottom: "20px",
+            height: "70px",
+            marginLeft: '34px',
+            marginBottom: "20px",
         },
     };
 
@@ -41,25 +45,39 @@ function DescriptionActivities({ card, onAddDescription, onAddActivity }) {
         setActivity(e.target.value);
     };
 
-    const handleDescriptionSubmit = (e) => {
-        e.preventDefault();
-        onAddDescription(description);
-        setIsDescriptionEditing(false);
-    };
-
     const handleDescriptionReset = () => {
         setIsDescriptionEditing(false);
         setDescription(card.description);
     };
 
-    const handleActivitySubmit = (e) => {
-        e.preventDefault();
-        onAddActivity(activity);
+    const handleActivityReset = () => {
         setIsActivityEditing(false);
         setActivity("");
     };
 
-    const handleActivityReset = () => {
+    const handleDescriptionSubmit = (e) => {
+        e.preventDefault();
+
+        const getNewCards = (list) => {
+            return list.cards.map((object) => object.id === card.id ? {...object, description: description} : object);
+        };
+        const newLists = lists.map((list) => list.id === card.listId ? {...list, cards: getNewCards(list)} : list);
+
+        handleModifiedLists(newLists);
+        setIsDescriptionEditing(false);
+    };
+
+
+    const handleActivitySubmit = (e) => {
+        e.preventDefault();
+
+        const newActivity = {listId: card.listId, cardId: card.id, id: updatedId(), comment: activity};
+        const getNewCards = (list) => {
+            return list.cards.map((object) => object.id === card.id ? {...object, activities: [newActivity, ...object.activities]} : object);
+        };
+        const newLists = lists.map((list) => list.id === card.listId ? {...list, cards: getNewCards(list)} : list); 
+
+        handleModifiedLists(newLists);
         setIsActivityEditing(false);
         setActivity("");
     };
@@ -108,7 +126,7 @@ function DescriptionActivities({ card, onAddDescription, onAddActivity }) {
                 </p>
             )}
 
-            <AllActivities card={card} />
+            <AllActivities activities={card.activities} />
         </div>
     );
 }

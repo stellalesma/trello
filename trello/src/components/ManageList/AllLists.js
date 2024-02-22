@@ -3,8 +3,6 @@ import { ListContext } from "../../utils/ListContext";
 
 import List from "./List";
 
-// un probleme avec les index ??
-
 function AllLists() {
 
     const { lists } = useContext(ListContext);
@@ -12,8 +10,8 @@ function AllLists() {
     return (
         <ul className="ulLists">
             {lists.map((list, index) => (
-                <li key={list.title} className="liLists">
-                    <List list={list} id={index} />
+                <li key={list.id} className="liLists">
+                    <List list={list} index={index} />
                 </li>
             ))}
         </ul>

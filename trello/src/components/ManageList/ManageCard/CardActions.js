@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { IoIosArrowRoundForward } from "react-icons/io";
 
 import MoveCard from "./MoveCard";
@@ -16,7 +15,6 @@ function CardActions({ card, listName, onMainClose }) {
             </p>
             {isMoveCard ? <MoveCard listName={listName} card={card} onClose={() => { setIsMoveCard(false) }} onMainClose={onMainClose} /> : null}
         </div>
-
     );
 }
 

@@ -4,10 +4,10 @@ import { ListContext } from "../../../utils/ListContext"
 import { IoMdClose } from "react-icons/io";
 
 export default function MoveCard({ listName, card, onClose, onMainClose }) {
-    const { lists, handleReorganizeLists } = useContext(ListContext);
+    const { lists, handleModifiedLists } = useContext(ListContext);
 
     const findAList = (lists, searchedTitle) => {
-        return lists.find(objet => objet.title === searchedTitle);
+        return lists.find(object => object.title === searchedTitle);
     };
 
     const findCardsNb = (cards) => {
@@ -15,7 +15,7 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
     };
 
     const findCardIndex = (cards, cardTitle) => {
-        return cards.findIndex(objet => objet.title === cardTitle);
+        return cards.findIndex(object => object.title === cardTitle);
     };
 
     const currentList = findAList(lists, listName);
@@ -24,8 +24,14 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
     const [selectedPosition, setSelectedPosition] = useState(currentPosition);
     const suggestedPosition = findCardsNb(findAList(lists, selectedList).cards) + 1;
 
+    const handleListChange = (e) => {
+        setSelectedList(e.target.value);
+        setSelectedPosition(listName !== e.target.value ? findCardsNb(findAList(lists, e.target.value).cards) + 1 : currentPosition);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        const currentList = findAList(lists, listName);
         const chosenList = findAList(lists, selectedList);
 
         if (listName !== selectedList) {
@@ -35,8 +41,8 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
             currentList.cards.splice(currentPosition - 1, 1);
             currentList.cards.splice(selectedPosition - 1, 0, card);
         }
-        
-        handleReorganizeLists(lists);
+
+        handleModifiedLists([...lists]);
         onClose();
         onMainClose();
     };
@@ -53,9 +59,9 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
             <form onSubmit={handleSubmit}>
                 <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: 'rgba(229, 229, 230, 0.772)', height: '70px', padding: '10px', borderRadius: '5px', marginBottom: '10px', cursor: 'pointer' }}>
                     <label htmlFor="dropDownList" style={{ fontWeight: 'bold', fontSize: '13px' }}>List</label>
-                    <select id="dropDownList" name="dropDownList" value={selectedList} onChange={(e) => { setSelectedList(e.target.value) }} className="dropDown">
+                    <select id="dropDownList" name="dropDownList" value={selectedList} onChange={handleListChange} className="dropDown">
                         {lists.map((list, _) => 
-                            <option key={list.title} value={list.title}>{list.title}</option>
+                            <option key={list.id} value={list.title}>{list.title}</option>
                         )}
                     </select>
                 </div>
@@ -64,9 +70,9 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
                     <label htmlFor="dropDownPosition" style={{ fontWeight: 'bold', fontSize: '13px' }}>Position</label>
                     <select id="dropDownPosition" name="dropDownPosition" value={selectedPosition} onChange={(e) => { setSelectedPosition(e.target.value) }} className="dropDown">
                         {findAList(lists, selectedList).cards.map((card, index) => 
-                            <option key={card.title} value={index + 1}>{index + 1}</option>
+                            <option key={card.id} value={index + 1}>{index + 1}</option>
                         )}
-                        <option value={suggestedPosition}>{suggestedPosition}</option>
+                        {listName !== selectedList ? <option value={suggestedPosition}>{suggestedPosition}</option> : null}
                     </select>
                 </div>
 
