@@ -49,9 +49,9 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
 
     return (
         <div className="moveCard">
-            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '30px' }}>
-                <p style={{ fontWeight: 'bold' }}>Move card</p>
-                <IoMdClose className="closeMove" onClick={onClose} />
+            <div style={{display: 'flex', alignItems: 'center', marginBottom: '30px' }}>
+                <p style={{ fontWeight: 'bold', margin: 'auto' }}>Move card</p>
+                <IoMdClose className="closeButton" onClick={onClose} />
             </div>
 
             <p style={{ fontWeight: 'bold', textAlign: 'left', fontSize: '13px', marginBottom: '15px' }}>Select destination</p>

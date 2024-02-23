@@ -3,11 +3,15 @@ import { IoMdContact } from "react-icons/io";
 import { ListContext } from "../../../utils/ListContext";
 
 import Form from "../../Form";
+import DeletionModal from "../../DeletionModal";
 
 function Activity ({ activity }) {
     const [isEdit, setIsEdit] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
     const [comment, setComment] = useState(activity.comment);
     const { lists, handleListEditing, handleModifiedLists } = useContext(ListContext);
+
+    const deletionWarning = "Deleting a comment is forever. There is no undo.";
 
     const handleActivityDeleting = () => {
         const getNewActivities = (card) => card.activities.filter((act) => act.id !== activity.id);
@@ -15,6 +19,7 @@ function Activity ({ activity }) {
         const newLists = lists.map((list) => list.id === activity.listId ?  {...list, cards: getNewCards(list)} : list);
 
         handleModifiedLists(newLists);
+        setIsDelete(false);
     };
 
     const handleActivityEditing = () => {      // il faut optimiser cette fonction
@@ -89,8 +94,9 @@ function Activity ({ activity }) {
                     <p style={{ fontSize: '12px', marginLeft: '34px', marginBottom: '20px' }}>
                         <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => { setIsEdit(true)} }>Edit</span>
                         <span /> . <span />  
-                        <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={handleActivityDeleting}>Delete</span>
+                        <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => setIsDelete(true)}>Delete</span>
                     </p>
+                    {isDelete ? <DeletionModal modalName="Delete comment ?" text={deletionWarning} right='300px' onDelete={handleActivityDeleting} onClose={() => setIsDelete(false)} /> : null}
                 </div>
             )}
         </div>

@@ -3,9 +3,9 @@ import { IoMdClose } from "react-icons/io";
 export default function ListActions({ onClose }) {
     return (
         <div className="listActions">
-           <div style={{ display: 'flex', flexDirection: 'row', alignItems : 'center', justifyContent : 'center', marginTop: '10px', marginBottom: '15px' }}>
-                <p style={{ fontWeight: 'bold' }}>List actions</p>
-                <IoMdClose style={{ position: 'relative', left: '90px', cursor: 'pointer' }} onClick={onClose} />
+           <div style={{ display: 'flex', flexDirection: 'row', alignItems : 'center', margin: '10px', marginBottom: '15px' }}>
+                <p style={{ fontWeight: 'bold', margin: 'auto' }}>List actions</p>
+                <IoMdClose className="closeButton" onClick={onClose} />
             </div>
             <p className="listActionsItems">Add card</p>
             <p className="listActionsItems">Copy list</p>

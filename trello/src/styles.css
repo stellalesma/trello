@@ -29,10 +29,8 @@ p {
 
 .main {
     height: 100vh;
-    display: flex;
     padding: 0 15px;
     overflow-x: auto;
-    flex-direction: row;
 }
 
 .liLists {
@@ -80,7 +78,7 @@ ul {
 }
 
 .addList.button {
-    height: 50px;    
+    height: 50px;
     color: white;
     padding: 0 10px;
     cursor: pointer;
@@ -91,7 +89,7 @@ ul {
 }
 
 .addList.button:hover {
-    background-color:  rgba(245, 245, 245, 0.1);
+    background-color: rgba(245, 245, 245, 0.1);
 }
 
 .addList.form {
@@ -128,13 +126,14 @@ ul {
     left: 250px;
     width: 300px;
     height: 325px;
+    z-index: 9999;
     display: flex;
     position: fixed;
     border-radius: 10px;
     box-sizing: border-box;
     flex-direction: column;
     background-color: white;
-    box-shadow:  0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .listActionsItems {
@@ -378,9 +377,14 @@ textarea {
     cursor: pointer;
     font-weight: bold;
     border-radius: 5px;
+    margin-bottom: 10px;
     align-items: center;
     box-sizing: border-box;
     background-color: rgba(229, 229, 230, 0.772);
+}
+
+.actionsList:hover {
+    background-color: rgba(211, 211, 212, 0.772);
 }
 
 .moveCard {
@@ -395,18 +399,16 @@ textarea {
     flex-direction: column;
     box-sizing: border-box;
     background-color: white;
-    box-shadow:  0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.closeMove {
-    left: 90px;
+.closeButton {
     padding: 5px;
     cursor: pointer;
-    position: relative;
     border-radius: 50%;
 }
 
-.closeMove:hover {
+.closeButton:hover {
     background-color: rgb(232, 231, 231);
 }
 
@@ -424,4 +426,17 @@ select {
     height: auto;
     font-size: medium;
     position: relative;
+}
+
+.deletionModal {
+    width: 320px;
+    padding: 10px;
+    display: flex;
+    z-index: 10002;
+    position: fixed;
+    border-radius: 10px;
+    box-sizing: border-box;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
