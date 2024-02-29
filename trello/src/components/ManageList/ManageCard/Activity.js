@@ -60,20 +60,19 @@ function Activity ({ activity }) {
     const activityAttrs = {
         id: "activityEdit",
         name: "activityEdit",
-        className: "activities inputsDA",
+        className: "w-[520px] h-[70px] p-[10px] mb-[3px] text-sm rounded-[10px] border border-b-[3px] border-[#cbc8c8]/[0.42] bg-white focus:border-[#649EEA]/[0.711] focus:border-b-[#CB9CE8]",
         placeholder: "Write a comment...",
         styles: {
-            height: "70px",
-            marginBottom: "20px",
             marginLeft: '0px',
-        },
+            marginBottom: "0px",
+        }
     };
 
     return (
         <div>
             {isEdit ? (
-                <div style={{ display: 'flex' }}>
-                    <IoMdContact style={{ marginRight: '5px', fontSize: '1.9em' }} />
+                <div className="flex mt-[20px]">
+                    <IoMdContact className="text-[2.5em] mr-[3px] -ml-[8px]" />
                     <Form
                         value={comment}
                         staticAttributs={activityAttrs}
@@ -84,17 +83,17 @@ function Activity ({ activity }) {
                     />
                 </div>
             ) : (
-                <div>
-                    <div style={{ display: 'flex' }}>
-                        <IoMdContact style={{ marginRight: '5px', fontSize: '1.9em' }} />
-                        <li className="activities">
+                <div className="mt-[20px]">
+                    <div className="flex">
+                        <IoMdContact className="text-[2.5em] mr-[3px] -ml-[8px]" />
+                        <li className="w-[-webkit-fill-available] p-[10px] text-sm white-space-pre-wrap break-words rounded-[10px] border border-b-[3px] border-[#649EEA]/[0.711] border-b-[#CB9CE8] bg-white">
                             {activity.comment}
                         </li>
                     </div>
-                    <p style={{ fontSize: '12px', marginLeft: '34px', marginBottom: '20px' }}>
-                        <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => { setIsEdit(true)} }>Edit</span>
+                    <p className="ml-[34px] mt-[5px] text-xs">
+                        <span className="underline cursor-pointer" onClick={() => { setIsEdit(true)} }>Edit</span>
                         <span /> . <span />  
-                        <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => setIsDelete(true)}>Delete</span>
+                        <span className="underline cursor-pointer" onClick={() => setIsDelete(true)}>Delete</span>
                     </p>
                     {isDelete ? <DeletionModal modalName="Delete comment ?" text={deletionWarning} right='300px' onDelete={handleActivityDeleting} onClose={() => setIsDelete(false)} /> : null}
                 </div>

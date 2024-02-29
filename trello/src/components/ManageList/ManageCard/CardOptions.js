@@ -15,17 +15,18 @@ function CardOptions ({ listName, card, onClose }) {
     };
 
     return (
-        <div className="overlay" onClick={handleClickOutside}>
-            <div className="modal" onClick={handleModalClick}>
-
-                <div className="optionsTitle">
-                    <IoCardOutline style={{ marginRight: '10px', fontSize: '1.3em' }} />
-                    <p style={{ width: 700, cursor: 'text' }}>{card.title}</p>
-                    <IoCloseOutline style={{ fontSize: '1.5em', cursor: 'pointer' }} onClick={onClose} />
+        <div className="top-0 left-0 w-full h-full z-[9999] absolute overflow-y-auto bg-[#1d1d1d]/50" onClick={handleClickOutside}>
+            <div className="top-1/2 left-1/2 w-[740px] min-h-[700px] max-h-fit p-[20px] -translate-x-[50%] -translate-y-[50%] absolute rounded-[12px] box-border bg-[#f5f5f5]" onClick={handleModalClick}>
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center text-xl">
+                        <IoCardOutline className="mr-[10px] text-[1.2em]" />
+                        <p title={card.title} className="w-[610px] font-bold cursor-text truncate">{card.title}</p>
+                    </div>
+                    <IoCloseOutline className="text-[2em] p-[5px] rounded-full cursor-pointer hover:bg-[#E8E7E7]" onClick={onClose} />
                 </div>
-                <p style={{ marginLeft: '34px', marginBottom: '40px' }}>in list <span style={{ textDecoration: 'underline', cursor: 'pointer' }}>{listName}</span></p>
+                <p className="w-[450px] ml-[34px] mb-[40px] text-[14.7px] truncate">in list <span title={listName} className="underline cursor-pointer">{listName}</span></p>
 
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div className="flex">
                     <DescriptionActivities card={card} />
                     <CardActions card={card} listName={listName} onMainClose={onClose} />
                 </div>

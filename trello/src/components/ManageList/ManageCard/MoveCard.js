@@ -48,27 +48,27 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
     };
 
     return (
-        <div className="moveCard">
-            <div style={{display: 'flex', alignItems: 'center', marginBottom: '30px' }}>
-                <p style={{ fontWeight: 'bold', margin: 'auto' }}>Move card</p>
-                <IoMdClose className="closeButton" onClick={onClose} />
+        <div className="w-[280px] p-[10px] ml-[70px] mt-[5px] z-[10001] rounded-[7px] box-border fixed bg-white shadow-[0_4px_8px_rgba(0,0,0,0.1)]">
+            <div className="flex items-center justify-between mb-[25px]">
+                <p className="font-bold w-full text-center">Move card</p>
+                <IoMdClose className="text-[1.8em] p-[5px] rounded-full cursor-pointer hover:bg-[#E8E7E7]" onClick={onClose} />
             </div>
 
-            <p style={{ fontWeight: 'bold', textAlign: 'left', fontSize: '13px', marginBottom: '15px' }}>Select destination</p>
+            <p className="font-bold text-sm mb-[15px]">Select destination</p>
 
             <form onSubmit={handleSubmit}>
-                <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: 'rgba(229, 229, 230, 0.772)', height: '70px', padding: '10px', borderRadius: '5px', marginBottom: '10px', cursor: 'pointer' }}>
-                    <label htmlFor="dropDownList" style={{ fontWeight: 'bold', fontSize: '13px' }}>List</label>
-                    <select id="dropDownList" name="dropDownList" value={selectedList} onChange={handleListChange} className="dropDown">
+                <div className="flex flex-col h-[80px] p-[10px] mb-[10px] rounded-[5px] bg-[#e5e5e6]/[0.77]">
+                    <label htmlFor="dropDownList" className="font-bold text-sm">List</label>
+                    <select id="dropDownList" name="dropDownList" value={selectedList} onChange={handleListChange} className="h-full">
                         {lists.map((list, _) => 
                             <option key={list.id} value={list.title}>{list.title}</option>
                         )}
                     </select>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: 'rgba(229, 229, 230, 0.772)', height: '70px', padding: '10px', borderRadius: '5px', marginBottom: '10px', cursor: 'pointer' }}>
-                    <label htmlFor="dropDownPosition" style={{ fontWeight: 'bold', fontSize: '13px' }}>Position</label>
-                    <select id="dropDownPosition" name="dropDownPosition" value={selectedPosition} onChange={(e) => { setSelectedPosition(e.target.value) }} className="dropDown">
+                <div className="flex flex-col h-[80px] p-[10px] mb-[15px] rounded-[5px] bg-[#e5e5e6]/[0.77]">
+                    <label htmlFor="dropDownPosition" className="font-bold text-sm">Position</label>
+                    <select id="dropDownPosition" name="dropDownPosition" value={selectedPosition} onChange={(e) => { setSelectedPosition(e.target.value) }} className="h-full">
                         {findAList(lists, selectedList).cards.map((card, index) => 
                             <option key={card.id} value={index + 1}>{index + 1}</option>
                         )}
@@ -76,8 +76,8 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
                     </select>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center'}}>
-                    <button type='submit' style={{ marginRight: '10px' }} className="enable">Save</button>
+                <div className="flex w-full justify-center">
+                    <button type='submit' className="text-white bg-[#01d2ee]">Save</button>
                 </div>
             </form>
 

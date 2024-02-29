@@ -16,25 +16,23 @@ function DescriptionActivities({ card }) {
     const descriptionAttrs = {
         id: "descriptionEditing",
         name: "descriptionEditing",
-        className: "description inputsDA",
+        className: "w-[-webkit-fill-available] h-[120px] p-[10px] ml-[34px] mb-[3px] text-sm white-space-pre-wrap break-words cursor-text rounded-[5px] bg-white focus:border focus:border-b-[3px] focus:border-[#649EEA]/[0.711] focus:border-b-[#CB9CE8]",
         placeholder: "Add a more detailed description...",
         styles: {
-            height: "120px",
-            marginLeft: '34px',
+            marginLeft: "34px",
             marginBottom: "40px",
-        },
+        }
     };
 
     const activityAttrs = {
         id: "activityEditing",
         name: "activityEditing",
-        className: "activity inputsDA",
+        className: "w-[-webkit-fill-available] h-[70px] p-[10px] ml-[34px] mb-[3px] text-sm rounded-[10px] border border-b-[3px] border-[#cbc8c8]/[0.42] bg-white focus:border-[#649EEA]/[0.711] focus:border-b-[#CB9CE8]",
         placeholder: "Write a comment...",
         styles: {
-            height: "70px",
-            marginLeft: '34px',
-            marginBottom: "20px",
-        },
+            marginLeft: "34px",
+            marginBottom: "0px",
+        }
     };
 
     const handleDescription = (e) => {
@@ -67,7 +65,6 @@ function DescriptionActivities({ card }) {
         setIsDescriptionEditing(false);
     };
 
-
     const handleActivitySubmit = (e) => {
         e.preventDefault();
 
@@ -83,9 +80,9 @@ function DescriptionActivities({ card }) {
     };
 
     return (
-        <div style={{ width: "550px", marginRight: "10px" }}>
-            <div className="optionsOthers">
-                <IoMenuOutline style={{ marginRight: "10px", fontSize: "1.2em" }} />
+        <div className="w-[550px] mr-[10px]">
+            <div className="flex items-center font-bold text-lg mb-[10px]">
+                <IoMenuOutline className="mr-[10px] text-[1.3em]" />
                 <p>Description</p>
             </div>
 
@@ -99,15 +96,15 @@ function DescriptionActivities({ card }) {
                 />
             ) : (
                 <p
-                    className={description ? "description" : "description descriptionDefault"}
+                    className={description ? "p-[10px] ml-[34px] mb-[40px] text-sm white-space-pre-wrap break-words cursor-text rounded-[5px] bg-[#e5e5e6]/[0.77] hover:bg-[#CECED0]/[0.77]" : "h-[80px] p-[10px] ml-[34px] mb-[40px] text-sm white-space-pre-wrap break-words cursor-text rounded-[5px] bg-[#e5e5e6]/[0.77] hover:bg-[#CECED0]/[0.77]"}
                     onClick={() => { setIsDescriptionEditing(true); }}
                 >
                     {description ? description : "Add a more detailed description..."}
                 </p>
             )}
 
-            <div className="optionsOthers">
-                <IoListOutline style={{ marginRight: "10px", fontSize: "1.2em" }} />
+            <div className="flex items-center font-bold text-lg mb-[10px]">
+                <IoListOutline className="mr-[10px] text-[1.2em]" />
                 <p>Activity</p>
             </div>
 
@@ -121,7 +118,7 @@ function DescriptionActivities({ card }) {
                     onBlur={() => !activity.trim() && handleActivityReset()}
                 />
             ) : (
-                <p className="activity" onClick={() => { setIsActivityEditing(true); }}>
+                <p className="h-[40px] p-[10px] ml-[34px] text-sm cursor-text rounded-[10px] border border-[#cbc8c8]/[0.42] bg-white" onClick={() => { setIsActivityEditing(true); }}>
                     Write a comment...
                 </p>
             )}

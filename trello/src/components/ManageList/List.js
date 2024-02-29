@@ -40,13 +40,13 @@ function List({ list, index }) {
     return (
         <div>
 
-            <div style={{display: 'flex'}}>
+            <div className="flex items-center justify-between mb-[15px]">
                 {isTitleEditing ? (
-                    <input className="titleEditing" id="listEditing" name="listEditing" type="text" value={title} onChange={handleTitleEditing} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus></input>
+                    <input className="w-full h-[30px] px-[10px] mr-[8px] box-border bg-white outline-[#01d2ee]" id="listEditing" name="listEditing" type="text" value={title} onChange={handleTitleEditing} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus></input>
                 ) : (
-                    <p className="titleEditing" onClick={() => { setIsTitleEditing(true) }}>{list.title}</p>
+                    <p className="w-full h-[30px] leading-[30px] px-[10px] truncate cursor-text" onClick={() => { setIsTitleEditing(true) }}>{list.title}</p>
                 )}
-                <GoKebabHorizontal className="listMenu" onClick={() => { setIsListActions(true) }} />
+                <GoKebabHorizontal className="text-[2em] p-[7px] rounded-[5px] hover:bg-[#DFECEE]" onClick={() => { setIsListActions(true) }} />
             </div>
 
             {isListActions ? <ListActions onClose={() => setIsListActions(false)} /> : null}

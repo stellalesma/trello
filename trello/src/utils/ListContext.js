@@ -3,6 +3,25 @@ import { createContext, useState } from "react";
 const listData = [
     {
         "id": 1,
+        "title": "To Do",
+        "cards": []
+    },
+    {
+        "id": 2,
+        "title": "In Progress",
+        "cards": []
+    },
+    {
+        "id": 3,
+        "title": "Done",
+        "cards": []
+    },
+];
+
+
+const forTraining = [
+    {
+        "id": 1,
         "title": "List 1",
         "cards": [
             {
@@ -56,7 +75,8 @@ export const ListContext = createContext();
 
 export const ListProvider = ({ children }) => {
     const [lists, setLists] = useState(listData);
-    const [lastId, setLastId] = useState(7);
+    const [lastId, setLastId] = useState(3);
+    // const [lastId, setLastId] = useState(7);
 
     const updatedId = () => {
         setLastId(lastId + 1);

@@ -119,14 +119,14 @@ ul {
 }
 
 .listMenu:hover {
-    background-color: rgb(223, 236, 238);
+    background-color: #dfecee;
 }
 
 .listActions {
     left: 250px;
     width: 300px;
     height: 325px;
-    z-index: 9999;
+    z-index: 9998;
     display: flex;
     position: fixed;
     border-radius: 10px;
@@ -162,16 +162,16 @@ button {
 
 button.enable {
     color: white;
-    background-color: rgb(1, 210, 238);
+    background-color: #01d2ee;
 }
 
 button.disable {
-    color: rgb(74, 74, 74);
+    color: #4a4a4a;
     background-color: transparent;
 }
 
 button.disable:hover {
-    background-color: rgb(236, 233, 233);
+    background-color: #ece9e9;
 }
 
 .addCard {
@@ -189,7 +189,7 @@ button.disable:hover {
 }
 
 .addCard.button:hover {
-    background-color: rgb(232, 224, 236);
+    background-color: #e8e0ec;
 }
 
 .addCard.form {
@@ -409,7 +409,7 @@ textarea {
 }
 
 .closeButton:hover {
-    background-color: rgb(232, 231, 231);
+    background-color: #e8e7e7;
 }
 
 select {
