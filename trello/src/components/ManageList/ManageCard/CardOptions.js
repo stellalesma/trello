@@ -15,8 +15,8 @@ function CardOptions ({ listName, card, onClose }) {
     };
 
     return (
-        <div className="top-0 left-0 w-full h-full z-[9999] absolute overflow-y-auto bg-[#1d1d1d]/50" onClick={handleClickOutside}>
-            <div className="top-1/2 left-1/2 w-[740px] min-h-[700px] max-h-fit p-[20px] -translate-x-[50%] -translate-y-[50%] absolute rounded-[12px] box-border bg-[#f5f5f5]" onClick={handleModalClick}>
+        <div className="top-0 left-0 w-full h-full z-[9999] absolute bg-[#1d1d1d]/50" onClick={handleClickOutside}>
+            <div className="top-1/2 left-1/2 w-[740px] h-[700px] p-[20px] -translate-x-[50%] -translate-y-[50%] absolute overflow-y-auto rounded-[12px] box-border bg-[#f5f5f5]" onClick={handleModalClick}>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center text-xl">
                         <IoCardOutline className="mr-[10px] text-[1.2em]" />
