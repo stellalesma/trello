@@ -38,7 +38,7 @@ function CardActions({ card, listName, onMainClose }) {
                 <RxDash className="mr-[10px]" />
                 Delete
             </p>
-            {isDeleteCardVisible ? <DeletionModal modalName="Delete card ?" text={deletionWarning} right='-200px' onDelete={handleDelete} onClose={() => { setIsDeleteCardVisible(false) }} /> : null}
+            {isDeleteCardVisible ? <DeletionModal modalName="Delete card ?" text={deletionWarning} onDelete={handleDelete} onClose={() => { setIsDeleteCardVisible(false) }} /> : null}
         </div>
     );
 }

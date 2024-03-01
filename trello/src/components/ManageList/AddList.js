@@ -41,7 +41,7 @@ function AddList() {
                     </div>
                 </form>
             ) : (
-                <p className="flex items-center w-[300px] h-[50px] pl-[10px] font-bold rounded-[10px] text-white bg-[#f5f5f5]/30 cursor-pointer" onClick={() => { setShowForm(true) }}>
+                <p className="flex items-center w-[300px] h-[50px] pl-[10px] font-bold rounded-[10px] text-white bg-[#f5f5f5]/30 hover:bg-[#f5f5f5]/10  cursor-pointer" onClick={() => { setShowForm(true) }}>
                     <FaPlus className="mr-[5px]"/>
                     Add a list
                 </p>

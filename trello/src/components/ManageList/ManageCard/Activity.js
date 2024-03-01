@@ -95,7 +95,7 @@ function Activity ({ activity }) {
                         <span /> . <span />  
                         <span className="underline cursor-pointer" onClick={() => setIsDelete(true)}>Delete</span>
                     </p>
-                    {isDelete ? <DeletionModal modalName="Delete comment ?" text={deletionWarning} right='300px' onDelete={handleActivityDeleting} onClose={() => setIsDelete(false)} /> : null}
+                    {isDelete ? <DeletionModal modalName="Delete comment ?" text={deletionWarning} onDelete={handleActivityDeleting} onClose={() => setIsDelete(false)} /> : null}
                 </div>
             )}
         </div>
