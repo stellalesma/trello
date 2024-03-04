@@ -1,6 +1,7 @@
 import React from "react";
-
 import { IoMdClose } from "react-icons/io";
+
+import PropTypes from "prop-types";
 
 function DeletionModal({modalName, text, onDelete, onClose}) {
 
@@ -15,5 +16,12 @@ function DeletionModal({modalName, text, onDelete, onClose}) {
 		</div>
 	);
 }
+
+DeletionModal.propTypes = {
+	text: PropTypes.string.isRequired,
+	onClose: PropTypes.func.isRequired,
+	onDelete: PropTypes.func.isRequired,
+	modalName: PropTypes.string.isRequired,
+};
 
 export default DeletionModal;

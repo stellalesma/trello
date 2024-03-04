@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 
-import { useState, useContext } from "react";
+import PropTypes from "prop-types";
+
 import { RxDash } from "react-icons/rx";
 import { IoIosArrowRoundForward } from "react-icons/io";
-import { ListContext } from "../../../utils/ListContext";
 
 import MoveCard from "./MoveCard";
 import DeletionModal from "../../DeletionModal";
+import { ListContext } from "../../../utils/ListContext";
 
 function CardActions({ card, listName, onMainClose }) {
 	const [isMoveCardVisible, setIsMoveCardVisible] = useState(false);
@@ -44,5 +45,11 @@ function CardActions({ card, listName, onMainClose }) {
 		</div>
 	);
 }
+
+CardActions.propTypes = {
+	card: PropTypes.object.isRequired,
+	listName: PropTypes.string.isRequired,
+	onMainClose: PropTypes.func.isRequired,
+};
 
 export default CardActions;

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 
-import { useState, useContext } from "react";
-import { ListContext } from "../../../utils/ListContext";
+import PropTypes from "prop-types";
 
 import { IoMdClose } from "react-icons/io";
+
+import { ListContext } from "../../../utils/ListContext";
 
 export default function MoveCard({ listName, card, onClose, onMainClose }) {
 	const { lists, handleModifiedLists } = useContext(ListContext);
@@ -86,3 +87,10 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
 		</div>
 	);
 }
+
+MoveCard.propTypes = {
+	card: PropTypes.object.isRequired,
+	onClose: PropTypes.func.isRequired,
+	listName: PropTypes.string.isRequired,
+	onMainClose: PropTypes.func.isRequired,
+};

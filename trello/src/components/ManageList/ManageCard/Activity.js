@@ -1,11 +1,11 @@
-import React from "react";
-
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { IoMdContact } from "react-icons/io";
-import { ListContext } from "../../../utils/ListContext";
+
+import PropTypes from "prop-types";
 
 import Form from "../../Form";
 import DeletionModal from "../../DeletionModal";
+import { ListContext } from "../../../utils/ListContext";
 
 function Activity ({ activity }) {
 	const [isEdit, setIsEdit] = useState(false);
@@ -103,5 +103,9 @@ function Activity ({ activity }) {
 		</div>
 	);
 }
+
+Activity.propTypes = {
+	activity: PropTypes.object.isRequired,
+};
 
 export default Activity;

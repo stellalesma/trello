@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 
-import { useState, useContext } from "react";
-import { ListContext } from "../../../utils/ListContext";
+import PropTypes from "prop-types";
+
 import { IoMenuOutline, IoListOutline } from "react-icons/io5";
 
 import Form from "../../Form";
 import AllActivities from "./AllActivities";
+import { ListContext } from "../../../utils/ListContext";
 
 function DescriptionActivities({ card }) {
 	const [activity, setActivity] = useState("");
@@ -129,5 +130,9 @@ function DescriptionActivities({ card }) {
 		</div>
 	);
 }
+
+DescriptionActivities.propTypes = {
+	card: PropTypes.object.isRequired,
+};
 
 export default DescriptionActivities;

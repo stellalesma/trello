@@ -1,5 +1,7 @@
 import React from "react";
 
+import PropTypes from "prop-types";
+
 import { IoCardOutline, IoCloseOutline } from "react-icons/io5";
 
 import CardActions from "./CardActions";
@@ -36,6 +38,12 @@ function CardOptions ({ listName, card, onClose }) {
 			</div>
 		</div>
 	);
+};
+
+CardOptions.propTypes = {
+	card: PropTypes.object.isRequired,
+	onClose: PropTypes.func.isRequired,
+	listName: PropTypes.string.isRequired,
 };
 
 export default CardOptions;

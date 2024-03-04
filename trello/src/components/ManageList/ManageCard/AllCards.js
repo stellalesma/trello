@@ -1,3 +1,7 @@
+import React from "react";
+
+import PropTypes from "prop-types";
+
 import Card from "./Card";
 
 function AllCards({ list, listIndex }) {
@@ -11,5 +15,10 @@ function AllCards({ list, listIndex }) {
 		</ul>
 	);
 }
+
+AllCards.propTypes = {
+	list: PropTypes.object.isRequired,
+	listIndex: PropTypes.number.isRequired,
+};
 
 export default AllCards;

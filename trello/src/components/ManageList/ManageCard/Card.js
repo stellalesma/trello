@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 
-import { useState, useContext } from "react";
-import { ListContext } from "../../../utils/ListContext";
+import PropTypes from "prop-types";
+
 import { MdOutlineModeEditOutline } from "react-icons/md";
 
 import CardOptions from "./CardOptions";
+import { ListContext } from "../../../utils/ListContext";
 
 function Card({ card, listName, listIndex }) {
 	const [cardTitle, setCardTitle] = useState(card.title);
@@ -57,5 +58,11 @@ function Card({ card, listName, listIndex }) {
 		</div>
 	);
 }
+
+Card.propTypes = {
+	card: PropTypes.object.isRequired,
+	listName: PropTypes.string.isRequired,
+	listIndex: PropTypes.number.isRequired,
+};
 
 export default Card;
