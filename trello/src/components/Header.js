@@ -5,8 +5,8 @@ import { FaTrello } from "react-icons/fa";
 function Header() {
 	return (
 		<header>
-			<p className='flex items-center justify-center h-[25px] bg-[#808080]/50 text-[#f5f5f5]/50'>
-				<FaTrello className="mr-[5px]" />
+			<p className='flex items-center justify-center h-6 bg-stone-500/40 text-neutral-100/50'>
+				<FaTrello className="mr-1.5" />
                 Trello
 			</p>
 		</header>

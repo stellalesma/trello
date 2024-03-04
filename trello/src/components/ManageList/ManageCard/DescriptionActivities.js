@@ -18,22 +18,22 @@ function DescriptionActivities({ card }) {
 	const descriptionAttrs = {
 		id: "descriptionEditing",
 		name: "descriptionEditing",
-		className: "w-[-webkit-fill-available] h-[120px] p-[10px] ml-[34px] mb-[3px] text-sm white-space-pre-wrap break-words cursor-text rounded-[5px] bg-white focus:border focus:border-b-[3px] focus:border-[#649EEA]/[0.711] focus:border-b-[#CB9CE8]",
+		className: "grow h-32 p-2.5 ml-8 mb-1.5 text-sm white-space-pre-wrap break-words cursor-text rounded bg-white focus:border focus:border-b-4 focus:border-blue-700/40 focus:border-b-purple-400/40",
 		placeholder: "Add a more detailed description...",
 		styles: {
-			marginLeft: "34px",
-			marginBottom: "40px",
+			marginLeft: "8",
+			marginBottom: "10",
 		}
 	};
 
 	const activityAttrs = {
 		id: "activityEditing",
 		name: "activityEditing",
-		className: "w-[-webkit-fill-available] h-[70px] p-[10px] ml-[34px] mb-[3px] text-sm rounded-[10px] border border-b-[3px] border-[#cbc8c8]/[0.42] bg-white focus:border-[#649EEA]/[0.711] focus:border-b-[#CB9CE8]",
+		className: "grow h-20 p-2.5 ml-8 mb-1.5 text-sm rounded-lg border border-b-4 border-stone-300/50 bg-white focus:border-blue-700/40 focus:border-b-purple-400/40",
 		placeholder: "Write a comment...",
 		styles: {
-			marginLeft: "34px",
-			marginBottom: "0px",
+			marginLeft: "8",
+			marginBottom: "0",
 		}
 	};
 
@@ -82,9 +82,9 @@ function DescriptionActivities({ card }) {
 	};
 
 	return (
-		<div className="w-[550px] mr-[10px]">
-			<div className="flex items-center font-bold text-lg mb-[10px]">
-				<IoMenuOutline className="mr-[10px] text-[1.3em]" />
+		<div className="w-137.5 mr-2.5">
+			<div className="flex items-center font-bold text-lg mb-2.5">
+				<IoMenuOutline className="mr-2.5 text-2xl" />
 				<p>Description</p>
 			</div>
 
@@ -98,15 +98,15 @@ function DescriptionActivities({ card }) {
 				/>
 			) : (
 				<p
-					className={description ? "p-[10px] ml-[34px] mb-[40px] text-sm white-space-pre-wrap break-words cursor-text rounded-[5px] bg-[#e5e5e6]/[0.77] hover:bg-[#CECED0]/[0.77]" : "h-[80px] p-[10px] ml-[34px] mb-[40px] text-sm white-space-pre-wrap break-words cursor-text rounded-[5px] bg-[#e5e5e6]/[0.77] hover:bg-[#CECED0]/[0.77]"}
+					className={description ? "p-2.5 ml-8 mb-10 text-sm white-space-pre-wrap break-words cursor-text rounded bg-neutral-200/[0.77] hover:bg-neutral-300/80" : "h-20 p-2.5 ml-8 mb-10 text-sm white-space-pre-wrap break-words cursor-text rounded bg-neutral-200/[0.77] hover:bg-neutral-300/80"}
 					onClick={() => { setIsDescriptionEditing(true); }}
 				>
 					{description ? description : "Add a more detailed description..."}
 				</p>
 			)}
 
-			<div className="flex items-center font-bold text-lg mb-[10px]">
-				<IoListOutline className="mr-[10px] text-[1.2em]" />
+			<div className="flex items-center font-bold text-lg mb-2.5">
+				<IoListOutline className="mr-2.5 text-2xl" />
 				<p>Activity</p>
 			</div>
 
@@ -120,7 +120,7 @@ function DescriptionActivities({ card }) {
 					onBlur={() => !activity.trim() && handleActivityReset()}
 				/>
 			) : (
-				<p className="h-[40px] p-[10px] ml-[34px] text-sm cursor-text rounded-[10px] border border-[#cbc8c8]/[0.42] bg-white" onClick={() => { setIsActivityEditing(true); }}>
+				<p className="h-10 p-2.5 ml-8 text-sm cursor-text rounded-lg border border-stone-300/50 bg-white" onClick={() => { setIsActivityEditing(true); }}>
                     Write a comment...
 				</p>
 			)}

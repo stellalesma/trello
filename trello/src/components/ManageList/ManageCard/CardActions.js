@@ -29,15 +29,15 @@ function CardActions({ card, listName, onMainClose }) {
 	};
 
 	return (
-		<div className="w-[140px]">
+		<div className="w-36">
 			<p className="font-bold text-xs">Actions</p>
-			<p className="flex items-center w-full h-[35px] mt-[10px] p-[10px] font-bold text-sm cursor-pointer rounded-[5px] bg-[#e5e5e6]/[0.77] hover:bg-[#d3d3d4]/[0.77]" onClick={() => { setIsMoveCardVisible(true); }}>
-				<IoIosArrowRoundForward className="mr-[10px]" />
+			<p className="flex items-center w-full h-9 mt-2.5 p-2.5 font-bold text-sm cursor-pointer rounded bg-neutral-200/[0.77] hover:bg-neutral-300/[0.8]" onClick={() => { setIsMoveCardVisible(true); }}>
+				<IoIosArrowRoundForward className="mr-2.5" />
                 Move
 			</p>
 			{isMoveCardVisible ? <MoveCard listName={listName} card={card} onClose={() => { setIsMoveCardVisible(false); }} onMainClose={onMainClose} /> : null}
-			<p className="flex items-center w-full h-[35px] mt-[10px] p-[10px] font-bold text-sm cursor-pointer rounded-[5px] bg-[#e5e5e6]/[0.77] hover:bg-[#d3d3d4]/[0.77]" onClick={() => { setIsDeleteCardVisible(true); }}>
-				<RxDash className="mr-[10px]" />
+			<p className="flex items-center w-full h-9 mt-2.5 p-2.5 font-bold text-sm cursor-pointer rounded bg-neutral-200/[0.77] hover:bg-neutral-300/[0.8]" onClick={() => { setIsDeleteCardVisible(true); }}>
+				<RxDash className="mr-2.5" />
                 Delete
 			</p>
 			{isDeleteCardVisible ? <DeletionModal modalName="Delete card ?" text={deletionWarning} onDelete={handleDelete} onClose={() => { setIsDeleteCardVisible(false); }} /> : null}

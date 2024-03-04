@@ -42,13 +42,13 @@ function List({ list, index }) {
 	return (
 		<div>
 
-			<div className="flex items-center justify-between mb-[15px]">
+			<div className="flex items-center justify-between mb-3.5">
 				{isTitleEditing ? (
-					<input className="w-full h-[30px] px-[10px] mr-[8px] box-border bg-white outline-[#01d2ee]" id="listEditing" name="listEditing" type="text" value={title} onChange={handleTitleEditing} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus></input>
+					<input className="w-full h-8 px-2.5 mr-2 box-border bg-white outline-cyan-400" id="listEditing" name="listEditing" type="text" value={title} onChange={handleTitleEditing} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus></input>
 				) : (
-					<p className="w-full h-[30px] leading-[30px] px-[10px] truncate cursor-text" onClick={() => { setIsTitleEditing(true); }}>{list.title}</p>
+					<p className="w-full h-8 leading-8 px-2.5 truncate cursor-text" onClick={() => { setIsTitleEditing(true); }}>{list.title}</p>
 				)}
-				<GoKebabHorizontal className="text-[2em] p-[7px] rounded-[5px] hover:bg-[#DFECEE]" onClick={() => { setIsListActions(true); }} />
+				<GoKebabHorizontal className="text-4xl p-2 rounded hover:bg-teal-100/70" onClick={() => { setIsListActions(true); }} />
 			</div>
 
 			{isListActions ? <ListActions onClose={() => setIsListActions(false)} /> : null}
