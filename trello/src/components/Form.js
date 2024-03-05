@@ -15,7 +15,7 @@ function Form({ value, staticAttributs, onBlur, onChange, onClick, onSubmit }) {
 }
 
 Form.propTypes = {
-	onBlur: PropTypes.func.isRequired,
+	onBlur: PropTypes.func,
 	onClick: PropTypes.func.isRequired,
 	value: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,

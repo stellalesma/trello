@@ -63,7 +63,7 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
 				<div className="flex flex-col h-[80px] p-[10px] mb-[10px] rounded-[5px] bg-[#e5e5e6]/[0.77]">
 					<label htmlFor="dropDownList" className="font-bold text-sm">List</label>
 					<select id="dropDownList" name="dropDownList" value={selectedList} onChange={handleListChange} className="h-full">
-						{lists.map((list, _) => 
+						{lists.map((list) => 
 							<option key={list.id} value={list.title}>{list.title}</option>
 						)}
 					</select>
