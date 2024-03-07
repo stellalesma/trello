@@ -24,7 +24,7 @@ function Activity ({ activity }) {
 		setIsDelete(false);
 	};
 
-	const handleActivityEditing = () => {      // il faut optimiser cette fonction
+	const handleActivityEditing = () => {
 		const listIndex = lists.findIndex((list) => list.id === activity.listId);
 		const cards = lists[listIndex].cards;
 
@@ -62,19 +62,19 @@ function Activity ({ activity }) {
 	const activityAttrs = {
 		id: "activityEdit",
 		name: "activityEdit",
-		className: "w-[520px] h-[70px] p-[10px] mb-[3px] text-sm rounded-[10px] border border-b-[3px] border-[#cbc8c8]/[0.42] bg-white focus:border-[#649EEA]/[0.711] focus:border-b-[#CB9CE8]",
+		className: "grow h-20 p-2.5 mb-1.5 text-sm rounded-lg border border-b-4 border-stone-300 bg-white focus:border-blue-400 focus:border-b-purple-400",
 		placeholder: "Write a comment...",
 		styles: {
-			marginLeft: "0px",
-			marginBottom: "0px",
+			marginLeft: "0",
+			marginBottom: "0",
 		}
 	};
 
 	return (
 		<div>
 			{isEdit ? (
-				<div className="flex mt-[20px]">
-					<IoMdContact className="text-[2.5em] mr-[3px] -ml-[8px]" />
+				<div className="flex mt-5">
+					<IoMdContact className="text-4xl mr-1 -ml-2" />
 					<Form
 						value={comment}
 						staticAttributs={activityAttrs}
@@ -85,14 +85,14 @@ function Activity ({ activity }) {
 					/>
 				</div>
 			) : (
-				<div className="mt-[20px]">
+				<div className="mt-5">
 					<div className="flex">
-						<IoMdContact className="text-[2.5em] mr-[3px] -ml-[8px]" />
-						<li className="w-[-webkit-fill-available] p-[10px] text-sm white-space-pre-wrap break-words rounded-[10px] border border-b-[3px] border-[#649EEA]/[0.711] border-b-[#CB9CE8] bg-white">
+						<IoMdContact className="text-4xl mr-1 -ml-2" />
+						<li className="grow p-2.5 text-sm white-space-pre-wrap break-words rounded-lg border border-b-4 border-blue-700/40 border-b-purple-400/40 bg-white">
 							{activity.comment}
 						</li>
 					</div>
-					<p className="ml-[34px] mt-[5px] text-xs">
+					<p className="ml-8 mt-1.5 text-xs">
 						<span className="underline cursor-pointer" onClick={() => { setIsEdit(true);} }>Edit</span>
 						<span /> . <span />  
 						<span className="underline cursor-pointer" onClick={() => setIsDelete(true)}>Delete</span>

@@ -4,21 +4,21 @@ import { IoMdClose } from "react-icons/io";
 
 export default function ListActions({ onClose }) {
 	return (
-		<div className="w-[300px] py-[10px] -mt-[10px] ml-[280px] rounded-[10px] fixed bg-white shadow-[0_4px_8px_rgba(0,0,0,0.1)]">
-			<div className="flex items-center justify-between mb-[15px] pr-[10px]">
+		<div className="w-75 py-2.5 -mt-2.5 ml-72 rounded-lg fixed bg-white shadow-custom">
+			<div className="flex items-center justify-between mb-3.5 pr-2.5">
 				<p className="w-full font-bold text-center">List actions</p>
-				<IoMdClose className="text-[2em] p-[7px] rounded-[5px] cursor-pointer hover:bg-[#DFECEE]" onClick={onClose} />
+				<IoMdClose className="text-4xl p-2 rounded cursor-pointer hover:bg-teal-100/70" onClick={onClose} />
 			</div>
-			<p className="px-[10px] py-[7px] cursor-pointer hover:bg-[#E8E0EC]">Add card</p>
-			<p className="px-[10px] py-[7px] cursor-pointer hover:bg-[#E8E0EC]">Copy list</p>
-			<p className="px-[10px] py-[7px] cursor-pointer hover:bg-[#E8E0EC]">Move list</p>
+			<p className="px-2.5 py-2 cursor-pointer hover:bg-pink-100/60">Add card</p>
+			<p className="px-2.5 py-2 cursor-pointer hover:bg-pink-100/60">Copy list</p>
+			<p className="px-2.5 py-2 cursor-pointer hover:bg-pink-100/60">Move list</p>
 			<hr />
-			<p className="px-[10px] py-[7px] cursor-pointer hover:bg-[#E8E0EC]">Sort by...</p>
+			<p className="px-2.5 py-2 cursor-pointer hover:bg-pink-100/60">Sort by...</p>
 			<hr />
-			<p className="px-[10px] py-[7px] cursor-pointer hover:bg-[#E8E0EC]">Move all cards in the list</p>
-			<p className="px-[10px] py-[7px] cursor-pointer hover:bg-[#E8E0EC]">Delete all cards in the list</p>
+			<p className="px-2.5 py-2 cursor-pointer hover:bg-pink-100/60">Move all cards in the list</p>
+			<p className="px-2.5 py-2 cursor-pointer hover:bg-pink-100/60">Delete all cards in the list</p>
 			<hr />
-			<p className="px-[10px] py-[7px] cursor-pointer hover:bg-[#E8E0EC]">Delete this list</p>
+			<p className="px-2.5 py-2 cursor-pointer hover:bg-pink-100/60">Delete this list</p>
 		</div>
 	);
 }

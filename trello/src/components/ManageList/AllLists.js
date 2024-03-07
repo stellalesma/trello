@@ -12,7 +12,7 @@ function AllLists() {
 	return (
 		<ul className="flex">
 			{lists.map((list, index) => (
-				<li key={list.id} className="w-[320px] h-fit p-[10px] mr-[20px] rounded-[10px] box-border bg-[#f5f5f5]">
+				<li key={list.id} className="w-80 h-fit p-2.5 mr-5 rounded-lg box-border bg-neutral-100">
 					<List list={list} index={index} />
 				</li>
 			))}

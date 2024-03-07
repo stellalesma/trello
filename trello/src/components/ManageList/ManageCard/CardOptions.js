@@ -17,16 +17,16 @@ function CardOptions ({ listName, card, onClose }) {
 	};
 
 	return (
-		<div className="top-0 left-0 w-full h-full z-[9999] absolute bg-[#1d1d1d]/50" onClick={handleClickOutside}>
-			<div className="top-1/2 left-1/2 w-[740px] h-[700px] p-[20px] -translate-x-[50%] -translate-y-[50%] absolute overflow-y-auto rounded-[12px] box-border bg-[#f5f5f5]" onClick={handleModalClick}>
+		<div className="top-0 left-0 w-full h-full z-10 absolute bg-stone-900/50" onClick={handleClickOutside}>
+			<div className="top-1/2 left-1/2 w-185 h-175 p-5 -translate-x-2/4 -translate-y-2/4 absolute overflow-y-auto rounded-xl box-border bg-neutral-100" onClick={handleModalClick}>
 				<div className="flex items-center justify-between">
 					<div className="flex items-center text-xl">
-						<IoCardOutline className="mr-[10px] text-[1.2em]" />
-						<p title={card.title} className="w-[610px] font-bold cursor-text truncate">{card.title}</p>
+						<IoCardOutline className="mr-2.5 text-3xl" />
+						<p title={card.title} className="w-152.5 font-bold cursor-text truncate">{card.title}</p>
 					</div>
-					<IoCloseOutline className="text-[2em] p-[5px] rounded-full cursor-pointer hover:bg-[#E8E7E7]" onClick={onClose} />
+					<IoCloseOutline className="text-4xl p-2 rounded-full cursor-pointer hover:bg-stone-200" onClick={onClose} />
 				</div>
-				<p className="w-[450px] ml-[34px] mb-[40px] text-[14.7px] truncate">in list <span title={listName} className="underline cursor-pointer">{listName}</span></p>
+				<p className="w-112.5 ml-10 mb-10 text-sm truncate">in list <span title={listName} className="underline cursor-pointer">{listName}</span></p>
 
 				<div className="flex">
 					<DescriptionActivities card={card} />

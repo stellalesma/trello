@@ -50,16 +50,16 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
 	};
 
 	return (
-		<div className="w-[280px] p-[10px] ml-[70px] mt-[5px] z-[10001] rounded-[7px] box-border fixed bg-white shadow-[0_4px_8px_rgba(0,0,0,0.1)]">
-			<div className="flex items-center justify-between mb-[25px]">
+		<div className="w-72 p-2.5 ml-16 mt-1.5 z-20 rounded-md box-border fixed bg-white shadow-custom">
+			<div className="flex items-center justify-between mb-6">
 				<p className="font-bold w-full text-center">Move card</p>
-				<IoMdClose className="text-[1.8em] p-[5px] rounded-full cursor-pointer hover:bg-[#E8E7E7]" onClick={onClose} />
+				<IoMdClose className="text-3xl p-1 rounded-full cursor-pointer hover:bg-stone-200" onClick={onClose} />
 			</div>
 
-			<p className="font-bold text-sm mb-[15px]">Select destination</p>
+			<p className="font-bold text-sm mb-3.5">Select destination</p>
 
 			<form onSubmit={handleSubmit}>
-				<div className="flex flex-col h-[80px] p-[10px] mb-[10px] rounded-[5px] bg-[#e5e5e6]/[0.77]">
+				<div className="flex flex-col h-20 p-2.5 mb-2.5 rounded bg-neutral-200/[0.77]">
 					<label htmlFor="dropDownList" className="font-bold text-sm">List</label>
 					<select id="dropDownList" name="dropDownList" value={selectedList} onChange={handleListChange} className="h-full">
 						{lists.map((list, _) => 
@@ -68,7 +68,7 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
 					</select>
 				</div>
 
-				<div className="flex flex-col h-[80px] p-[10px] mb-[15px] rounded-[5px] bg-[#e5e5e6]/[0.77]">
+				<div className="flex flex-col h-20 p-2.5 mb-3.5 rounded bg-neutral-200/[0.77]">
 					<label htmlFor="dropDownPosition" className="font-bold text-sm">Position</label>
 					<select id="dropDownPosition" name="dropDownPosition" value={selectedPosition} onChange={(e) => { setSelectedPosition(e.target.value); }} className="h-full">
 						{findAList(lists, selectedList).cards.map((card, index) => 
@@ -79,7 +79,7 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
 				</div>
 
 				<div className="flex w-full justify-center">
-					<button type='submit' className="text-white bg-[#01d2ee]">Save</button>
+					<button type='submit' className="text-white bg-cyan-400">Save</button>
 				</div>
 			</form>
 
