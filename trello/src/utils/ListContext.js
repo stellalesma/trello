@@ -1,6 +1,7 @@
 import React from "react";
-
 import { createContext, useState } from "react";
+
+import PropTypes from "prop-types";
 
 const listData = [
 	{
@@ -21,57 +22,57 @@ const listData = [
 ];
 
 
-const forTraining = [
-	{
-		"id": 1,
-		"title": "List 1",
-		"cards": [
-			{
-				"listId": 1,
-				"id": 2,
-				"title": "L1 C1",
-				"description": "",
-				"activities": []
-			},
-			{
-				"listId": 1,
-				"id": 3,
-				"title": "L1 C2",
-				"description": "",
-				"activities": []
-			},
-			{
-				"listId": 1,
-				"id": 4,
-				"title": "L1 C3",
-				"description": "",
-				"activities": []
-			}
-		]
-	},
-	{
-		"id": 5,
-		"title": "List 2",
-		"cards": [
-			{
-				"listId": 5,
-				"id": 6,
-				"title": "L2 C1",
-				"description": "",
-				"activities": []
-			},
-			{
-				"listId": 5,
-				"id": 7,
-				"title": "L2 C2",
-				"description": "",
-				"activities": [
+// const forTraining = [
+// 	{
+// 		"id": 1,
+// 		"title": "List 1",
+// 		"cards": [
+// 			{
+// 				"listId": 1,
+// 				"id": 2,
+// 				"title": "L1 C1",
+// 				"description": "",
+// 				"activities": []
+// 			},
+// 			{
+// 				"listId": 1,
+// 				"id": 3,
+// 				"title": "L1 C2",
+// 				"description": "",
+// 				"activities": []
+// 			},
+// 			{
+// 				"listId": 1,
+// 				"id": 4,
+// 				"title": "L1 C3",
+// 				"description": "",
+// 				"activities": []
+// 			}
+// 		]
+// 	},
+// 	{
+// 		"id": 5,
+// 		"title": "List 2",
+// 		"cards": [
+// 			{
+// 				"listId": 5,
+// 				"id": 6,
+// 				"title": "L2 C1",
+// 				"description": "",
+// 				"activities": []
+// 			},
+// 			{
+// 				"listId": 5,
+// 				"id": 7,
+// 				"title": "L2 C2",
+// 				"description": "",
+// 				"activities": [
                     
-				]
-			}
-		]
-	}
-];
+// 				]
+// 			}
+// 		]
+// 	}
+// ];
 
 export const ListContext = createContext();
 
@@ -110,4 +111,8 @@ export const ListProvider = ({ children }) => {
 	return (
 		<ListContext.Provider value={contextValue}>{children}</ListContext.Provider>
 	);
+};
+
+ListProvider.propTypes = {
+	children: PropTypes.node,
 };

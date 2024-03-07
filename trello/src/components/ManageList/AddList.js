@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { FaPlus } from "react-icons/fa6";
 
-import { useState, useContext } from "react";
 import { ListContext } from "../../utils/ListContext";
 
-import { FaPlus } from "react-icons/fa6";
 
 function AddList() {
 	const [listTitle, setListTitle] = useState("");

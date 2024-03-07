@@ -1,9 +1,7 @@
-import React from "react";
-
-import { useContext } from "react";
-import { ListContext } from "../../utils/ListContext";
+import React, { useContext } from "react";
 
 import List from "./List";
+import { ListContext } from "../../utils/ListContext";
 
 function AllLists() {
 

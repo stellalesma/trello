@@ -1,5 +1,7 @@
 import React from "react";
 
+import PropTypes from "prop-types";
+
 function Form({ value, staticAttributs, onBlur, onChange, onClick, onSubmit }) {
 	return (
 		<form onSubmit={onSubmit} className="flex flex-col">
@@ -11,5 +13,14 @@ function Form({ value, staticAttributs, onBlur, onChange, onClick, onSubmit }) {
 		</form>
 	);
 }
+
+Form.propTypes = {
+	onBlur: PropTypes.func,
+	onClick: PropTypes.func.isRequired,
+	value: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
+	onSubmit: PropTypes.func.isRequired,
+	staticAttributs: PropTypes.object.isRequired,
+};
 
 export default Form;

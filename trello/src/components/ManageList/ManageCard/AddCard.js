@@ -1,9 +1,10 @@
-import React from "react";
-
-import { useState, useContext } from "react";
-import { ListContext } from "../../../utils/ListContext";
+import React, { useState, useContext } from "react";
 
 import { FaPlus } from "react-icons/fa6";
+
+import PropTypes from "prop-types";
+
+import { ListContext } from "../../../utils/ListContext";
 
 function AddCard({ list, listIndex }) {
 	const [cardTitle, setCardTitle] = useState("");
@@ -50,5 +51,10 @@ function AddCard({ list, listIndex }) {
 		</div>
 	);
 }
+
+AddCard.propTypes = {
+	list: PropTypes.object.isRequired,
+	listIndex: PropTypes.number.isRequired,
+};
 
 export default AddCard;

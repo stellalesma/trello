@@ -1,5 +1,7 @@
 import React from "react";
 
+import PropTypes from "prop-types";
+
 import Activity from "./Activity";
 
 function AllActivities({ activities }) {
@@ -14,5 +16,9 @@ function AllActivities({ activities }) {
 
 	);
 }
+
+AllActivities.propTypes = {
+	activities: PropTypes.array.isRequired,
+};
 
 export default AllActivities;

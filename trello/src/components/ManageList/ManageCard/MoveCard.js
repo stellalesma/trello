@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 
-import { useState, useContext } from "react";
-import { ListContext } from "../../../utils/ListContext";
+import PropTypes from "prop-types";
 
 import { IoMdClose } from "react-icons/io";
+
+import { ListContext } from "../../../utils/ListContext";
 
 export default function MoveCard({ listName, card, onClose, onMainClose }) {
 	const { lists, handleModifiedLists } = useContext(ListContext);
@@ -62,7 +63,7 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
 				<div className="flex flex-col h-20 p-2.5 mb-2.5 rounded bg-neutral-200/[0.77]">
 					<label htmlFor="dropDownList" className="font-bold text-sm">List</label>
 					<select id="dropDownList" name="dropDownList" value={selectedList} onChange={handleListChange} className="h-full">
-						{lists.map((list, _) => 
+						{lists.map((list) => 
 							<option key={list.id} value={list.title}>{list.title}</option>
 						)}
 					</select>
@@ -86,3 +87,10 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
 		</div>
 	);
 }
+
+MoveCard.propTypes = {
+	card: PropTypes.object.isRequired,
+	onClose: PropTypes.func.isRequired,
+	listName: PropTypes.string.isRequired,
+	onMainClose: PropTypes.func.isRequired,
+};

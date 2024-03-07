@@ -1,13 +1,12 @@
-import React from "react";
-
-import { useState, useContext } from "react";
-import { ListContext } from "../../utils/ListContext";
-
+import React, { useState, useContext } from "react";
 import { GoKebabHorizontal } from "react-icons/go";
+
+import PropTypes from "prop-types";
 
 import ListActions from "./ListActions";
 import AddCard from "./ManageCard/AddCard";
 import AllCards from "./ManageCard/AllCards";
+import { ListContext } from "../../utils/ListContext";
 
 function List({ list, index }) {
 	const [title, setTitle] = useState(list.title);
@@ -59,5 +58,10 @@ function List({ list, index }) {
 		</div>
 	);
 }
+
+List.propTypes = {
+	list: PropTypes.object.isRequired,
+	index: PropTypes.number.isRequired,
+};
 
 export default List;
