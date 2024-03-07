@@ -34,17 +34,17 @@ function AddCard({ list, listIndex }) {
 	return (
 		<div>
 			{showForm ? (
-				<form onSubmit={handleSubmit} className="mt-[20px]">
-					<textarea id="card" name="card" placeholder="Enter a title for this card..." value={cardTitle} onChange={handleTitle} onBlur={handleBlur} className="w-full p-[10px] mb-[5px] rounded-[7px] bg-white border border-b-[3px] border-[#b100f2]/30 border-b-[#6500F2]/[0.35]" autoFocus />
+				<form onSubmit={handleSubmit} className="mt-5">
+					<textarea id="card" name="card" placeholder="Enter a title for this card..." value={cardTitle} onChange={handleTitle} onBlur={handleBlur} className="w-full p-2.5 mb-1.5 rounded-md bg-white border border-b-4 border-fuchsia-600/30 border-b-violet-700/[0.35]" autoFocus />
 
 					<div>
-						<button type="submit" className="mr-[10px] text-white bg-[#01d2ee]">Add card</button>
-						<button type="reset" onClick={() => { setShowForm(false); setCardTitle(""); }} className="text-[#4a4a4a] hover:bg-[#ECE9E9]">Cancel</button>
+						<button type="submit" className="mr-2.5 text-white bg-cyan-400">Add card</button>
+						<button type="reset" onClick={() => { setShowForm(false); setCardTitle(""); }} className="text-neutral-600 hover:bg-stone-200">Cancel</button>
 					</div>
 				</form>
 			) : (
-				<p className="flex items-center p-[10px] mt-[20px] rounded-[5px] cursor-pointer hover:bg-[#E8E0EC]" onClick={() => { setShowForm(true); }}>
-					<FaPlus className="mr-[5px]" />
+				<p className="flex items-center p-2.5 mt-5 rounded cursor-pointer hover:bg-pink-100/60" onClick={() => { setShowForm(true); }}>
+					<FaPlus className="mr-1.5" />
                     Add a card
 				</p>
 			)}

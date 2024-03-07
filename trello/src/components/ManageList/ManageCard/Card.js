@@ -41,16 +41,16 @@ function Card({ card, listName, listIndex }) {
 		<div>
 			{isTitleEditing ? (
 				<form onSubmit={(event) => handleSubmit(event)}>
-					<textarea className="w-full h-[150px] p-[10px] mb-[3px] rounded-[7px] bg-white border border-b-[3px] border-[#b100f2]/30 border-b-[#6500F2]/[0.35]" id='cardEditing' name="cardEditing" value={cardTitle} onChange={(event) => { setCardTitle(event.target.value); }} onBlur={handleBlur} autoFocus />
-					<div className='mb-[10px]'>
-						<button type="submit" className="mr-[10px] text-white bg-[#01d2ee]">Save</button>
-						<button type="reset" onClick={() => { setIsTitleEditing(false); setCardTitle(card.title); }} className="text-[#4a4a4a] hover:bg-[#ECE9E9]">Cancel</button>
+					<textarea className="w-full h-40 p-2.5 mb-1 rounded-md bg-white border border-b-4 border-fuchsia-600/30 border-b-violet-700/[0.35]" id='cardEditing' name="cardEditing" value={cardTitle} onChange={(event) => { setCardTitle(event.target.value); }} onBlur={handleBlur} autoFocus />
+					<div className='mb-2.5'>
+						<button type="submit" className="mr-2.5 text-white bg-cyan-400">Save</button>
+						<button type="reset" onClick={() => { setIsTitleEditing(false); setCardTitle(card.title); }} className="text-neutral-600 hover:bg-stone-200">Cancel</button>
 					</div>
 				</form>
 			) : (
-				<p className="group flex items-center justify-between px-[10px] py-[5px] mb-[10px] rounded-[7px] border border-[#b100f2]/30 border-b-[3px] border-b-[#6500F2]/[0.35] cursor-pointer hover:border-[#40e0d0]/60 bg-white" onClick={() => setShowCardOptions(true)}>
-					<span className="w-[244px] white-space-pre-wrap break-words">{cardTitle}</span>
-					<MdOutlineModeEditOutline className="text-[2em] p-[8px] cursor-pointer rounded-full opacity-0 group-hover:opacity-100 hover:bg-[#E8E0EC]" onClick={(event) => { event.stopPropagation(); setIsTitleEditing(true); }} />
+				<p className="group flex items-center justify-between px-2.5 py-1 mb-2.5 rounded-md border border-fuchsia-600/30 border-b-4 border-b-violet-700/[0.35] cursor-pointer hover:border-teal-400/50 bg-white" onClick={() => setShowCardOptions(true)}>
+					<span className="w-61 white-space-pre-wrap break-words">{cardTitle}</span>
+					<MdOutlineModeEditOutline className="text-4xl p-2 cursor-pointer rounded-full opacity-0 group-hover:opacity-100 hover:bg-pink-100/60" onClick={(event) => { event.stopPropagation(); setIsTitleEditing(true); }} />
 				</p>
 			)}
 

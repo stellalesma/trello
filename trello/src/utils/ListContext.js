@@ -108,8 +108,6 @@ export const ListProvider = ({ children }) => {
 		handleModifiedLists,
 	};
 
-	// console.log(lists);
-
 	return (
 		<ListContext.Provider value={contextValue}>{children}</ListContext.Provider>
 	);

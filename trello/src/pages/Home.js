@@ -5,7 +5,7 @@ import AllLists from "../components/ManageList/AllLists";
 
 function Home() {
 	return (
-		<div className="flex h-screen p-[15px] overflow-x-auto overflow-y-hidden">
+		<div className="flex h-screen p-3.5 overflow-x-auto overflow-y-hidden">
 			<AllLists />
 			<AddList />
 		</div>
