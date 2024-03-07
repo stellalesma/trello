@@ -1,4 +1,6 @@
-import { ListProvider } from './utils/ListContext';
+import React from "react";
+
+import { ListProvider } from "./utils/ListContext";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 
