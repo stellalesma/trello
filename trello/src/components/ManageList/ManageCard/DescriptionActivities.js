@@ -83,7 +83,7 @@ function DescriptionActivities({ card }) {
 	};
 
 	return (
-		<div className="w-137.5 mr-2.5">
+		<div className="custom:w-137.5 mr-2.5">
 			<div className="flex items-center font-bold text-lg mb-2.5">
 				<IoMenuOutline className="mr-2.5 text-2xl" />
 				<p>Description</p>

@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 
 function App() {
 	return (
-		<div>
+		<div className="flex flex-col h-screen">
 			<Header />
 			<ListProvider>
 				<Home />

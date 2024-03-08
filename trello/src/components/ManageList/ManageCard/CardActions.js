@@ -30,18 +30,24 @@ function CardActions({ card, listName, onMainClose }) {
 	};
 
 	return (
-		<div className="w-36">
+		<div className="custom:w-36 mt-10 custom:mt-0">
 			<p className="font-bold text-xs">Actions</p>
-			<p className="flex items-center w-full h-9 mt-2.5 p-2.5 font-bold text-sm cursor-pointer rounded bg-neutral-200/[0.77] hover:bg-neutral-300/[0.8]" onClick={() => { setIsMoveCardVisible(true); }}>
-				<IoIosArrowRoundForward className="mr-2.5" />
-                Move
-			</p>
-			{isMoveCardVisible ? <MoveCard listName={listName} card={card} onClose={() => { setIsMoveCardVisible(false); }} onMainClose={onMainClose} /> : null}
-			<p className="flex items-center w-full h-9 mt-2.5 p-2.5 font-bold text-sm cursor-pointer rounded bg-neutral-200/[0.77] hover:bg-neutral-300/[0.8]" onClick={() => { setIsDeleteCardVisible(true); }}>
-				<RxDash className="mr-2.5" />
-                Delete
-			</p>
-			{isDeleteCardVisible ? <DeletionModal modalName="Delete card ?" text={deletionWarning} onDelete={handleDelete} onClose={() => { setIsDeleteCardVisible(false); }} /> : null}
+			<div className="grid grid-cols-2 gap-2.5 custom:flex custom:flex-col custom:gap-0">
+				<div>
+					<p className="flex items-center w-full h-9 mt-2.5 p-2.5 font-bold text-sm cursor-pointer rounded bg-neutral-200/[0.77] hover:bg-neutral-300/[0.8]" onClick={() => { setIsMoveCardVisible(true); }}>
+						<IoIosArrowRoundForward className="mr-2.5" />
+						Move
+					</p>
+					{isMoveCardVisible ? <MoveCard listName={listName} card={card} onClose={() => { setIsMoveCardVisible(false); }} onMainClose={onMainClose} /> : null}
+				</div>
+				<div>
+					<p className="flex items-center w-full h-9 mt-2.5 p-2.5 font-bold text-sm cursor-pointer rounded bg-neutral-200/[0.77] hover:bg-neutral-300/[0.8]" onClick={() => { setIsDeleteCardVisible(true); }}>
+						<RxDash className="mr-2.5" />
+						Delete
+					</p>
+					{isDeleteCardVisible ? <DeletionModal modalName="Delete card ?" text={deletionWarning} onDelete={handleDelete} onClose={() => { setIsDeleteCardVisible(false); }} /> : null}
+				</div>
+			</div>
 		</div>
 	);
 }

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 function DeletionModal({modalName, text, onDelete, onClose}) {
 
 	return (
-		<div className="w-80 p-2.5 mt-1.5 flex z-30 fixed rounded-lg box-border flex-col bg-white shadow-custom">
+		<div className="flex flex-col w-80 p-2.5 mt-1.5 ml-20 z-50 fixed rounded-lg box-border bg-white shadow-custom">
 			<div className="flex flex-row items-center mb-5">
 				<p className="font-bold m-auto">{modalName}</p>
 				<IoMdClose className="text-3xl p-1 cursor-pointer rounded-full hover:bg-stone-200" onClick={onClose} />

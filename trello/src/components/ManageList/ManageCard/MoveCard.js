@@ -51,7 +51,7 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
 	};
 
 	return (
-		<div className="w-72 p-2.5 ml-16 mt-1.5 z-20 rounded-md box-border fixed bg-white shadow-custom">
+		<div className="w-72 p-2.5 ml-16 mt-1.5 z-40 rounded-md box-border fixed bg-white shadow-custom">
 			<div className="flex items-center justify-between mb-6">
 				<p className="font-bold w-full text-center">Move card</p>
 				<IoMdClose className="text-3xl p-1 rounded-full cursor-pointer hover:bg-stone-200" onClick={onClose} />
