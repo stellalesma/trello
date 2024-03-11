@@ -4,9 +4,6 @@ export const content = ["./src/**/*.{html,js}"];
 
 export const theme = {
 	extend: {
-		screens: {
-			"custom": "750px",
-		},
 		transitionProperty: {
 			"spacing": "height, width",
 		},

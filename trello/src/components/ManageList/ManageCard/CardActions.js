@@ -30,9 +30,9 @@ function CardActions({ card, listName, onMainClose }) {
 	};
 
 	return (
-		<div className="custom:w-36 mt-10 custom:mt-0">
+		<div className="md:w-36 mt-10 md:mt-0 relative">
 			<p className="font-bold text-xs">Actions</p>
-			<div className="grid grid-cols-2 gap-2.5 custom:flex custom:flex-col custom:gap-0">
+			<div className="grid grid-cols-2 gap-2.5 md:flex md:flex-col md:gap-0">
 				<div>
 					<p className="flex items-center w-full h-9 mt-2.5 p-2.5 font-bold text-sm cursor-pointer rounded bg-neutral-200/[0.77] hover:bg-neutral-300/[0.8]" onClick={() => { setIsMoveCardVisible(true); }}>
 						<IoIosArrowRoundForward className="mr-2.5" />
@@ -45,7 +45,7 @@ function CardActions({ card, listName, onMainClose }) {
 						<RxDash className="mr-2.5" />
 						Delete
 					</p>
-					{isDeleteCardVisible ? <DeletionModal modalName="Delete card ?" text={deletionWarning} onDelete={handleDelete} onClose={() => { setIsDeleteCardVisible(false); }} /> : null}
+					{isDeleteCardVisible ? <DeletionModal modalName="Delete card ?" text={deletionWarning} style="flex flex-col w-64 md:w-80 p-2.5 -ml-32 md:-ml-40 mt-1.5 z-50 absolute rounded-lg box-border bg-white shadow-custom" onDelete={handleDelete} onClose={() => { setIsDeleteCardVisible(false); }} /> : null}
 				</div>
 			</div>
 		</div>
