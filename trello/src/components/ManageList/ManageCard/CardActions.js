@@ -45,7 +45,7 @@ function CardActions({ card, listName, onMainClose }) {
 						<RxDash className="mr-2.5" />
 						Delete
 					</p>
-					{isDeleteCardVisible ? <DeletionModal modalName="Delete card ?" text={deletionWarning} style="flex flex-col w-64 md:w-80 p-2.5 -ml-32 md:-ml-40 mt-1.5 z-50 absolute rounded-lg box-border bg-white shadow-custom" onDelete={handleDelete} onClose={() => { setIsDeleteCardVisible(false); }} /> : null}
+					{isDeleteCardVisible ? <DeletionModal modalName="Delete card ?" text={deletionWarning} style="flex flex-col w-64 md:w-80 p-2.5 right-0 md:-ml-40 top-1.5 z-50 absolute rounded-lg box-border bg-white shadow-custom" onDelete={handleDelete} onClose={() => { setIsDeleteCardVisible(false); }} /> : null}
 				</div>
 			</div>
 		</div>

@@ -11,6 +11,7 @@ export const theme = {
 			turquoise: "#00ced1",
 		},
 		spacing: {
+			"15": "3.75rem",
 			"61": "15.25rem",
 			"75": "18.75rem",
 			"112.5": "28.125rem",

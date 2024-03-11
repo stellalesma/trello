@@ -7,7 +7,7 @@ export default function ListActions({ onClose }) {
 
 	return (
 		<div className="relative">
-			<div className="flex flex-col w-64 md:w-75 py-2.5 -mt-14 ml-12 md:ml-20 rounded-lg absolute bg-white shadow-custom">
+			<div className="flex flex-col w-64 md:w-75 py-2.5 -top-2.5 right-0 rounded-lg absolute bg-white shadow-custom">
 				<div className="flex items-center justify-between mb-3.5 pr-2.5">
 					<p className="w-full font-bold text-center">List actions</p>
 					<IoMdClose className="text-4xl p-2 rounded cursor-pointer hover:bg-teal-100/70" onClick={onClose} />

@@ -44,7 +44,10 @@ function List({ list, index }) {
 	};
 
 	const handleClick = () => {
-		setIsListActions(true);
+		if (isListActions)
+			setIsListActions(false);
+		else
+			setIsListActions(true);
 	};
 
 	return (
