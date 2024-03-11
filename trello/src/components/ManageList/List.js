@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import { GoKebabHorizontal } from "react-icons/go";
+import { FaPlus } from "react-icons/fa6";
 
 import PropTypes from "prop-types";
 
 import ListActions from "./ListActions";
-import AddCard from "./ManageCard/AddCard";
 import AllCards from "./ManageCard/AllCards";
 import { ListContext } from "../../utils/ListContext";
 
@@ -44,7 +44,10 @@ function List({ list, index }) {
 	};
 
 	const handleClick = () => {
-		setIsListActions(true);
+		if (isListActions)
+			setIsListActions(false);
+		else
+			setIsListActions(true);
 	};
 
 	return (
@@ -59,10 +62,16 @@ function List({ list, index }) {
 				<GoKebabHorizontal className="text-4xl p-2 rounded hover:bg-teal-100/70" onClick={handleClick} />
 			</div>
 
-			{isListActions ? <ListActions onClose={() => setIsListActions(false)} /> : null}
+			{isListActions ? <ListActions setFormState={handleFormState} onClose={() => setIsListActions(false)} /> : null}
 
 			<AllCards list={list} listIndex={index} isFormVisible={showForm} setFormState={handleFormState} />
-			<AddCard isFormVisible={showForm} setFormState={handleFormState} />
+
+			{!showForm ? (
+				<p className="flex items-center p-2.5 mt-5 rounded cursor-pointer hover:bg-pink-100/60" onClick={() => setShowForm(true)}>
+					<FaPlus className="mr-1.5" />
+                    Add a card
+				</p>
+			) : null}
 
 		</div>
 	);
