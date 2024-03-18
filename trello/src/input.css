@@ -8,7 +8,7 @@
 	}
 
 	body {
-		@apply m-0 overflow-hidden bg-gradient-to-r from-purple-600 to-turquoise;
+		@apply m-0 bg-gradient-to-r from-purple-600 to-turquoise;
 	}
 
 	code {

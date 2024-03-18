@@ -77,8 +77,9 @@ const listData = [
 export const ListContext = createContext();
 
 export const ListProvider = ({ children }) => {
-	const [lists, setLists] = useState(listData);
 	const [lastId, setLastId] = useState(3);
+	const [lists, setLists] = useState(listData);
+	// const [whichList, setWhichList] = useState({id: null, isLAVisible: false});
 	// const [lastId, setLastId] = useState(7);
 
 	const updatedId = () => {
@@ -107,6 +108,8 @@ export const ListProvider = ({ children }) => {
 		handleListEditing,
 		handleModifiedLists,
 	};
+
+	console.log(lists);
 
 	return (
 		<ListContext.Provider value={contextValue}>{children}</ListContext.Provider>

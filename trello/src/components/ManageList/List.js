@@ -10,6 +10,7 @@ import { ListContext } from "../../utils/ListContext";
 
 function List({ list, index }) {
 	const [title, setTitle] = useState(list.title);
+	const [showForm, setShowForm] = useState(false);
 	const [isListActions, setIsListActions] = useState(false);
 	const [isTitleEditing, setIsTitleEditing] = useState(false);
 
@@ -38,8 +39,19 @@ function List({ list, index }) {
 		setTitle(event.target.value);
 	};
 
+	const handleFormState = (state) => {
+		setShowForm(state);
+	};
+
+	const handleClick = () => {
+		if (isListActions)
+			setIsListActions(false);
+		else
+			setIsListActions(true);
+	};
+
 	return (
-		<div>
+		<div className="flex flex-col max-h-[89vh] z-10">
 
 			<div className="flex items-center justify-between mb-3.5">
 				{isTitleEditing ? (
@@ -47,13 +59,13 @@ function List({ list, index }) {
 				) : (
 					<p className="w-full h-8 leading-8 px-2.5 truncate cursor-text" onClick={() => { setIsTitleEditing(true); }}>{list.title}</p>
 				)}
-				<GoKebabHorizontal className="text-4xl p-2 rounded hover:bg-teal-100/70" onClick={() => { setIsListActions(true); }} />
+				<GoKebabHorizontal className="text-4xl p-2 rounded hover:bg-teal-100/70" onClick={handleClick} />
 			</div>
 
 			{isListActions ? <ListActions onClose={() => setIsListActions(false)} /> : null}
 
-			<AllCards list={list} listIndex={index} />
-			<AddCard list={list} listIndex={index} />
+			<AllCards list={list} listIndex={index} isFormVisible={showForm} setFormState={handleFormState} />
+			<AddCard isFormVisible={showForm} setFormState={handleFormState} />
 
 		</div>
 	);
