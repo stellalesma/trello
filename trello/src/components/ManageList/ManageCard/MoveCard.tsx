@@ -1,38 +1,51 @@
-import React, { useState, useContext } from "react";
-
-import PropTypes from "prop-types";
+import React, { useState, useContext, FormEvent, ChangeEvent } from "react";
 
 import { IoMdClose } from "react-icons/io";
 
+import { ListObject, CardObject } from "types/Types";
 import { ListContext } from "../../../utils/ListContext";
 
-export default function MoveCard({ listName, card, onClose, onMainClose }) {
+type MoveCardProps = {
+	card: CardObject,
+	listName: string,
+	onClose: () => void,
+	onMainClose: () => void,
+}
+
+export default function MoveCard({ listName, card, onClose, onMainClose }: MoveCardProps) {
 	const { lists, handleModifiedLists } = useContext(ListContext);
 
-	const findAList = (lists, searchedTitle) => {
-		return lists.find(object => object.title === searchedTitle);
+	const findAList = (allList: ListObject[], searchedTitle: string): ListObject => {
+		const foundList = allList.find(object => object.title === searchedTitle);
+		if (foundList)
+			return foundList;
+		else
+			throw new Error("The searched List was not found.");
 	};
 
-	const findCardsNb = (cards) => {
+	const findCardsNb = (cards: CardObject[]): number => {
 		return cards.length;
 	};
 
-	const findCardIndex = (cards, cardTitle) => {
+	const findCardIndex = (cards: CardObject[], cardTitle: string): number => {
 		return cards.findIndex(object => object.title === cardTitle);
 	};
 
-	const currentList = findAList(lists, listName);
-	const [selectedList, setSelectedList] = useState(listName);
-	const currentPosition = findCardIndex(currentList.cards, card.title) + 1;
-	const [selectedPosition, setSelectedPosition] = useState(currentPosition);
+	const currentPosition = findCardIndex(findAList(lists, listName).cards, card.title) + 1;
+	const [selectedList, setSelectedList] = useState<string>(listName);
+	const [selectedPosition, setSelectedPosition] = useState<number>(currentPosition);
 	const suggestedPosition = findCardsNb(findAList(lists, selectedList).cards) + 1;
 
-	const handleListChange = (e) => {
+	const handleListChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setSelectedList(e.target.value);
 		setSelectedPosition(listName !== e.target.value ? findCardsNb(findAList(lists, e.target.value).cards) + 1 : currentPosition);
 	};
 
-	const handleSubmit = (e) => {
+	const handlePositionChange = (e: ChangeEvent<HTMLSelectElement>) => {
+		setSelectedPosition(parseInt(e.target.value));
+	};
+
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const currentList = findAList(lists, listName);
 		const chosenList = findAList(lists, selectedList);
@@ -72,9 +85,9 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
 
 					<div className="flex flex-col h-20 p-2.5 mb-3.5 rounded bg-neutral-200/[0.77]">
 						<label htmlFor="dropDownPosition" className="font-bold text-sm">Position</label>
-						<select id="dropDownPosition" name="dropDownPosition" value={selectedPosition} onChange={(e) => { setSelectedPosition(e.target.value); }} className="h-full">
-							{findAList(lists, selectedList).cards.map((card, index) => 
-								<option key={card.id} value={index + 1}>{index + 1}</option>
+						<select id="dropDownPosition" name="dropDownPosition" value={selectedPosition} onChange={handlePositionChange} className="h-full">
+							{findAList(lists, selectedList).cards.map((object, index) => 
+								<option key={object.id} value={index + 1}>{index + 1}</option>
 							)}
 							{listName !== selectedList ? <option value={suggestedPosition}>{suggestedPosition}</option> : null}
 						</select>
@@ -89,10 +102,3 @@ export default function MoveCard({ listName, card, onClose, onMainClose }) {
 		</div>
 	);
 }
-
-MoveCard.propTypes = {
-	card: PropTypes.object.isRequired,
-	onClose: PropTypes.func.isRequired,
-	listName: PropTypes.string.isRequired,
-	onMainClose: PropTypes.func.isRequired,
-};

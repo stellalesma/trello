@@ -1,8 +1,17 @@
-import React from "react";
+import React, { FormEvent, ChangeEvent } from "react";
 
-import PropTypes from "prop-types";
+import { StaticAttributs } from "types/Types";
 
-function Form({ value, staticAttributs, onBlur, onChange, onClick, onSubmit }) {
+type FormProps = {
+	value: string,
+	onBlur?: () => void,
+	onClick: () => void,
+	onSubmit: (e: FormEvent<HTMLFormElement>) => void,
+	onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void,
+	staticAttributs: StaticAttributs,
+}
+
+function Form({ value, staticAttributs, onBlur, onChange, onClick, onSubmit }: FormProps) {
 	return (
 		<form onSubmit={onSubmit} className="flex flex-col">
 			<textarea id={staticAttributs.id} name={staticAttributs.name} className={staticAttributs.className} placeholder={staticAttributs.placeholder} value={value} onChange={onChange} onBlur={onBlur} autoFocus />
@@ -13,14 +22,5 @@ function Form({ value, staticAttributs, onBlur, onChange, onClick, onSubmit }) {
 		</form>
 	);
 }
-
-Form.propTypes = {
-	onBlur: PropTypes.func,
-	onClick: PropTypes.func.isRequired,
-	value: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
-	onSubmit: PropTypes.func.isRequired,
-	staticAttributs: PropTypes.object.isRequired,
-};
 
 export default Form;

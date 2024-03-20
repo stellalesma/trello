@@ -1,10 +1,7 @@
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 
-import PropTypes from "prop-types";
-
-export default function ListActions({ onClose }) {
-
+export default function ListActions({ onClose }: { onClose: () => void }) {
 	return (
 		<div className="relative">
 			<div className="flex flex-col w-64 md:w-75 py-2.5 -top-2.5 right-0 rounded-lg absolute bg-white shadow-custom">
@@ -26,7 +23,3 @@ export default function ListActions({ onClose }) {
 		</div>
 	);
 }
-
-ListActions.propTypes = {
-	onClose: PropTypes.func.isRequired,
-};
