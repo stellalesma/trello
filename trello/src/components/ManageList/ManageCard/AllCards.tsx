@@ -1,11 +1,17 @@
 import React from "react";
 
-import PropTypes from "prop-types";
-
 import Card from "./Card";
 import AddCard from "./AddCard";
+import { ListObject } from "types/Types";
 
-function AllCards({ list, listIndex, isFormVisible, setFormState }) {
+type AllCardsProps = {
+	list: ListObject,
+	listIndex: number,
+	isFormVisible: boolean,
+	setFormState: (state: boolean) => void,
+}
+
+function AllCards({ list, listIndex, isFormVisible, setFormState }: AllCardsProps) {
 
 	return (
 		<div className="overflow-y-auto">
@@ -23,12 +29,5 @@ function AllCards({ list, listIndex, isFormVisible, setFormState }) {
 		</div>
 	);
 }
-
-AllCards.propTypes = {
-	list: PropTypes.object.isRequired,
-	listIndex: PropTypes.number.isRequired,
-	setFormState: PropTypes.func.isRequired,
-	isFormVisible: PropTypes.bool.isRequired,
-};
 
 export default AllCards;

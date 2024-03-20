@@ -1,13 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, FormEvent } from "react";
 import { IoMdContact } from "react-icons/io";
-
-import PropTypes from "prop-types";
 
 import Form from "../../Form";
 import DeletionModal from "../../DeletionModal";
 import { ListContext } from "../../../utils/ListContext";
+import { ListObject, CardObject, ActivityObject, StaticAttributs } from "types/Types";
 
-function Activity ({ activity }) {
+function Activity ({ activity }: { activity: ActivityObject }) {
 	const [isEdit, setIsEdit] = useState(false);
 	const [isDelete, setIsDelete] = useState(false);
 	const [comment, setComment] = useState(activity.comment);
@@ -16,8 +15,8 @@ function Activity ({ activity }) {
 	const deletionWarning = "Deleting a comment is forever. There is no undo.";
 
 	const handleActivityDeleting = () => {
-		const getNewActivities = (card) => card.activities.filter((act) => act.id !== activity.id);
-		const getNewCards = (list) => list.cards.map((card) => card.id === activity.cardId ? {...card, activities: getNewActivities(card)} : card);
+		const getNewActivities = (card: CardObject) => card.activities.filter((act) => act.id !== activity.id);
+		const getNewCards = (list: ListObject) => list.cards.map((card) => card.id === activity.cardId ? {...card, activities: getNewActivities(card)} : card);
 		const newLists = lists.map((list) => list.id === activity.listId ?  {...list, cards: getNewCards(list)} : list);
 
 		handleModifiedLists(newLists);
@@ -45,7 +44,7 @@ function Activity ({ activity }) {
 		handleListEditing(listIndex, newList);
 	};
 
-	const handleSubmit = (event) => {
+	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
         
 		if (comment.trim()) {
@@ -59,14 +58,14 @@ function Activity ({ activity }) {
 		setComment(activity.comment);
 	};
 
-	const activityAttrs = {
+	const activityAttrs: StaticAttributs = {
 		id: "activityEdit",
 		name: "activityEdit",
 		className: "grow h-20 p-2.5 mb-1.5 text-sm rounded-lg border border-b-4 border-stone-300 bg-white focus:border-blue-400 focus:border-b-purple-400",
 		placeholder: "Write a comment...",
 		styles: {
-			marginLeft: "0",
-			marginBottom: "0",
+			marginLeft: 0,
+			marginBottom: 0,
 		}
 	};
 
@@ -97,15 +96,11 @@ function Activity ({ activity }) {
 						<span /> . <span />  
 						<span className="underline cursor-pointer" onClick={() => setIsDelete(true)}>Delete</span>
 					</p>
-					{isDelete ? <DeletionModal modalName="Delete comment ?" text={deletionWarning} style="flex flex-col w-64 md:w-80 p-2.5 mt-1.5 z-50 absolute rounded-lg box-border bg-white shadow-custom" onDelete={handleActivityDeleting} onClose={() => setIsDelete(false)} /> : null}
+					{isDelete ? <DeletionModal modalName="Delete comment ?" text={deletionWarning} className="flex flex-col w-56 sm:w-64 md:w-80 p-2.5 top-1.5 left-15 z-50 absolute rounded-lg box-border bg-white shadow-custom" onDelete={handleActivityDeleting} onClose={() => setIsDelete(false)} /> : null}
 				</div>
 			)}
 		</div>
 	);
 }
-
-Activity.propTypes = {
-	activity: PropTypes.object.isRequired,
-};
 
 export default Activity;

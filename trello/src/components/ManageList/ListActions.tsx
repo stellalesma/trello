@@ -1,9 +1,13 @@
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 
-import PropTypes from "prop-types";
+type ListActionsProps = {
+	onClose: () => void,
+	setFormState: (state: boolean) => void,
+}
 
-export default function ListActions({ setFormState, onClose }) {
+
+export default function ListActions({ setFormState, onClose }: ListActionsProps) {
 
 	const handleAddCard = () => {
 		onClose();
@@ -12,7 +16,7 @@ export default function ListActions({ setFormState, onClose }) {
 
 	return (
 		<div className="relative">
-			<div className="flex flex-col w-64 md:w-75 py-2.5 -mt-2.5 ml-12 md:ml-64 rounded-lg absolute bg-white shadow-custom">
+			<div className="flex flex-col w-64 md:w-75 py-2.5 -top-2.5 right-0 rounded-lg absolute bg-white shadow-custom">
 				<div className="flex items-center justify-between mb-3.5 pr-2.5">
 					<p className="w-full font-bold text-center">List actions</p>
 					<IoMdClose className="text-4xl p-2 rounded cursor-pointer hover:bg-teal-100/70" onClick={onClose} />
@@ -31,8 +35,3 @@ export default function ListActions({ setFormState, onClose }) {
 		</div>
 	);
 }
-
-ListActions.propTypes = {
-	onClose: PropTypes.func.isRequired,
-	setFormState: PropTypes.func.isRequired,
-};
