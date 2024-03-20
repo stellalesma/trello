@@ -1,15 +1,21 @@
-import React, { useState, useContext } from "react";
-
-import PropTypes from "prop-types";
+import React, { useState, useContext, FormEvent, ChangeEvent } from "react";
 
 import Card from "./Card";
+import { ListObject } from "types/Types";
 import { ListContext } from "../../../utils/ListContext";
 
-function AllCards({ list, listIndex, isFormVisible, setFormState }) {
-	const [cardTitle, setCardTitle] = useState("");
-	const { updatedId, handleListEditing } = useContext(ListContext);
+type AllCardsProps = {
+	list: ListObject,
+	listIndex: number,
+	isFormVisible: boolean,
+	setFormState: (state: boolean) => void,
+}
 
-	const handleTitle = (e) => {
+function AllCards({ list, listIndex, isFormVisible, setFormState }: AllCardsProps) {
+	const [cardTitle, setCardTitle] = useState<string>("");
+	const { getUpdatedId, handleListEditing } = useContext(ListContext);
+
+	const handleTitle = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		setCardTitle(e.target.value);
 	};
 
@@ -23,11 +29,11 @@ function AllCards({ list, listIndex, isFormVisible, setFormState }) {
 		setCardTitle("");
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		if (cardTitle.trim()) {
-			const newCard = { listId: list.id, id: updatedId(), title: cardTitle, description: "", activities: [] };
+			const newCard = { listId: list.id, id: getUpdatedId(), title: cardTitle, description: "", activities: [] };
 			handleListEditing(listIndex, {...list, cards: [...list.cards, newCard]});
 			setCardTitle("");
 			setFormState(false);
@@ -56,12 +62,5 @@ function AllCards({ list, listIndex, isFormVisible, setFormState }) {
 		</div>
 	);
 }
-
-AllCards.propTypes = {
-	list: PropTypes.object.isRequired,
-	listIndex: PropTypes.number.isRequired,
-	setFormState: PropTypes.func.isRequired,
-	isFormVisible: PropTypes.bool.isRequired,
-};
 
 export default AllCards;

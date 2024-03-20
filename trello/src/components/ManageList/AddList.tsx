@@ -1,15 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, FormEvent, ChangeEvent } from "react";
 import { FaPlus } from "react-icons/fa6";
 
 import { ListContext } from "../../utils/ListContext";
 
-
 function AddList() {
-	const [listTitle, setListTitle] = useState("");
-	const [showForm, setShowForm] = useState(false);
-	const { updatedId, handleAddList } = useContext(ListContext);
+	const [listTitle, setListTitle] = useState<string>("");
+	const [showForm, setShowForm] = useState<boolean>(false);
+	const { getUpdatedId, handleAddList } = useContext(ListContext);
 
-	const handleTitle = (e) => {
+	const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
 		setListTitle(e.target.value);
 	};
 
@@ -20,11 +19,11 @@ function AddList() {
 		}
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		if (listTitle.trim()) {
-			handleAddList({ id: updatedId(), title: listTitle, cards: [] });
+			handleAddList({ id: getUpdatedId(), title: listTitle, cards: [] });
 			setListTitle("");
 			setShowForm(false);
 		}

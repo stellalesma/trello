@@ -1,10 +1,12 @@
 import React from "react";
-
 import { FaPlus } from "react-icons/fa6";
 
-import PropTypes from "prop-types";
+type AddCardProps = {
+	isFormVisible: boolean,
+	setFormState: (state: boolean) => void,
+}
 
-function AddCard({ isFormVisible, setFormState }) {
+function AddCard({ isFormVisible, setFormState }: AddCardProps) {
 	return (
 		<div>
 			{!isFormVisible ? (
@@ -16,10 +18,5 @@ function AddCard({ isFormVisible, setFormState }) {
 		</div>
 	);
 }
-
-AddCard.propTypes = {
-	setFormState: PropTypes.func.isRequired,
-	isFormVisible: PropTypes.bool.isRequired,
-};
 
 export default AddCard;

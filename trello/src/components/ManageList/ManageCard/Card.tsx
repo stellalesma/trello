@@ -1,16 +1,20 @@
-import React, { useState, useContext } from "react";
-
-import PropTypes from "prop-types";
-
+import React, { useState, useContext, FormEvent } from "react";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 
 import CardOptions from "./CardOptions";
+import { CardObject } from "types/Types";
 import { ListContext } from "../../../utils/ListContext";
 
-function Card({ card, listName, listIndex }) {
-	const [cardTitle, setCardTitle] = useState(card.title);
-	const [isTitleEditing, setIsTitleEditing] = useState(false);
-	const [showCardOptions, setShowCardOptions] = useState(false);
+type CardProps = {
+	card: CardObject,
+	listName: string,
+	listIndex: number,
+}
+
+function Card({ card, listName, listIndex }: CardProps) {
+	const [cardTitle, setCardTitle] = useState<string>(card.title);
+	const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
+	const [showCardOptions, setShowCardOptions] = useState<boolean>(false);
 
 	const { lists, handleListEditing } = useContext(ListContext);
 
@@ -21,7 +25,7 @@ function Card({ card, listName, listIndex }) {
 		}
 	};
 
-	const handleSubmit = (event) => {
+	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		if (cardTitle.trim()) {
@@ -58,11 +62,5 @@ function Card({ card, listName, listIndex }) {
 		</div>
 	);
 }
-
-Card.propTypes = {
-	card: PropTypes.object.isRequired,
-	listName: PropTypes.string.isRequired,
-	listIndex: PropTypes.number.isRequired,
-};
 
 export default Card;
