@@ -26,7 +26,7 @@ type ListContextType = {
 	handleAddList: (newList: ListObject) => void,
 	handleListEditing: (index: number, newList: ListObject) => void,
 	handleModifiedLists: (newLists: ListObject[]) => void,
-}
+};
 
 const defaultValue: ListContextType = {
 	lists: [],

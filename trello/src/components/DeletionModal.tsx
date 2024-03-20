@@ -7,7 +7,7 @@ type DeletionModalProps = {
 	modalName: string,
 	onClose: () => void,
 	onDelete: () => void,
-}
+};
 
 function DeletionModal ({modalName, text, className, onDelete, onClose}: DeletionModalProps) {
 	return (

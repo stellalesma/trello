@@ -9,13 +9,11 @@ type AllCardsProps = {
 	listIndex: number,
 	isFormVisible: boolean,
 	setFormState: (state: boolean) => void,
-}
+};
 
 function AllCards({ list, listIndex, isFormVisible, setFormState }: AllCardsProps) {
-
 	return (
 		<div className="overflow-y-auto">
-
 			<ul>
 				{list.cards.map((card) =>
 					<li key={card.id}>
@@ -25,7 +23,6 @@ function AllCards({ list, listIndex, isFormVisible, setFormState }: AllCardsProp
 			</ul>
 
 			{isFormVisible ? <AddCard list={list} listIndex={listIndex} setFormState={setFormState} /> : null}
-
 		</div>
 	);
 }

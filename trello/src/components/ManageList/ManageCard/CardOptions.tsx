@@ -9,7 +9,7 @@ type CardOptionsProps = {
 	card: CardObject,
 	listName: string,
 	onClose: () => void,
-}
+};
 
 function CardOptions ({ listName, card, onClose }: CardOptionsProps) {
 	const handleClickOutside = (event: MouseEvent<HTMLDivElement>) => {

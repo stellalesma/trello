@@ -9,7 +9,7 @@ type FormProps = {
 	onSubmit: (e: FormEvent<HTMLFormElement>) => void,
 	onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void,
 	staticAttributs: StaticAttributs,
-}
+};
 
 function Form({ value, staticAttributs, onBlur, onChange, onClick, onSubmit }: FormProps) {
 	return (

@@ -12,7 +12,7 @@ type CardActionsProps = {
 	card: CardObject,
 	listName: string,
 	onMainClose: () => void,
-}
+};
 
 function CardActions({ card, listName, onMainClose }: CardActionsProps) {
 	const [isMoveCardVisible, setIsMoveCardVisible] = useState<boolean>(false);

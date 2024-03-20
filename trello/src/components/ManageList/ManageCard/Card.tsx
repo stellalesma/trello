@@ -9,7 +9,7 @@ type CardProps = {
 	card: CardObject,
 	listName: string,
 	listIndex: number,
-}
+};
 
 function Card({ card, listName, listIndex }: CardProps) {
 	const [cardTitle, setCardTitle] = useState<string>(card.title);

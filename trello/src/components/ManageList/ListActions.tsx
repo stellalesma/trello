@@ -4,8 +4,7 @@ import { IoMdClose } from "react-icons/io";
 type ListActionsProps = {
 	onClose: () => void,
 	setFormState: (state: boolean) => void,
-}
-
+};
 
 export default function ListActions({ setFormState, onClose }: ListActionsProps) {
 

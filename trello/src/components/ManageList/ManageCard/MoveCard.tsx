@@ -10,7 +10,7 @@ type MoveCardProps = {
 	listName: string,
 	onClose: () => void,
 	onMainClose: () => void,
-}
+};
 
 export default function MoveCard({ listName, card, onClose, onMainClose }: MoveCardProps) {
 	const { lists, handleModifiedLists } = useContext(ListContext);

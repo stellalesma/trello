@@ -7,10 +7,10 @@ type AddCardProps = {
 	list: ListObject,
 	listIndex: number,
 	setFormState: (state: boolean) => void,
-}
+};
 
 function AddCard({ list, listIndex, setFormState }: AddCardProps) {
-	const [cardTitle, setCardTitle] = useState("");
+	const [cardTitle, setCardTitle] = useState<string>("");
 	const { getUpdatedId, handleListEditing } = useContext(ListContext);
 
 	const handleTitle = (e: ChangeEvent<HTMLTextAreaElement>) => {
