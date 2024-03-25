@@ -1,22 +1,22 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, KeyboardEvent, ChangeEvent } from "react";
 import { GoKebabHorizontal } from "react-icons/go";
-
-import PropTypes from "prop-types";
+import { FaPlus } from "react-icons/fa6";
 
 import ListActions from "./ListActions";
-import AddCard from "./ManageCard/AddCard";
 import AllCards from "./ManageCard/AllCards";
+
+import { ListObject } from "types/Types";
 import { ListContext } from "../../utils/ListContext";
 
-function List({ list, index }) {
-	const [title, setTitle] = useState(list.title);
-	const [showForm, setShowForm] = useState(false);
-	const [isListActions, setIsListActions] = useState(false);
-	const [isTitleEditing, setIsTitleEditing] = useState(false);
+function List({ list, index }: { list: ListObject, index: number }) {
+	const [title, setTitle] = useState<string>(list.title);
+	const [showForm, setShowForm] = useState<boolean>(false);
+	const [isListActions, setIsListActions] = useState<boolean>(false);
+	const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
 
 	const { handleListEditing } = useContext(ListContext);
 
-	const handleKeyDown = (event) => {
+	const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === "Enter") {
 			if (title.trim()) {
 				handleListEditing(index, {...list, title: title});
@@ -35,11 +35,11 @@ function List({ list, index }) {
 		}
 	};
 
-	const handleTitleEditing = (event) => {
+	const handleTitleEditing = (event: ChangeEvent<HTMLInputElement>) => {
 		setTitle(event.target.value);
 	};
 
-	const handleFormState = (state) => {
+	const handleFormState = (state: boolean) => {
 		setShowForm(state);
 	};
 
@@ -62,18 +62,19 @@ function List({ list, index }) {
 				<GoKebabHorizontal className="text-4xl p-2 rounded hover:bg-teal-100/70" onClick={handleClick} />
 			</div>
 
-			{isListActions ? <ListActions onClose={() => setIsListActions(false)} /> : null}
+			{isListActions ? <ListActions setFormState={handleFormState} onClose={() => setIsListActions(false)} /> : null}
 
 			<AllCards list={list} listIndex={index} isFormVisible={showForm} setFormState={handleFormState} />
-			<AddCard isFormVisible={showForm} setFormState={handleFormState} />
+
+			{!showForm ? (
+				<p className="flex items-center p-2.5 mt-5 rounded cursor-pointer hover:bg-pink-100/60" onClick={() => setShowForm(true)}>
+					<FaPlus className="mr-1.5" />
+                    Add a card
+				</p>
+			) : null}
 
 		</div>
 	);
 }
-
-List.propTypes = {
-	list: PropTypes.object.isRequired,
-	index: PropTypes.number.isRequired,
-};
 
 export default List;

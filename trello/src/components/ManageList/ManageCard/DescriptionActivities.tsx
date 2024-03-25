@@ -1,48 +1,46 @@
-import React, { useState, useContext } from "react";
-
-import PropTypes from "prop-types";
-
+import React, { useState, useContext, FormEvent, ChangeEvent } from "react";
 import { IoMenuOutline, IoListOutline } from "react-icons/io5";
 
 import Form from "../../Form";
 import AllActivities from "./AllActivities";
 import { ListContext } from "../../../utils/ListContext";
+import { ListObject, CardObject, StaticAttributs } from "types/Types";
 
-function DescriptionActivities({ card }) {
-	const [activity, setActivity] = useState("");
-	const [description, setDescription] = useState(card.description);
-	const [isActivityEditing, setIsActivityEditing] = useState(false);
-	const [isDescriptionEditing, setIsDescriptionEditing] = useState(false);
+function DescriptionActivities({ card }: { card: CardObject }) {
+	const [activity, setActivity] = useState<string>("");
+	const [description, setDescription] = useState<string>(card.description);
+	const [isActivityEditing, setIsActivityEditing] = useState<boolean>(false);
+	const [isDescriptionEditing, setIsDescriptionEditing] = useState<boolean>(false);
 
-	const { updatedId, lists, handleModifiedLists } = useContext(ListContext);
+	const { getUpdatedId, lists, handleModifiedLists } = useContext(ListContext);
 
-	const descriptionAttrs = {
+	const descriptionAttrs: StaticAttributs = {
 		id: "descriptionEditing",
 		name: "descriptionEditing",
 		className: "grow h-32 p-2.5 ml-8 mb-1.5 text-sm white-space-pre-wrap break-words cursor-text rounded bg-white focus:border focus:border-b-4 focus:border-blue-700/40 focus:border-b-purple-400/40",
 		placeholder: "Add a more detailed description...",
 		styles: {
-			marginLeft: "8",
-			marginBottom: "10",
+			marginLeft: 8,
+			marginBottom: 10,
 		}
 	};
 
-	const activityAttrs = {
+	const activityAttrs: StaticAttributs = {
 		id: "activityEditing",
 		name: "activityEditing",
 		className: "grow h-20 p-2.5 ml-8 mb-1.5 text-sm rounded-lg border border-b-4 border-stone-300/50 bg-white focus:border-blue-700/40 focus:border-b-purple-400/40",
 		placeholder: "Write a comment...",
 		styles: {
-			marginLeft: "8",
-			marginBottom: "0",
+			marginLeft: 8,
+			marginBottom: 0,
 		}
 	};
 
-	const handleDescription = (e) => {
+	const handleDescription = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		setDescription(e.target.value);
 	};
 
-	const handleActivity = (e) => {
+	const handleActivity = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		setActivity(e.target.value);
 	};
 
@@ -56,10 +54,10 @@ function DescriptionActivities({ card }) {
 		setActivity("");
 	};
 
-	const handleDescriptionSubmit = (e) => {
+	const handleDescriptionSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const getNewCards = (list) => {
+		const getNewCards = (list: ListObject) => {
 			return list.cards.map((object) => object.id === card.id ? {...object, description: description} : object);
 		};
 		const newLists = lists.map((list) => list.id === card.listId ? {...list, cards: getNewCards(list)} : list);
@@ -68,11 +66,11 @@ function DescriptionActivities({ card }) {
 		setIsDescriptionEditing(false);
 	};
 
-	const handleActivitySubmit = (e) => {
+	const handleActivitySubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const newActivity = {listId: card.listId, cardId: card.id, id: updatedId(), comment: activity};
-		const getNewCards = (list) => {
+		const newActivity = {listId: card.listId, cardId: card.id, id: getUpdatedId(), comment: activity};
+		const getNewCards = (list: ListObject) => {
 			return list.cards.map((object) => object.id === card.id ? {...object, activities: [newActivity, ...object.activities]} : object);
 		};
 		const newLists = lists.map((list) => list.id === card.listId ? {...list, cards: getNewCards(list)} : list); 
@@ -130,9 +128,5 @@ function DescriptionActivities({ card }) {
 		</div>
 	);
 }
-
-DescriptionActivities.propTypes = {
-	card: PropTypes.object.isRequired,
-};
 
 export default DescriptionActivities;

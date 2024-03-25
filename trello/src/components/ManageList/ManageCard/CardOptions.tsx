@@ -1,20 +1,25 @@
-import React from "react";
-
-import PropTypes from "prop-types";
-
+import React, { MouseEvent } from "react";
 import { IoCardOutline, IoCloseOutline } from "react-icons/io5";
 
 import CardActions from "./CardActions";
+import { CardObject } from "types/Types";
 import DescriptionActivities from "./DescriptionActivities";
 
-function CardOptions ({ listName, card, onClose }) {
-	const handleClickOutside = (event) => {
-		if (!event.target.closest(".transition-spacing")) {
+type CardOptionsProps = {
+	card: CardObject,
+	listName: string,
+	onClose: () => void,
+};
+
+function CardOptions ({ listName, card, onClose }: CardOptionsProps) {
+	const handleClickOutside = (event: MouseEvent<HTMLDivElement>) => {
+		const target = event.target as HTMLElement;
+		if (!target.closest(".transition-spacing")) {
 			onClose();
 		}
 	};
 
-	const handleModalClick = (event) => {
+	const handleModalClick = (event: MouseEvent<HTMLDivElement>) => {
 		event.stopPropagation();
 	};
 
@@ -38,12 +43,6 @@ function CardOptions ({ listName, card, onClose }) {
 			</div>
 		</div>
 	);
-};
-
-CardOptions.propTypes = {
-	card: PropTypes.object.isRequired,
-	onClose: PropTypes.func.isRequired,
-	listName: PropTypes.string.isRequired,
 };
 
 export default CardOptions;
