@@ -1,13 +1,17 @@
 import React from "react";
 
+import Header from "../components/Header";
 import AddList from "../components/ManageList/AddList";
 import AllLists from "../components/ManageList/AllLists";
 
 function Home() {
 	return (
-		<div className="flex h-full p-3.5 overflow-x-auto">
-			<AllLists />
-			<AddList />
+		<div className="flex flex-col h-full">
+			<Header />
+			<div className="flex h-full p-3.5 overflow-x-auto">
+				<AllLists />
+				<AddList />
+			</div>
 		</div>
 	);
 }
