@@ -1,15 +1,22 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 
 import { ListProvider } from "./utils/ListContext";
-import Header from "./components/Header";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import PasswordReset from "./pages/PasswordReset";
 
 function App() {
 	return (
-		<div className="flex flex-col h-screen">
-			<Header />
+		<div className="h-screen">
 			<ListProvider>
-				<Home />
+				<Routes>
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
+					<Route path="/password-reset" element={<PasswordReset />} />
+					<Route path="/" element={<Home />} />
+				</Routes>
 			</ListProvider>
 		</div>
 	);

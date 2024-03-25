@@ -93,7 +93,7 @@ function Activity ({ activity }: { activity: ActivityObject }) {
 					</div>
 					<p className="ml-8 mt-1.5 text-xs">
 						<span className="underline cursor-pointer" onClick={() => { setIsEdit(true);} }>Edit</span>
-						<span /> . <span />  
+						&nbsp;&nbsp;·&nbsp;&nbsp;
 						<span className="underline cursor-pointer" onClick={() => setIsDelete(true)}>Delete</span>
 					</p>
 					{isDelete ? <DeletionModal modalName="Delete comment ?" text={deletionWarning} className="flex flex-col w-56 sm:w-64 md:w-80 p-2.5 top-1.5 left-15 z-50 absolute rounded-lg box-border bg-white shadow-custom" onDelete={handleActivityDeleting} onClose={() => setIsDelete(false)} /> : null}
