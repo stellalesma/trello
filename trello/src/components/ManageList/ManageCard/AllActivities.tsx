@@ -1,10 +1,9 @@
 import React from "react";
 
-import PropTypes from "prop-types";
-
 import Activity from "./Activity";
+import { ActivityObject } from "types/Types";
 
-function AllActivities({ activities }) {
+function AllActivities({ activities }: { activities: ActivityObject[] }) {
 	return (
 		<ul>
 			{activities.map((activity) =>
@@ -13,12 +12,7 @@ function AllActivities({ activities }) {
 				</div>
 			)}
 		</ul>
-
 	);
 }
-
-AllActivities.propTypes = {
-	activities: PropTypes.array.isRequired,
-};
 
 export default AllActivities;

@@ -1,17 +1,22 @@
 import React, { useState, useContext } from "react";
 
-import PropTypes from "prop-types";
-
 import { RxDash } from "react-icons/rx";
 import { IoIosArrowRoundForward } from "react-icons/io";
 
 import MoveCard from "./MoveCard";
+import { CardObject } from "types/Types";
 import DeletionModal from "../../DeletionModal";
 import { ListContext } from "../../../utils/ListContext";
 
-function CardActions({ card, listName, onMainClose }) {
-	const [isMoveCardVisible, setIsMoveCardVisible] = useState(false);
-	const [isDeleteCardVisible, setIsDeleteCardVisible] = useState(false);
+type CardActionsProps = {
+	card: CardObject,
+	listName: string,
+	onMainClose: () => void,
+};
+
+function CardActions({ card, listName, onMainClose }: CardActionsProps) {
+	const [isMoveCardVisible, setIsMoveCardVisible] = useState<boolean>(false);
+	const [isDeleteCardVisible, setIsDeleteCardVisible] = useState<boolean>(false);
 
 	const { lists, handleListEditing } = useContext(ListContext);
 
@@ -45,17 +50,11 @@ function CardActions({ card, listName, onMainClose }) {
 						<RxDash className="mr-2.5" />
 						Delete
 					</p>
-					{isDeleteCardVisible ? <DeletionModal modalName="Delete card ?" text={deletionWarning} style="flex flex-col w-64 md:w-80 p-2.5 right-0 md:-ml-40 top-1.5 z-50 absolute rounded-lg box-border bg-white shadow-custom" onDelete={handleDelete} onClose={() => { setIsDeleteCardVisible(false); }} /> : null}
+					{isDeleteCardVisible ? <DeletionModal modalName="Delete card ?" text={deletionWarning} className="flex flex-col w-64 md:w-80 p-2.5 right-0 md:-ml-40 top-1.5 z-50 absolute rounded-lg box-border bg-white shadow-custom" onDelete={handleDelete} onClose={() => { setIsDeleteCardVisible(false); }} /> : null}
 				</div>
 			</div>
 		</div>
 	);
 }
-
-CardActions.propTypes = {
-	card: PropTypes.object.isRequired,
-	listName: PropTypes.string.isRequired,
-	onMainClose: PropTypes.func.isRequired,
-};
 
 export default CardActions;
