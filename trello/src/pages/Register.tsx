@@ -1,11 +1,17 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaTrello } from "react-icons/fa";
 
-function Register() {
+import axios from "axios";
+
+import { User } from "../types/Types";
+
+function Register({ setToken } : { setToken(token: string): void }) {
+	const navigate = useNavigate();
+
+	const [name, setName] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
-	const [username, setUsername] = useState<string>("");
 
 	const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
@@ -15,17 +21,27 @@ function Register() {
 		setPassword(e.target.value);
 	};
 
-	const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
-		setUsername(e.target.value);
+	const handlename = (e: ChangeEvent<HTMLInputElement>) => {
+		setName(e.target.value);
 	};
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		if (email.trim() && password.trim() && username.trim()) {
-			console.log("email:", email);
-			console.log("password:", password);
-			console.log("username:", username);
+		if (email.trim() && password.trim() && name.trim()) {
+			const newUser: User = {
+				name: name,
+				email: email,
+				password: password,
+			};
+
+			await axios.post("http://localhost:8081/user/signup", newUser)
+				.then((response) => {
+					console.log(`New user added: ${newUser.name} (${newUser.email})`);
+					setToken(response.data.access_token);
+					navigate("/");
+				})
+				.catch((error) => console.error("Error adding new user:", error));
 		}
 	};
 
@@ -41,7 +57,7 @@ function Register() {
 
 				<label htmlFor="form-description" className="flex justify-center mb-2.5">Sign up to continue</label>
 				<form id="form-description" className="flex flex-col" onSubmit={handleSubmit}>
-					<input className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your username..." type="text" value={username} onChange={handleUsername}></input>
+					<input className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your name..." type="text" value={name} onChange={handlename}></input>
 					<input className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your email..." type="email" value={email} onChange={handleEmail}></input>
 					<input className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your password..." type="password" value={password} onChange={handlePassword}></input>
 					<button className="w-full h-10 mt-3.5 font-bold text-base text-white bg-cyan-400 hover:bg-cyan-300" type="submit">Sign up</button>

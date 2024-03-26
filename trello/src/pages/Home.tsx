@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import AddList from "../components/ManageList/AddList";
 import AllLists from "../components/ManageList/AllLists";
 
-function Home() {
+function Home({ token } : { token: string }) {
 	return (
 		<div className="flex flex-col h-full">
 			<Header />

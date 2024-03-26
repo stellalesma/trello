@@ -19,7 +19,7 @@ function AddList() {
 		}
 	};
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => { // post
 		e.preventDefault();
 
 		if (listTitle.trim()) {
@@ -28,6 +28,22 @@ function AddList() {
 			setShowForm(false);
 		}
 	};
+
+	// const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+	// 	e.preventDefault();
+
+	// 	if (listTitle.trim()) {
+	// 		const newList = { id: getUpdatedId(), title: listTitle, cards: [] };
+	// 		await axios.post("https://c2ce-154-66-134-144.ngrok-free.app/task-list", newList)
+	// 			.then(() => {
+	// 				setListTitle("");
+	// 				setShowForm(false);
+	// 			})
+	// 			.catch((error) => {
+	// 				console.error("Error adding list :", error);
+	// 			});
+	// 	}
+	// };
 
 	return (
 		<div>

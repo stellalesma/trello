@@ -1,8 +1,14 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaTrello } from "react-icons/fa";
 
-function Login() {
+import axios from "axios";
+
+import { User } from "types/Types";
+
+function Login({ setToken } : { setToken(token: string): void }) {
+	const navigate = useNavigate();
+
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
@@ -14,12 +20,34 @@ function Login() {
 		setPassword(e.target.value);
 	};
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
+	  
 		if (email.trim() && password.trim()) {
-			console.log("email:", email);
-			console.log("password:", password);
+			const user = {
+				email: email,
+				password: password,
+		    };
+	  
+			try {
+				const response = await axios.get("http://localhost:8081/users");
+				const users = response.data.data;
+	
+				const foundUser = users.find((userItem: User) => {
+			  		return userItem.email === user.email && userItem.password === user.password;
+				});
+	  
+				if (foundUser) {
+					const response2 = await axios.post("http://localhost:8081/user/login", user);
+					console.log("Login successful:", user.email);
+					setToken(response2.data.access_token);
+					navigate("/");
+				} else {
+					console.error("No user found with the provided credentials.");
+				}
+		  	} catch (error) {
+				console.error("Error logging in:", error);
+		  	}
 		}
 	};
 
