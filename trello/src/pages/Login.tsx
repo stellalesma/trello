@@ -5,9 +5,11 @@ import { FaTrello } from "react-icons/fa";
 import axios from "axios";
 
 import { User } from "types/Types";
+import { useAccessToken } from "../utils/AccessTokenContext";
 
-function Login({ setToken } : { setToken(token: string): void }) {
+function Login() {
 	const navigate = useNavigate();
+	const { updateToken } = useAccessToken();
 
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
@@ -40,7 +42,7 @@ function Login({ setToken } : { setToken(token: string): void }) {
 				if (foundUser) {
 					const response2 = await axios.post("http://localhost:8081/user/login", user);
 					console.log("Login successful:", user.email);
-					setToken(response2.data.access_token);
+					updateToken(response2.data.access_token);
 					navigate("/");
 				} else {
 					console.error("No user found with the provided credentials.");

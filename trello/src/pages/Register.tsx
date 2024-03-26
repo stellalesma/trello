@@ -5,9 +5,11 @@ import { FaTrello } from "react-icons/fa";
 import axios from "axios";
 
 import { User } from "../types/Types";
+import { useAccessToken } from "../utils/AccessTokenContext";
 
-function Register({ setToken } : { setToken(token: string): void }) {
+function Register() {
 	const navigate = useNavigate();
+	const { updateToken } = useAccessToken();
 
 	const [name, setName] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
@@ -38,7 +40,7 @@ function Register({ setToken } : { setToken(token: string): void }) {
 			await axios.post("http://localhost:8081/user/signup", newUser)
 				.then((response) => {
 					console.log(`New user added: ${newUser.name} (${newUser.email})`);
-					setToken(response.data.access_token);
+					updateToken(response.data.access_token);
 					navigate("/");
 				})
 				.catch((error) => console.error("Error adding new user:", error));
