@@ -1,37 +1,46 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
 import { RxDash } from "react-icons/rx";
 import { IoIosArrowRoundForward } from "react-icons/io";
 
+import axios from "axios";
+
 import MoveCard from "./MoveCard";
-import { CardObject } from "types/Types";
 import DeletionModal from "../../DeletionModal";
-import { ListContext } from "../../../utils/ListContext";
+
+import { ActivityObject, CardObject, ListObject } from "../../../types/Types";
+import { useAccessToken } from "../../../utils/AccessTokenContext";
 
 type CardActionsProps = {
 	card: CardObject,
-	listName: string,
+	list: ListObject,
 	onMainClose: () => void,
 };
 
-function CardActions({ card, listName, onMainClose }: CardActionsProps) {
+function CardActions({ list, card, onMainClose }: CardActionsProps) {
+	const { config } = useAccessToken();
+
 	const [isMoveCardVisible, setIsMoveCardVisible] = useState<boolean>(false);
 	const [isDeleteCardVisible, setIsDeleteCardVisible] = useState<boolean>(false);
 
-	const { lists, handleListEditing } = useContext(ListContext);
-
 	const deletionWarning = "All actions will be removed from the activity feed and you won't be able to reopen the card. There is no undo.";
 
-	const handleDelete = () => {
-		const listIndex = lists.findIndex((list) => list.id === card.listId);
-		const newList = {
-			...lists[listIndex],
-			cards: lists[listIndex].cards.filter((object) => object.id !== card.id),
-		};
-
-		handleListEditing(listIndex, newList);
-		setIsDeleteCardVisible(false);
-		onMainClose();
+	const handleDelete = async () => {
+		try {
+			const response = await axios.get(`http://localhost:8081/comments/${card.id}`, config);
+			const cardActivities = response.data;
+	
+			await Promise.all(cardActivities.map(async (act: ActivityObject) => {
+				await axios.delete(`http://localhost:8081/comments/${act.id}`, config);
+				console.log("comment delete");
+			}));
+	
+			await axios.delete(`http://localhost:8081/tasks/${card.id}`, config);
+			setIsDeleteCardVisible(false);
+			onMainClose();
+		} catch (error) {
+			console.error("Error while deleting card and comments:", error);
+		}
 	};
 
 	return (
@@ -43,7 +52,7 @@ function CardActions({ card, listName, onMainClose }: CardActionsProps) {
 						<IoIosArrowRoundForward className="mr-2.5" />
 						Move
 					</p>
-					{isMoveCardVisible ? <MoveCard listName={listName} card={card} onClose={() => { setIsMoveCardVisible(false); }} onMainClose={onMainClose} /> : null}
+					{isMoveCardVisible ? <MoveCard list={list} card={card} onClose={() => { setIsMoveCardVisible(false); }} onMainClose={onMainClose} /> : null}
 				</div>
 				<div>
 					<p className="flex items-center w-full h-9 mt-2.5 p-2.5 font-bold text-sm cursor-pointer rounded bg-neutral-200/[0.77] hover:bg-neutral-300/[0.8]" onClick={() => { setIsDeleteCardVisible(true); }}>

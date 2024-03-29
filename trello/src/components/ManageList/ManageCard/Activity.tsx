@@ -1,61 +1,41 @@
-import React, { useState, useContext, FormEvent } from "react";
+import React, { useState, FormEvent } from "react";
 import { IoMdContact } from "react-icons/io";
+
+import axios from "axios";
 
 import Form from "../../Form";
 import DeletionModal from "../../DeletionModal";
-import { ListContext } from "../../../utils/ListContext";
-import { ListObject, CardObject, ActivityObject, StaticAttributs } from "types/Types";
+import { useAccessToken } from "../../../utils/AccessTokenContext";
+import { ActivityObject, StaticAttributs } from "../../../types/Types";
 
 function Activity ({ activity }: { activity: ActivityObject }) {
-	const [isEdit, setIsEdit] = useState(false);
-	const [isDelete, setIsDelete] = useState(false);
-	const [comment, setComment] = useState(activity.comment);
-	const { lists, handleListEditing, handleModifiedLists } = useContext(ListContext);
+	const { config } = useAccessToken();
+
+	const [isEdit, setIsEdit] = useState<boolean>(false);
+	const [isDelete, setIsDelete] = useState<boolean>(false);
+	const [comment, setComment] = useState<string>(activity.content);
 
 	const deletionWarning = "Deleting a comment is forever. There is no undo.";
 
-	const handleActivityDeleting = () => {
-		const getNewActivities = (card: CardObject) => card.activities.filter((act) => act.id !== activity.id);
-		const getNewCards = (list: ListObject) => list.cards.map((card) => card.id === activity.cardId ? {...card, activities: getNewActivities(card)} : card);
-		const newLists = lists.map((list) => list.id === activity.listId ?  {...list, cards: getNewCards(list)} : list);
-
-		handleModifiedLists(newLists);
-		setIsDelete(false);
+	const handleActivityDeleting = async () => {
+		await axios.delete(`http://localhost:8081/comments/${activity.id}`, config)
+			.then(() => setIsDelete(false))
+			.catch(error => console.log("Error removing comment:", error));
 	};
 
-	const handleActivityEditing = () => {
-		const listIndex = lists.findIndex((list) => list.id === activity.listId);
-		const cards = lists[listIndex].cards;
-
-		const cardIndex = cards.findIndex((card) => card.id === activity.cardId);
-		const activities = cards[cardIndex].activities;
-
-		const activityIndex = activities.findIndex((object) => object.id === activity.id);
-
-		const newActivity = {...activities[activityIndex], comment: comment};
-		const newActivities = [...activities];
-		newActivities[activityIndex] = newActivity;
-
-		const newCard = {...cards[cardIndex], activities: newActivities};
-		const newCards = [...cards];
-		newCards[cardIndex] = newCard;
-
-		const newList = {...lists[listIndex], cards: newCards};
-		handleListEditing(listIndex, newList);
-	};
-
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
         
 		if (comment.trim()) {
-			handleActivityEditing();
-			setIsEdit(false);
+			await axios.put(`http://localhost:8081/comments/${activity.id}`, {...activity, content: comment}, config)
+				.then(() =>	setIsEdit(false))
+				.catch(error => console.log("Error updating comment :", error));
 		}
 	};
 
 	const handleCancel = () => {
 		setIsEdit(false);
-		setComment(activity.comment);
+		setComment(activity.content);
 	};
 
 	const activityAttrs: StaticAttributs = {
@@ -88,7 +68,7 @@ function Activity ({ activity }: { activity: ActivityObject }) {
 					<div className="flex">
 						<IoMdContact className="text-4xl mr-1 -ml-2" />
 						<li className="grow p-2.5 text-sm white-space-pre-wrap break-words rounded-lg border border-b-4 border-blue-700/40 border-b-purple-400/40 bg-white">
-							{activity.comment}
+							{activity.content}
 						</li>
 					</div>
 					<p className="ml-8 mt-1.5 text-xs">

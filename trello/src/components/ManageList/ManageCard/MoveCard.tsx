@@ -1,66 +1,65 @@
-import React, { useState, useContext, FormEvent, ChangeEvent } from "react";
-
+import React, { useState, useContext, /*useEffect,*/ FormEvent, ChangeEvent } from "react";
 import { IoMdClose } from "react-icons/io";
 
-import { ListObject, CardObject } from "types/Types";
+import axios from "axios";
+
 import { ListContext } from "../../../utils/ListContext";
+import { ListObject, CardObject } from "../../../types/Types";
+import { useAccessToken } from "../../../utils/AccessTokenContext";
 
 type MoveCardProps = {
+	list: ListObject,
 	card: CardObject,
-	listName: string,
 	onClose: () => void,
 	onMainClose: () => void,
 };
 
-export default function MoveCard({ listName, card, onClose, onMainClose }: MoveCardProps) {
-	const { lists, handleModifiedLists } = useContext(ListContext);
+export default function MoveCard({ list, card, onClose, onMainClose }: MoveCardProps) {
+	const { config } = useAccessToken();
+	const { lists } = useContext(ListContext);
+	// const [cardsOfList, setCardsOfList] = useState<CardObject[]>([]);
+	// const [currentCards, setCurrentCards] = useState<CardObject[]>([]);
+	const [selectedList, setSelectedList] = useState<ListObject>(list);	
 
-	const findAList = (allList: ListObject[], searchedTitle: string): ListObject => {
-		const foundList = allList.find(object => object.title === searchedTitle);
-		if (foundList)
-			return foundList;
-		else
-			throw new Error("The searched List was not found.");
-	};
+	// const getCardsOfList = async (listId: number, setCards: (cardsList: CardObject[]) => void) => {
+	// 	try {
+	// 		const response = await axios.get(`http://localhost:8081/tasks/${listId}`, config);
+	// 		setCards(response.data);
+	// 	} catch (error) {
+	// 		console.error("Error getting tasks by task list id :", error);
+	// 	}
+	// };
 
-	const findCardsNb = (cards: CardObject[]): number => {
-		return cards.length;
-	};
+	// getCardsOfList(list.id, setCurrentCards);
+	// const currentPosition = currentCards.findIndex(obj => obj.id === card.id);
+	// const [selectedPosition, setSelectedPosition] = useState<number>(currentPosition);
 
-	const findCardIndex = (cards: CardObject[], cardTitle: string): number => {
-		return cards.findIndex(object => object.title === cardTitle);
-	};
-
-	const currentPosition = findCardIndex(findAList(lists, listName).cards, card.title) + 1;
-	const [selectedList, setSelectedList] = useState<string>(listName);
-	const [selectedPosition, setSelectedPosition] = useState<number>(currentPosition);
-	const suggestedPosition = findCardsNb(findAList(lists, selectedList).cards) + 1;
+	// useEffect(() => {
+	// 	if (selectedList) {
+	// 		getCardsOfList(selectedList.id, setCardsOfList);
+	// 	}
+	// }, [config, selectedList]);
 
 	const handleListChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		setSelectedList(e.target.value);
-		setSelectedPosition(listName !== e.target.value ? findCardsNb(findAList(lists, e.target.value).cards) + 1 : currentPosition);
+		const foundList = lists.find(object => object.title === e.target.value);
+		if (foundList) setSelectedList(foundList);
+		// setSelectedPosition(list.title !== e.target.value ? cardsOfList.length + 1 : currentPosition);
 	};
 
-	const handlePositionChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		setSelectedPosition(parseInt(e.target.value));
-	};
+	// const handlePositionChange = (e: ChangeEvent<HTMLSelectElement>) => {
+	// 	setSelectedPosition(parseInt(e.target.value));
+	// };
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const currentList = findAList(lists, listName);
-		const chosenList = findAList(lists, selectedList);
 
-		if (listName !== selectedList) {
-			currentList.cards.splice(currentPosition - 1, 1);
-			chosenList.cards.splice(selectedPosition - 1, 0, card);
-		} else if (listName === selectedList && currentPosition !== selectedPosition) {
-			currentList.cards.splice(currentPosition - 1, 1);
-			currentList.cards.splice(selectedPosition - 1, 0, card);
-		}
-
-		handleModifiedLists([...lists]);
-		onClose();
-		onMainClose();
+		const newCard = {...card, task_list_id: selectedList.id};
+		await axios.put(`http://localhost:8081/tasks/${card.id}`, newCard, config)
+			.then(() => {
+				onClose();
+				onMainClose();
+			})
+			.catch((error) => console.log("Error removing card:", error));
 	};
 
 	return (
@@ -76,21 +75,22 @@ export default function MoveCard({ listName, card, onClose, onMainClose }: MoveC
 				<form onSubmit={handleSubmit}>
 					<div className="flex flex-col h-20 p-2.5 mb-2.5 rounded bg-neutral-200/[0.77]">
 						<label htmlFor="dropDownList" className="font-bold text-sm">List</label>
-						<select id="dropDownList" name="dropDownList" value={selectedList} onChange={handleListChange} className="h-full">
-							{lists.map((list) => 
-								<option key={list.id} value={list.title}>{list.title}</option>
+						<select id="dropDownList" name="dropDownList" value={selectedList.title} onChange={handleListChange} className="h-full">
+							{lists.map((item) => 
+								<option key={item.id} value={item.title}>{item.title}</option>
 							)}
 						</select>
 					</div>
 
 					<div className="flex flex-col h-20 p-2.5 mb-3.5 rounded bg-neutral-200/[0.77]">
 						<label htmlFor="dropDownPosition" className="font-bold text-sm">Position</label>
-						<select id="dropDownPosition" name="dropDownPosition" value={selectedPosition} onChange={handlePositionChange} className="h-full">
-							{findAList(lists, selectedList).cards.map((object, index) => 
-								<option key={object.id} value={index + 1}>{index + 1}</option>
+						{/* <select id="dropDownPosition" name="dropDownPosition" value={selectedPosition} onChange={handlePositionChange} className="h-full">
+							{cardsOfList.map((obj, index) =>
+								<option key={obj.id} value={index + 1}>{index + 1}</option>
 							)}
-							{listName !== selectedList ? <option value={suggestedPosition}>{suggestedPosition}</option> : null}
-						</select>
+							{list.id !== selectedList.id ? <option value={cardsOfList.length + 1}>{cardsOfList.length + 1}</option> : null}
+						</select> */}
+						<p className="text-red-600 text-xs mt-2">*Postponed Feature</p>
 					</div>
 
 					<div className="flex w-full justify-center">

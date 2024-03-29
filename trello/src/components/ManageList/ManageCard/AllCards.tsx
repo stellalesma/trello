@@ -1,28 +1,49 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
+
+import axios from "axios";
 
 import Card from "./Card";
 import AddCard from "./AddCard";
-import { ListObject } from "types/Types";
+
+import { ListContext } from "../../../utils/ListContext";
+import { ListObject } from "../../../types/Types";
+import { useAccessToken } from "../../../utils/AccessTokenContext";
 
 type AllCardsProps = {
 	list: ListObject,
-	listIndex: number,
 	isFormVisible: boolean,
 	setFormState: (state: boolean) => void,
 };
 
-function AllCards({ list, listIndex, isFormVisible, setFormState }: AllCardsProps) {
+function AllCards({ list, isFormVisible, setFormState }: AllCardsProps) {
+	const { config } = useAccessToken();
+	const { cards, updateCards } = useContext(ListContext);
+
+	useEffect(() => {
+		const getCards = async () => {	
+			try {
+				const response = await axios.get("http://localhost:8081/tasks/", config);
+				updateCards(response.data);
+			} catch (error) {
+				console.error("Cannot load lists / cards :", error);
+			}
+		};
+
+		getCards();
+	}, []);
+
 	return (
 		<div className="overflow-y-auto">
 			<ul>
-				{list.cards.map((card) =>
-					<li key={card.id}>
-						<Card card={card} listName={list.title} listIndex={listIndex} />
-					</li>
-				)}
+				{cards
+					.filter((card) => card.listId === list.id)
+					.map((card) => (
+						<li key={card.id}>
+							<Card card={card} list={list} />
+						</li>
+					))}
 			</ul>
-
-			{isFormVisible ? <AddCard list={list} listIndex={listIndex} setFormState={setFormState} /> : null}
+			{isFormVisible ? <AddCard list={list} setFormState={setFormState} /> : null}
 		</div>
 	);
 }

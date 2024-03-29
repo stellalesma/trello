@@ -1,22 +1,22 @@
-import React, { useState, useContext, FormEvent } from "react";
+import React, { useState, FormEvent } from "react";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 
+import axios from "axios";
+
 import CardOptions from "./CardOptions";
-import { CardObject } from "types/Types";
-import { ListContext } from "../../../utils/ListContext";
+import { CardObject, ListObject } from "types/Types";
+import { useAccessToken } from "../../../utils/AccessTokenContext";
 
 type CardProps = {
 	card: CardObject,
-	listName: string,
-	listIndex: number,
+	list: ListObject,
 };
 
-function Card({ card, listName, listIndex }: CardProps) {
+function Card({ card, list }: CardProps) {
+	const { config } = useAccessToken();
 	const [cardTitle, setCardTitle] = useState<string>(card.title);
 	const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
 	const [showCardOptions, setShowCardOptions] = useState<boolean>(false);
-
-	const { lists, handleListEditing } = useContext(ListContext);
 
 	const handleBlur = () => {
 		if (!cardTitle.trim()) {
@@ -25,19 +25,13 @@ function Card({ card, listName, listIndex }: CardProps) {
 		}
 	};
 
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (cardTitle.trim()) {
-			const list = lists[listIndex];
-			const newCard = {...card, title: cardTitle};
-			const tmp = {
-				...list,
-				cards: list.cards.map((object) => object.id === card.id ? newCard : object)
-			};
-    
-			handleListEditing(listIndex, tmp);
-			setIsTitleEditing(false);
+		if (cardTitle.trim()) {			
+			await axios.put(`http://localhost:8081/tasks/${card.id}`, {...card, title: cardTitle}, config)
+				.then(() =>	setIsTitleEditing(false))
+				.catch(error => console.log("Error updating card :", error));
 		}
 	};
 
@@ -58,7 +52,7 @@ function Card({ card, listName, listIndex }: CardProps) {
 				</p>
 			)}
 
-			{showCardOptions ? <CardOptions listName={listName} card={card} onClose={() => { setShowCardOptions(false); }} /> : null}
+			{showCardOptions ? <CardOptions list={list} card={card} onClose={() => { setShowCardOptions(false); }} /> : null}
 		</div>
 	);
 }

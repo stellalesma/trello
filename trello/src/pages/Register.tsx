@@ -37,13 +37,18 @@ function Register() {
 				password: password,
 			};
 
-			await axios.post("http://localhost:8081/user/signup", newUser)
-				.then((response) => {
-					console.log(`New user added: ${newUser.name} (${newUser.email})`);
-					updateToken(response.data.access_token);
-					navigate("/");
-				})
-				.catch((error) => console.error("Error adding new user:", error));
+			try {
+				await axios.post("http://localhost:8081/user/signup", newUser);
+				console.log(`New user added: ${newUser.name} (${newUser.email})`);
+
+				const response = await axios.post("http://localhost:8081/user/login", {email: newUser.email, password: newUser.password});
+				console.log("Login successful:", newUser.email);
+				updateToken(response.data.access_token);
+				navigate("/");
+			} catch (error) {
+				console.error("Error adding new user:", error);
+			}
+	
 		}
 	};
 

@@ -1,12 +1,17 @@
 import React, { useState, useContext, FormEvent, ChangeEvent } from "react";
 import { FaPlus } from "react-icons/fa6";
 
+import axios from "axios";
+
 import { ListContext } from "../../utils/ListContext";
+import { useAccessToken } from "../../utils/AccessTokenContext";
 
 function AddList() {
+	const { config } = useAccessToken();
+	const { lists, updateLists } = useContext(ListContext);
+
 	const [listTitle, setListTitle] = useState<string>("");
 	const [showForm, setShowForm] = useState<boolean>(false);
-	const { getUpdatedId, handleAddList } = useContext(ListContext);
 
 	const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
 		setListTitle(e.target.value);
@@ -19,31 +24,24 @@ function AddList() {
 		}
 	};
 
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => { // post
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
+		
 		if (listTitle.trim()) {
-			handleAddList({ id: getUpdatedId(), title: listTitle, cards: [] });
-			setListTitle("");
-			setShowForm(false);
+			const newList = {title: listTitle};
+			const localList = {id: lists.length + 1, title: listTitle, userId: 0}; // au lieu de zero, l'id du user
+
+			await axios.post("http://localhost:8081/task-list", newList, config)
+				.then(() => {
+					updateLists([...lists, localList]);
+					setListTitle("");
+					setShowForm(false);
+				})
+				.catch((error) => {
+					console.error("Error adding list :", error);
+				});
 		}
 	};
-
-	// const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-	// 	e.preventDefault();
-
-	// 	if (listTitle.trim()) {
-	// 		const newList = { id: getUpdatedId(), title: listTitle, cards: [] };
-	// 		await axios.post("https://c2ce-154-66-134-144.ngrok-free.app/task-list", newList)
-	// 			.then(() => {
-	// 				setListTitle("");
-	// 				setShowForm(false);
-	// 			})
-	// 			.catch((error) => {
-	// 				console.error("Error adding list :", error);
-	// 			});
-	// 	}
-	// };
 
 	return (
 		<div>

@@ -1,14 +1,16 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
+import { AxiosRequestConfig } from "axios";
+
 type AccessToken = string;
 
 type TokenContextType = {
-  token: AccessToken;
+  config: AxiosRequestConfig;
   updateToken(token: AccessToken) : void;
 };
 
 const defaultValue: TokenContextType = {
-	token: "",
+	config: {},
 	updateToken: () => {},
 };
 
@@ -21,8 +23,12 @@ const AccessTokenProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 		setAccessToken(token);
 	};
 
+	const config = {
+		headers: { Authorization: `Bearer ${accessToken}` }
+	};
+
 	return (
-		<AccessTokenContext.Provider value={{ token: accessToken, updateToken: updateToken }}>
+		<AccessTokenContext.Provider value={{ config: config, updateToken: updateToken }}>
 			{children}
 		</AccessTokenContext.Provider>
 	);

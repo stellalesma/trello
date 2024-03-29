@@ -1,16 +1,38 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+
+import axios from "axios";
 
 import Activity from "./Activity";
-import { ActivityObject } from "types/Types";
 
-function AllActivities({ activities }: { activities: ActivityObject[] }) {
+import { ListContext } from "../../../utils/ListContext";
+import { useAccessToken } from "../../../utils/AccessTokenContext";
+
+function AllActivities({ cardId }: { cardId: number }) {
+	const { config } = useAccessToken();
+	const { activities, updateActivities } = useContext(ListContext);
+
+	useEffect(() => {
+		const getActivities = async () => {	
+			try {
+				const response = await axios.get("http://localhost:8081/comments/", config);
+				updateActivities(response.data);
+			} catch (error) {
+				console.error("Cannot load cards / activities :", error);
+			}
+		};
+
+		getActivities();
+	}, []);
+
 	return (
 		<ul>
-			{activities.map((activity) =>
-				<div key={activity.id}>
-					<Activity activity={activity} />
-				</div>
-			)}
+			{activities
+				.filter((activity) => activity.cardId === cardId)
+				.map((activity) =>
+					<div key={activity.id}>
+						<Activity activity={activity} />
+					</div>
+				)}
 		</ul>
 	);
 }

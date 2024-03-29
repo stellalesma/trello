@@ -6,9 +6,8 @@ export interface User {
 
 export interface ActivityObject {
 	id: number;
-	listId: number;
 	cardId: number;
-	comment: string;
+	content: string;
 }  
   
 export interface CardObject {
@@ -16,13 +15,12 @@ export interface CardObject {
 	title: string;
 	listId: number;
 	description: string;
-	activities: ActivityObject[];
 }
   
 export interface ListObject {
 	id: number;
 	title: string;
-	cards: CardObject[];
+	userId: number;
 }
 
 export interface StaticAttributs {

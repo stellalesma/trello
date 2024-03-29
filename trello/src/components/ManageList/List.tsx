@@ -1,37 +1,41 @@
-import React, { useState, useContext, KeyboardEvent, ChangeEvent } from "react";
+import React, { useState, KeyboardEvent, ChangeEvent } from "react";
 import { GoKebabHorizontal } from "react-icons/go";
 import { FaPlus } from "react-icons/fa6";
+
+import axios from "axios";
 
 import ListActions from "./ListActions";
 import AllCards from "./ManageCard/AllCards";
 
 import { ListObject } from "types/Types";
-import { ListContext } from "../../utils/ListContext";
+import { useAccessToken } from "../../utils/AccessTokenContext";
 
-function List({ list, index }: { list: ListObject, index: number }) {
+function List({ list }: { list: ListObject }) {
+	const { config } = useAccessToken();
+
 	const [title, setTitle] = useState<string>(list.title);
 	const [showForm, setShowForm] = useState<boolean>(false);
 	const [isListActions, setIsListActions] = useState<boolean>(false);
 	const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
 
-	const { handleListEditing } = useContext(ListContext);
-
-	const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+	const handleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === "Enter") {
 			if (title.trim()) {
-				handleListEditing(index, {...list, title: title});
-				setIsTitleEditing(false);
+				await axios.put(`http://localhost:8081/task-list/${list.id}`, {...list, title: title}, config)
+					.then(() => setIsTitleEditing(false))
+					.catch((error) => console.error("Error updating list :", error));
 			}
 		}
 	};
 
-	const handleBlur = () => {
+	const handleBlur = async () => {
 		if (!title.trim()) {
 			setIsTitleEditing(false);
 			setTitle(list.title);
 		} else {
-			handleListEditing(index, {...list, title: title});
-			setIsTitleEditing(false);        
+			await axios.put(`http://localhost:8081/task-list/${list.id}`, {...list, title: title}, config)
+				.then(() => setIsTitleEditing(false))
+				.catch((error) => console.error("Error updating list :", error));
 		}
 	};
 
@@ -64,7 +68,7 @@ function List({ list, index }: { list: ListObject, index: number }) {
 
 			{isListActions ? <ListActions setFormState={handleFormState} onClose={() => setIsListActions(false)} /> : null}
 
-			<AllCards list={list} listIndex={index} isFormVisible={showForm} setFormState={handleFormState} />
+			<AllCards list={list} isFormVisible={showForm} setFormState={handleFormState} />
 
 			{!showForm ? (
 				<p className="flex items-center p-2.5 mt-5 rounded cursor-pointer hover:bg-pink-100/60" onClick={() => setShowForm(true)}>

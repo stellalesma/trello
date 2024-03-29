@@ -1,17 +1,20 @@
 import React, { useState, useContext, FormEvent, ChangeEvent } from "react";
 
-import { ListObject } from "types/Types";
+import axios from "axios";
+
+import { ListObject } from "../../../types/Types";
 import { ListContext } from "../../../utils/ListContext";
+import { useAccessToken } from "../../../utils/AccessTokenContext";
 
 type AddCardProps = {
 	list: ListObject,
-	listIndex: number,
 	setFormState: (state: boolean) => void,
 };
 
-function AddCard({ list, listIndex, setFormState }: AddCardProps) {
+function AddCard({ list, setFormState }: AddCardProps) {
+	const { config } = useAccessToken();
+	const { cards, updateCards } = useContext(ListContext);
 	const [cardTitle, setCardTitle] = useState<string>("");
-	const { getUpdatedId, handleListEditing } = useContext(ListContext);
 
 	const handleTitle = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		setCardTitle(e.target.value);
@@ -27,14 +30,22 @@ function AddCard({ list, listIndex, setFormState }: AddCardProps) {
 		setCardTitle("");
 	};
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		if (cardTitle.trim()) {
-			const newCard = { listId: list.id, id: getUpdatedId(), title: cardTitle, description: "", activities: [] };
-			handleListEditing(listIndex, {...list, cards: [...list.cards, newCard]});
-			setCardTitle("");
-			setFormState(false);
+			const newCard = { title: cardTitle, description: "" };
+			const localCard = {id: cards.length + 1, title: cardTitle, description: "", listId: list.id};
+
+			await axios.post(`http://localhost:8081/tasks/${list.id}`, newCard, config)
+				.then(() => {
+					setCardTitle("");
+					setFormState(false);
+					updateCards([...cards, localCard]);
+				})
+				.catch((error) => {
+					console.error("Error adding card in <", list.title, "> :", error);
+				});
 		}
 	};
 
