@@ -6,21 +6,21 @@ export interface User {
 
 export interface ActivityObject {
 	id: number;
-	cardId: number;
+	task_id: number;
 	content: string;
 }  
   
 export interface CardObject {
-	id: number;
-	title: string;
-	listId: number;
 	description: string;
+	title: string;
+	id: number;
+	task_list_id: number;
 }
   
 export interface ListObject {
-	id: number;
+	owner_id: number;
 	title: string;
-	userId: number;
+	id: number;
 }
 
 export interface StaticAttributs {

@@ -1,15 +1,17 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrello } from "react-icons/fa";
 
 import axios from "axios";
 
 import { User } from "../types/Types";
+import { ListContext } from "../utils/ListContext";
 import { useAccessToken } from "../utils/AccessTokenContext";
 
 function Register() {
 	const navigate = useNavigate();
 	const { updateToken } = useAccessToken();
+	const { setUserId } = useContext(ListContext);
 
 	const [name, setName] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
@@ -44,6 +46,7 @@ function Register() {
 				const response = await axios.post("http://localhost:8081/user/login", {email: newUser.email, password: newUser.password});
 				console.log("Login successful:", newUser.email);
 				updateToken(response.data.access_token);
+				setUserId(response.data.user_id);
 				navigate("/");
 			} catch (error) {
 				console.error("Error adding new user:", error);
@@ -62,11 +65,11 @@ function Register() {
 					Trello
 				</p>
 
-				<label htmlFor="form-description" className="flex justify-center mb-2.5">Sign up to continue</label>
+				<p className="flex justify-center mb-2.5">Sign up to continue</p>
 				<form id="form-description" className="flex flex-col" onSubmit={handleSubmit}>
-					<input className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your name..." type="text" value={name} onChange={handlename}></input>
-					<input className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your email..." type="email" value={email} onChange={handleEmail}></input>
-					<input className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your password..." type="password" value={password} onChange={handlePassword}></input>
+					<input id="form-name" name="form-name" className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your name..." type="text" value={name} onChange={handlename}></input>
+					<input id="form-email" name="form-email" className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your email..." type="email" value={email} onChange={handleEmail}></input>
+					<input id="form-password" name="form-password" className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your password..." type="password" value={password} onChange={handlePassword}></input>
 					<button className="w-full h-10 mt-3.5 font-bold text-base text-white bg-cyan-400 hover:bg-cyan-300" type="submit">Sign up</button>
 				</form>
 

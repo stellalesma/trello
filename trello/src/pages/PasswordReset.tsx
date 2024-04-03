@@ -29,9 +29,9 @@ function PasswordReset() {
 
 				<p className="flex justify-center mb-2.5">Can&apos;t log in?</p>
 	
-				<label htmlFor="form-description" className="text-xs font-bold ml-1">We&apos;ll send a recovery link to</label>
+				<p className="text-xs font-bold ml-1">We&apos;ll send a recovery link to</p>
 				<form id="form-description" className="flex flex-col" onSubmit={handleSubmit}>
-					<input className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter an email..." type="email" value={email} onChange={handleEmail}></input>
+					<input id="form-email" name="form-email" className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter an email..." type="email" value={email} onChange={handleEmail}></input>
 					<button className="w-full h-10 mt-3.5 font-bold text-base text-white bg-cyan-400 hover:bg-cyan-300" type="submit">Send recovery link</button>
 				</form>
 

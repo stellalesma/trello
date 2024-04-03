@@ -11,7 +11,7 @@ import { CardObject, StaticAttributs } from "../../../types/Types";
 
 function DescriptionActivities({ card }: { card: CardObject }) {
 	const { config } = useAccessToken();
-	const { activities, updateActivities } = useContext(ListContext);
+	const { cards, activities, updateCards, updateActivities } = useContext(ListContext);
 
 	const [activity, setActivity] = useState<string>("");
 	const [description, setDescription] = useState<string>(card.description);
@@ -61,19 +61,25 @@ function DescriptionActivities({ card }: { card: CardObject }) {
 	const handleDescriptionSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		await axios.put(`http://localhost:8081/tasks/${card.id}`, {...card, description: description}, config)
-			.then(() =>	setIsDescriptionEditing(false))
-			.catch(error => console.log("Error updating task :", error));
+		await axios.patch(`http://localhost:8081/tasks/${card.id}`, {description: description}, config)
+			.then(() =>	{
+				const newCards = cards.map(item => item.id === card.id ? {...item, description: description} : item);
+				updateCards(newCards);
+				setIsDescriptionEditing(false);
+			})
+			.catch(error => console.error("Error updating task :", error));
 	};
 
 	const handleActivitySubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		const newActivity = {content: activity};
-		const localActivity = {id: activities.length + 1, cardId: card.id, content: activity};
+		const maxId = activities.reduce((max, act) => act.id > max ? act.id : max, 0);
+		const localActivity = {id: maxId + 1, task_id: card.id, content: activity};
+
 		await axios.post(`http://localhost:8081/comments/${card.id}`, newActivity, config)
 			.then(() => {
-				updateActivities([...activities, localActivity]);
+				updateActivities([localActivity, ...activities]);
 				setIsActivityEditing(false);
 				setActivity("");
 			})

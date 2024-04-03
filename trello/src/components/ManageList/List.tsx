@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent, ChangeEvent } from "react";
+import React, { useState, KeyboardEvent, ChangeEvent, useContext } from "react";
 import { GoKebabHorizontal } from "react-icons/go";
 import { FaPlus } from "react-icons/fa6";
 
@@ -7,11 +7,13 @@ import axios from "axios";
 import ListActions from "./ListActions";
 import AllCards from "./ManageCard/AllCards";
 
-import { ListObject } from "types/Types";
+import { ListObject } from "../../types/Types";
+import { ListContext } from "../../utils/ListContext";
 import { useAccessToken } from "../../utils/AccessTokenContext";
 
 function List({ list }: { list: ListObject }) {
 	const { config } = useAccessToken();
+	const { lists, updateLists } = useContext(ListContext);
 
 	const [title, setTitle] = useState<string>(list.title);
 	const [showForm, setShowForm] = useState<boolean>(false);
@@ -22,9 +24,12 @@ function List({ list }: { list: ListObject }) {
 		if (event.key === "Enter") {
 			if (title.trim()) {
 				await axios.put(`http://localhost:8081/task-list/${list.id}`, {...list, title: title}, config)
-					.then(() => setIsTitleEditing(false))
-					.catch((error) => console.error("Error updating list :", error));
-			}
+					.then(() => {
+						const newLists = lists.map(item => item.id === list.id ? {...item, title: title} : item);
+						updateLists(newLists);
+						setIsTitleEditing(false);
+					})
+					.catch((error) => console.error("Error updating list :", error));			}
 		}
 	};
 
@@ -34,7 +39,11 @@ function List({ list }: { list: ListObject }) {
 			setTitle(list.title);
 		} else {
 			await axios.put(`http://localhost:8081/task-list/${list.id}`, {...list, title: title}, config)
-				.then(() => setIsTitleEditing(false))
+				.then(() => {
+					const newLists = lists.map(item => item.id === list.id ? {...item, title: title} : item);
+					updateLists(newLists);
+					setIsTitleEditing(false);
+				})
 				.catch((error) => console.error("Error updating list :", error));
 		}
 	};

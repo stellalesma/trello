@@ -16,7 +16,7 @@ type MoveCardProps = {
 
 export default function MoveCard({ list, card, onClose, onMainClose }: MoveCardProps) {
 	const { config } = useAccessToken();
-	const { lists } = useContext(ListContext);
+	const { lists, cards, updateCards } = useContext(ListContext);
 	// const [cardsOfList, setCardsOfList] = useState<CardObject[]>([]);
 	// const [currentCards, setCurrentCards] = useState<CardObject[]>([]);
 	const [selectedList, setSelectedList] = useState<ListObject>(list);	
@@ -53,13 +53,15 @@ export default function MoveCard({ list, card, onClose, onMainClose }: MoveCardP
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const newCard = {...card, task_list_id: selectedList.id};
-		await axios.put(`http://localhost:8081/tasks/${card.id}`, newCard, config)
+		await axios.patch(`http://localhost:8081/tasks/${card.id}`, {task_list_id: selectedList.id}, config)
 			.then(() => {
+				const newCards = cards.map(item => item.id === card.id ? {...item, task_list_id: selectedList.id} : item);
+
 				onClose();
 				onMainClose();
+				updateCards(newCards);
 			})
-			.catch((error) => console.log("Error removing card:", error));
+			.catch((error) => console.error("Error removing card:", error));
 	};
 
 	return (

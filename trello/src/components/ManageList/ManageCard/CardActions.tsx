@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { RxDash } from "react-icons/rx";
 import { IoIosArrowRoundForward } from "react-icons/io";
@@ -8,8 +8,9 @@ import axios from "axios";
 import MoveCard from "./MoveCard";
 import DeletionModal from "../../DeletionModal";
 
-import { ActivityObject, CardObject, ListObject } from "../../../types/Types";
+import { ListContext } from "../../../utils/ListContext";
 import { useAccessToken } from "../../../utils/AccessTokenContext";
+import { ActivityObject, CardObject, ListObject } from "../../../types/Types";
 
 type CardActionsProps = {
 	card: CardObject,
@@ -19,6 +20,7 @@ type CardActionsProps = {
 
 function CardActions({ list, card, onMainClose }: CardActionsProps) {
 	const { config } = useAccessToken();
+	const { cards, activities, updateCards, updateActivities } = useContext(ListContext);
 
 	const [isMoveCardVisible, setIsMoveCardVisible] = useState<boolean>(false);
 	const [isDeleteCardVisible, setIsDeleteCardVisible] = useState<boolean>(false);
@@ -34,8 +36,10 @@ function CardActions({ list, card, onMainClose }: CardActionsProps) {
 				await axios.delete(`http://localhost:8081/comments/${act.id}`, config);
 				console.log("comment delete");
 			}));
+			updateActivities(activities.filter(obj => obj.task_id !== card.id));
 	
 			await axios.delete(`http://localhost:8081/tasks/${card.id}`, config);
+			updateCards(cards.filter(obj => obj.id !== card.id));
 			setIsDeleteCardVisible(false);
 			onMainClose();
 		} catch (error) {

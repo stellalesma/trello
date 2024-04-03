@@ -1,14 +1,16 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrello } from "react-icons/fa";
 
 import axios from "axios";
 
+import { ListContext } from "../utils/ListContext";
 import { useAccessToken } from "../utils/AccessTokenContext";
 
 function Login() {
 	const navigate = useNavigate();
 	const { updateToken } = useAccessToken();
+	const { setUserId } = useContext(ListContext);
 
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
@@ -33,6 +35,7 @@ function Login() {
 			try {
 				const response = await axios.post("http://localhost:8081/user/login", user);
 				console.log("Login successful:", user.email);
+				setUserId(response.data.user_id);
 				updateToken(response.data.access_token);
 				navigate("/");
 		  	} catch (error) {
@@ -51,10 +54,10 @@ function Login() {
 					Trello
 				</p>
 
-				<label htmlFor="form-description" className="flex justify-center mb-2.5">Log in to continue</label>
+				<p className="flex justify-center mb-2.5">Log in to continue</p>
 				<form id="form-description" className="flex flex-col" onSubmit={handleSubmit}>
-					<input className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your email..." type="email" value={email} onChange={handleEmail}></input>
-					<input className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your password..." type="password" value={password} onChange={handlePassword}></input>
+					<input id="form-email" name="for-email" className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your email..." type="email" value={email} onChange={handleEmail}></input>
+					<input id="form-password" name="for-password" className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your password..." type="password" value={password} onChange={handlePassword}></input>
 					<button className="w-full h-10 mt-3.5 font-bold text-base text-white bg-cyan-400 hover:bg-cyan-300" type="submit">Log in</button>
 				</form>
 

@@ -1,15 +1,17 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useContext } from "react";
 import { IoMdContact } from "react-icons/io";
 
 import axios from "axios";
 
 import Form from "../../Form";
 import DeletionModal from "../../DeletionModal";
+import { ListContext } from "../../../utils/ListContext";
 import { useAccessToken } from "../../../utils/AccessTokenContext";
 import { ActivityObject, StaticAttributs } from "../../../types/Types";
 
 function Activity ({ activity }: { activity: ActivityObject }) {
 	const { config } = useAccessToken();
+	const { activities, updateActivities } = useContext(ListContext);
 
 	const [isEdit, setIsEdit] = useState<boolean>(false);
 	const [isDelete, setIsDelete] = useState<boolean>(false);
@@ -19,17 +21,24 @@ function Activity ({ activity }: { activity: ActivityObject }) {
 
 	const handleActivityDeleting = async () => {
 		await axios.delete(`http://localhost:8081/comments/${activity.id}`, config)
-			.then(() => setIsDelete(false))
-			.catch(error => console.log("Error removing comment:", error));
+			.then(() => {
+				updateActivities(activities.filter(act => act.id !== activity.id));
+				setIsDelete(false);
+			})
+			.catch(error => console.error("Error removing comment:", error));
 	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
         
 		if (comment.trim()) {
-			await axios.put(`http://localhost:8081/comments/${activity.id}`, {...activity, content: comment}, config)
-				.then(() =>	setIsEdit(false))
-				.catch(error => console.log("Error updating comment :", error));
+			await axios.patch(`http://localhost:8081/comments/${activity.id}`, {content: comment}, config)
+				.then(() =>	{
+					const newActivities = activities.map(item => item.id === activity.id ? {...item, content: comment} : item);
+					updateActivities(newActivities);
+					setIsEdit(false);
+				})
+				.catch(error => console.error("Error updating comment :", error));
 		}
 	};
 

@@ -27,7 +27,8 @@ function AllActivities({ cardId }: { cardId: number }) {
 	return (
 		<ul>
 			{activities
-				.filter((activity) => activity.cardId === cardId)
+				.filter((activity) => activity.task_id === cardId)
+				.sort((a, b) => b.id - a.id)
 				.map((activity) =>
 					<div key={activity.id}>
 						<Activity activity={activity} />

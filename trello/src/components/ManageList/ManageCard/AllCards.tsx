@@ -36,7 +36,7 @@ function AllCards({ list, isFormVisible, setFormState }: AllCardsProps) {
 		<div className="overflow-y-auto">
 			<ul>
 				{cards
-					.filter((card) => card.listId === list.id)
+					.filter((card) => card.task_list_id === list.id)
 					.map((card) => (
 						<li key={card.id}>
 							<Card card={card} list={list} />

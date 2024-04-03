@@ -7,11 +7,9 @@ import List from "./List";
 import { ListContext } from "../../utils/ListContext";
 import { useAccessToken } from "../../utils/AccessTokenContext";
 
-// trouver un moyen de recuperer l'id de l'utilisateur
-
 function AllLists() {
 	const { config } = useAccessToken();
-	const { lists, updateLists } = useContext(ListContext);
+	const { userId, lists, updateLists } = useContext(ListContext);
 
 	useEffect(() => {
 		const getLists = async () => {
@@ -28,7 +26,7 @@ function AllLists() {
 
 	return (
 		<ul className="flex snap-x">
-			{lists/*.filter(list => list.userId === userId)*/
+			{lists.filter(list => list.owner_id === userId)
 				.map((list) => (
 					<li key={list.id} className="snap-end w-72 md:w-80 h-fit p-2.5 mr-5 rounded-lg box-border bg-neutral-100">
 						<List list={list} />

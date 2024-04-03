@@ -1,10 +1,11 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useContext } from "react";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 
 import axios from "axios";
 
 import CardOptions from "./CardOptions";
-import { CardObject, ListObject } from "types/Types";
+import { ListContext } from "../../../utils/ListContext";
+import { CardObject, ListObject } from "../../../types/Types";
 import { useAccessToken } from "../../../utils/AccessTokenContext";
 
 type CardProps = {
@@ -14,6 +15,7 @@ type CardProps = {
 
 function Card({ card, list }: CardProps) {
 	const { config } = useAccessToken();
+	const { cards, updateCards } = useContext(ListContext);
 	const [cardTitle, setCardTitle] = useState<string>(card.title);
 	const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
 	const [showCardOptions, setShowCardOptions] = useState<boolean>(false);
@@ -29,9 +31,13 @@ function Card({ card, list }: CardProps) {
 		event.preventDefault();
 
 		if (cardTitle.trim()) {			
-			await axios.put(`http://localhost:8081/tasks/${card.id}`, {...card, title: cardTitle}, config)
-				.then(() =>	setIsTitleEditing(false))
-				.catch(error => console.log("Error updating card :", error));
+			await axios.patch(`http://localhost:8081/tasks/${card.id}`, {title: cardTitle}, config)
+				.then(() =>	{
+					const newCards = cards.map(item => item.id === card.id ? {...item, title: cardTitle} : item);
+					updateCards(newCards);
+					setIsTitleEditing(false);
+				})
+				.catch(error => console.error("Error updating card :", error));
 		}
 	};
 
