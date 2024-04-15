@@ -1,20 +1,26 @@
-import React from "react";
-
-import PropTypes from "prop-types";
-
+import React, { MouseEvent } from "react";
 import { IoCardOutline, IoCloseOutline } from "react-icons/io5";
 
 import CardActions from "./CardActions";
 import DescriptionActivities from "./DescriptionActivities";
 
-function CardOptions ({ listName, card, onClose }) {
-	const handleClickOutside = (event) => {
-		if (!event.target.closest(".transition-spacing")) {
+import { CardObject, ListObject } from "../../../types/Types";
+
+type CardOptionsProps = {
+	card: CardObject,
+	list: ListObject,
+	onClose: () => void,
+};
+
+function CardOptions ({ list, card, onClose }: CardOptionsProps) {
+	const handleClickOutside = (event: MouseEvent<HTMLDivElement>) => {
+		const target = event.target as HTMLElement;
+		if (!target.closest(".transition-spacing")) {
 			onClose();
 		}
 	};
 
-	const handleModalClick = (event) => {
+	const handleModalClick = (event: MouseEvent<HTMLDivElement>) => {
 		event.stopPropagation();
 	};
 
@@ -28,22 +34,16 @@ function CardOptions ({ listName, card, onClose }) {
 					</div>
 					<IoCloseOutline className="text-4xl p-2 rounded-full cursor-pointer hover:bg-stone-200" onClick={onClose} />
 				</div>
-				<p className="grow sm:w-64 md:w-112.5 ml-10 mb-10 text-sm truncate">in list <span title={listName} className="underline cursor-pointer">{listName}</span></p>
+				<p className="grow sm:w-64 md:w-112.5 ml-10 mb-10 text-sm truncate">in list <span title={list.title} className="underline cursor-pointer">{list.title}</span></p>
 
 				<div className="flex flex-col md:flex-row">
 					<DescriptionActivities card={card} />
-					<CardActions card={card} listName={listName} onMainClose={onClose} />
+					<CardActions card={card} list={list} onMainClose={onClose} />
 				</div>
 
 			</div>
 		</div>
 	);
-};
-
-CardOptions.propTypes = {
-	card: PropTypes.object.isRequired,
-	onClose: PropTypes.func.isRequired,
-	listName: PropTypes.string.isRequired,
 };
 
 export default CardOptions;

@@ -1,15 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, FormEvent, ChangeEvent } from "react";
 import { FaPlus } from "react-icons/fa6";
 
-import { ListContext } from "../../utils/ListContext";
+import axios from "axios";
 
+import { ListContext } from "../../utils/ListContext";
+import { useAccessToken } from "../../utils/AccessTokenContext";
 
 function AddList() {
-	const [listTitle, setListTitle] = useState("");
-	const [showForm, setShowForm] = useState(false);
-	const { updatedId, handleAddList } = useContext(ListContext);
+	const { config } = useAccessToken();
+	const { lists, updateLists } = useContext(ListContext);
 
-	const handleTitle = (e) => {
+	const [listTitle, setListTitle] = useState<string>("");
+	const [showForm, setShowForm] = useState<boolean>(false);
+
+	const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
 		setListTitle(e.target.value);
 	};
 
@@ -20,13 +24,22 @@ function AddList() {
 		}
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
+		
 		if (listTitle.trim()) {
-			handleAddList({ id: updatedId(), title: listTitle, cards: [] });
-			setListTitle("");
-			setShowForm(false);
+			const newList = {title: listTitle};
+
+			await axios.post("http://localhost:8081/task-list", newList, config)
+				.then((response) => {
+					const localList = {id: response.data.data.id, title: listTitle};
+					updateLists([...lists, localList]);
+					setListTitle("");
+					setShowForm(false);
+				})
+				.catch((error) => {
+					console.error("Error adding list :", error);
+				});
 		}
 	};
 
