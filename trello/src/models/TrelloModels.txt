@@ -1,0 +1,21 @@
+**Trello app**
+
+User |__ id : number
+     |__ username : string
+     |__ email : string
+     |__ password : string
+
+TasksList |__ id : number
+	 	  |__ userId : number
+     	  |__ title : string
+     	  |__ tasks : Task[]  // list of tasks in this list
+
+Task |__ id : number
+	 |__ listId : number
+	 |__ description : string
+	 |__ comments : Comment[]  // list of comments associated with this card
+
+
+Comment |__ id : number
+		|__ cardId : number
+		|__ content : string

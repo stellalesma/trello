@@ -1,18 +1,24 @@
-import React, { useState, useContext } from "react";
-
-import PropTypes from "prop-types";
-
+import React, { useState, FormEvent, useContext } from "react";
 import { MdOutlineModeEditOutline } from "react-icons/md";
+
+import axios from "axios";
 
 import CardOptions from "./CardOptions";
 import { ListContext } from "../../../utils/ListContext";
+import { CardObject, ListObject } from "../../../types/Types";
+import { useAccessToken } from "../../../utils/AccessTokenContext";
 
-function Card({ card, listName, listIndex }) {
-	const [cardTitle, setCardTitle] = useState(card.title);
-	const [isTitleEditing, setIsTitleEditing] = useState(false);
-	const [showCardOptions, setShowCardOptions] = useState(false);
+type CardProps = {
+	card: CardObject,
+	list: ListObject,
+};
 
-	const { lists, handleListEditing } = useContext(ListContext);
+function Card({ card, list }: CardProps) {
+	const { config } = useAccessToken();
+	const { cards, updateCards } = useContext(ListContext);
+	const [cardTitle, setCardTitle] = useState<string>(card.title);
+	const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
+	const [showCardOptions, setShowCardOptions] = useState<boolean>(false);
 
 	const handleBlur = () => {
 		if (!cardTitle.trim()) {
@@ -21,19 +27,17 @@ function Card({ card, listName, listIndex }) {
 		}
 	};
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (cardTitle.trim()) {
-			const list = lists[listIndex];
-			const newCard = {...card, title: cardTitle};
-			const tmp = {
-				...list,
-				cards: list.cards.map((object) => object.id === card.id ? newCard : object)
-			};
-    
-			handleListEditing(listIndex, tmp);
-			setIsTitleEditing(false);
+		if (cardTitle.trim()) {			
+			await axios.patch(`http://localhost:8081/tasks/${card.id}`, {title: cardTitle}, config)
+				.then(() =>	{
+					const newCards = cards.map(item => item.id === card.id ? {...item, title: cardTitle} : item);
+					updateCards(newCards);
+					setIsTitleEditing(false);
+				})
+				.catch(error => console.error("Error updating card :", error));
 		}
 	};
 
@@ -54,15 +58,9 @@ function Card({ card, listName, listIndex }) {
 				</p>
 			)}
 
-			{showCardOptions ? <CardOptions listName={listName} card={card} onClose={() => { setShowCardOptions(false); }} /> : null}
+			{showCardOptions ? <CardOptions list={list} card={card} onClose={() => { setShowCardOptions(false); }} /> : null}
 		</div>
 	);
 }
-
-Card.propTypes = {
-	card: PropTypes.object.isRequired,
-	listName: PropTypes.string.isRequired,
-	listIndex: PropTypes.number.isRequired,
-};
 
 export default Card;
