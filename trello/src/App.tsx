@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useToasts } from "react-toast-notifications";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 
 import { ListProvider } from "./utils/ListContext";
@@ -13,9 +14,10 @@ import PasswordReset from "./pages/PasswordReset";
 
 function App() {
 	const navigate = useNavigate();
+	const { addToast } = useToasts();
 
 	useEffect(() => {
-		AxiosInterpretor(navigate);
+		AxiosInterpretor({ addToast, navigate });
 	}, []);
 
 	return (

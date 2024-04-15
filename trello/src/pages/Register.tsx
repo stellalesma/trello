@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useToasts } from "react-toast-notifications";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrello } from "react-icons/fa";
 
@@ -9,6 +10,7 @@ import { useAccessToken } from "../utils/AccessTokenContext";
 
 function Register() {
 	const navigate = useNavigate();
+	const { addToast } = useToasts();
 	const { updateToken } = useAccessToken();
 
 	const [name, setName] = useState<string>("");
@@ -39,19 +41,16 @@ function Register() {
 
 			try {
 				await axios.post("http://localhost:8081/user/signup", newUser);
-				console.log(`New user added: ${newUser.name} (${newUser.email})`);
+				addToast("New user added !", { appearance: "success", autoDismiss: true });
 
 				const response = await axios.post("http://localhost:8081/user/login", {email: newUser.email, password: newUser.password});
-				console.log("Login successful:", newUser.email);
+				addToast("Login successful!", { appearance: "success", autoDismiss: true });
 				updateToken(response.data.access_token);
 				navigate("/home");
 			} catch (error) {
 				if (error instanceof AxiosError) {
 					if (error.response?.status === 400) {
-						setName("");
-						setEmail("");
-						setPassword("");
-						console.error(error.response.data.detail);
+						addToast(error.response.data.detail, { appearance: "error", autoDismiss: false });
 					} else {
 						console.error("Error adding new user:", error);
 					}

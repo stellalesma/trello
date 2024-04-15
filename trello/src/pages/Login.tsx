@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useToasts } from "react-toast-notifications";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrello } from "react-icons/fa";
 
@@ -8,6 +9,7 @@ import { useAccessToken } from "../utils/AccessTokenContext";
 
 function Login() {
 	const navigate = useNavigate();
+	const { addToast } = useToasts();
 	const { updateToken } = useAccessToken();
 
 	const [email, setEmail] = useState<string>("");
@@ -32,15 +34,13 @@ function Login() {
 	  
 			try {
 				const response = await axios.post("http://localhost:8081/user/login", user);
-				console.log("Login successful:", user.email);
+				addToast("Login successful!", { appearance: "success", autoDismiss: true });
 				updateToken(response.data.access_token);
 				navigate("/home");
 			} catch (error) {
 				if (error instanceof AxiosError) {
 					if (error.response?.status === 401) {
-						setEmail("");
-						setPassword("");
-						console.error(error.response.data.detail);
+						addToast(error.response.data.detail, { appearance: "error", autoDismiss: false });
 					} else
 						console.error("Error logging in:", error);
 				} else {

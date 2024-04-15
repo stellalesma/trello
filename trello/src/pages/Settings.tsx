@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { useToasts } from "react-toast-notifications";
+import { useNavigate } from "react-router-dom";
 
 import axios, { AxiosError } from "axios";
 
@@ -10,6 +11,7 @@ import { useAccessToken } from "../utils/AccessTokenContext";
 
 function Settings() {
 	const navigate = useNavigate();
+	const { addToast } = useToasts();
 	const { config } = useAccessToken();
 
 	const [newName, setNewName] = useState<string>("");
@@ -45,12 +47,12 @@ function Settings() {
 			.then((response) => {
 				setNewName("");
 				setNewEmail("");
-				console.log("User updating:", response.data.message);
+				addToast(response.data.message, { appearance: "success", autoDismiss: true });
 			})
 			.catch((error) => {
 				if (error instanceof AxiosError) {
 					if (error.response?.status === 400)
-						console.error(error.response.data.detail);
+						addToast(error.response.data.detail, { appearance: "error", autoDismiss: false });
 					else
 						console.error("Cannot update user informations - name and email:", error);
 				} else
@@ -65,12 +67,12 @@ function Settings() {
 			.then((response) => {
 				setUserEmail("");
 				setNewPassword("");
-				console.log("Password updating:", response.data.message);
+				addToast(response.data.message, { appearance: "success", autoDismiss: true });
 			})
 			.catch((error) => {
 				if (error instanceof AxiosError) {
 					if (error.response?.status === 404)
-						console.error(error.response.data.detail);
+						addToast(error.response.data.detail, { appearance: "error", autoDismiss: false });
 					else
 						console.error("Cannot update password:", error);
 				} else

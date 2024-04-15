@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { useToasts } from "react-toast-notifications";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrello } from "react-icons/fa";
 
@@ -9,6 +10,7 @@ import { useAccessToken } from "../utils/AccessTokenContext";
 
 function PasswordReset() {
 	const navigate = useNavigate();
+	const { addToast } = useToasts();
 	const { updateToken } = useAccessToken();
 
 	const [email, setEmail] = useState<string>("");
@@ -40,8 +42,7 @@ function PasswordReset() {
 				.catch(error => {
 					if (error instanceof AxiosError) {
 						if (error.response?.status === 404) {
-							setEmail("");
-							console.error(error.response.data.detail);
+							addToast(error.response.data.detail, { appearance: "error", autoDismiss: false });
 						} else
 							console.error("Cannot get the code to reset password:", error);
 					} else
@@ -56,17 +57,17 @@ function PasswordReset() {
 		try {
 			if (email && enteredCode && password) {
 				const response = await axios.put("http://localhost:8081/user/new-password", { email: email, password: password, otp: enteredCode });
-				console.log(response.data.message);
+				addToast(response.data.message, { appearance: "success", autoDismiss: true });
 
 				const answer = await axios.post("http://localhost:8081/user/login", { email: email, password: password });
-				console.log("Login successful:", email);
+				addToast("Login successful!", { appearance: "success", autoDismiss: true });
 				updateToken(answer.data.access_token);
 				navigate("/home");
 			}
 		} catch (error) {
 			if (error instanceof AxiosError) {
 				if (error.response?.status === 400) {
-					console.error(error.response.data.detail);
+					addToast(error.response.data.detail, { appearance: "error", autoDismiss: false });
 				} else
 					console.error("Error resetting password:", error);
 			} else

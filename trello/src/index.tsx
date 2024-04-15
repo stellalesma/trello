@@ -3,6 +3,7 @@ import "./input.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { ToastProvider } from "react-toast-notifications";
 
 import App from "./App";
 
@@ -13,7 +14,9 @@ if (rootElement) {
 	root.render(
 		<React.StrictMode>
 			<BrowserRouter>
-				<App />
+				<ToastProvider>
+					<App />
+				</ToastProvider>
 			</BrowserRouter>
 		</React.StrictMode>
 	);
