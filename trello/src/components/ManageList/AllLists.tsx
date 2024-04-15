@@ -9,7 +9,7 @@ import { useAccessToken } from "../../utils/AccessTokenContext";
 
 function AllLists() {
 	const { config } = useAccessToken();
-	const { userId, lists, updateLists } = useContext(ListContext);
+	const { lists, updateLists } = useContext(ListContext);
 
 	useEffect(() => {
 		const getLists = async () => {
@@ -26,13 +26,11 @@ function AllLists() {
 
 	return (
 		<ul className="flex snap-x">
-			{lists.filter(list => list.owner_id === userId)
-				.map((list) => (
-					<li key={list.id} className="snap-end w-72 md:w-80 h-fit p-2.5 mr-5 rounded-lg box-border bg-neutral-100">
-						<List list={list} />
-					</li>
-				))
-			}
+			{lists.map((list) => (
+				<li key={list.id} className="snap-end w-72 md:w-80 h-fit p-2.5 mr-5 rounded-lg box-border bg-neutral-100">
+					<List list={list} />
+				</li>
+			))}
 		</ul>
 	);
 }

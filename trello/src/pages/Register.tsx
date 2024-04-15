@@ -1,17 +1,15 @@
-import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrello } from "react-icons/fa";
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import { User } from "../types/Types";
-import { ListContext } from "../utils/ListContext";
 import { useAccessToken } from "../utils/AccessTokenContext";
 
 function Register() {
 	const navigate = useNavigate();
 	const { updateToken } = useAccessToken();
-	const { setUserId } = useContext(ListContext);
 
 	const [name, setName] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
@@ -46,12 +44,21 @@ function Register() {
 				const response = await axios.post("http://localhost:8081/user/login", {email: newUser.email, password: newUser.password});
 				console.log("Login successful:", newUser.email);
 				updateToken(response.data.access_token);
-				setUserId(response.data.user_id);
-				navigate("/");
+				navigate("/home");
 			} catch (error) {
-				console.error("Error adding new user:", error);
+				if (error instanceof AxiosError) {
+					if (error.response?.status === 400) {
+						setName("");
+						setEmail("");
+						setPassword("");
+						console.error(error.response.data.detail);
+					} else {
+						console.error("Error adding new user:", error);
+					}
+				} else {
+					console.error("Error adding new user:", error);
+				}
 			}
-	
 		}
 	};
 

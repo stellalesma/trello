@@ -92,7 +92,7 @@ export default function MoveCard({ list, card, onClose, onMainClose }: MoveCardP
 							)}
 							{list.id !== selectedList.id ? <option value={cardsOfList.length + 1}>{cardsOfList.length + 1}</option> : null}
 						</select> */}
-						<p className="text-red-600 text-xs mt-2">*Postponed Feature</p>
+						<p id="dropDownPosition" className="text-red-600 text-xs mt-2">*Postponed Feature</p>
 					</div>
 
 					<div className="flex w-full justify-center">

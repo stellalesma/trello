@@ -35,14 +35,13 @@ function AddCard({ list, setFormState }: AddCardProps) {
 
 		if (cardTitle.trim()) {
 			const newCard = { title: cardTitle, description: "" };
-			const maxId = cards.reduce((max, card) => card.id > max ? card.id : max, 0);
-			const localCard = {id: maxId + 1, title: cardTitle, description: "", task_list_id: list.id};
-
+			
 			await axios.post(`http://localhost:8081/tasks/${list.id}`, newCard, config)
-				.then(() => {
-					setCardTitle("");
-					setFormState(false);
+				.then((response) => {
+					const localCard = {id: response.data.data.id, title: cardTitle, description: "", task_list_id: list.id};
 					updateCards([...cards, localCard]);
+					setFormState(false);
+					setCardTitle("");
 				})
 				.catch((error) => {
 					console.error("Error adding card in <", list.title, "> :", error);

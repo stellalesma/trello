@@ -1,16 +1,14 @@
-import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrello } from "react-icons/fa";
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
-import { ListContext } from "../utils/ListContext";
 import { useAccessToken } from "../utils/AccessTokenContext";
 
 function Login() {
 	const navigate = useNavigate();
 	const { updateToken } = useAccessToken();
-	const { setUserId } = useContext(ListContext);
 
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
@@ -35,12 +33,21 @@ function Login() {
 			try {
 				const response = await axios.post("http://localhost:8081/user/login", user);
 				console.log("Login successful:", user.email);
-				setUserId(response.data.user_id);
 				updateToken(response.data.access_token);
-				navigate("/");
-		  	} catch (error) {
-				console.error("Error logging in:", error);
-		  	}
+				navigate("/home");
+			} catch (error) {
+				if (error instanceof AxiosError) {
+					if (error.response?.status === 401) {
+						setEmail("");
+						setPassword("");
+						console.error(error.response.data.detail);
+					} else
+						console.error("Error logging in:", error);
+				} else {
+					console.error("Error logging in:", error);
+				}
+			}
+
 		}
 	};
 

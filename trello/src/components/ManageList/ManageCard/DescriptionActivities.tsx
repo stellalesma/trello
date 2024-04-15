@@ -74,11 +74,9 @@ function DescriptionActivities({ card }: { card: CardObject }) {
 		e.preventDefault();
 
 		const newActivity = {content: activity};
-		const maxId = activities.reduce((max, act) => act.id > max ? act.id : max, 0);
-		const localActivity = {id: maxId + 1, task_id: card.id, content: activity};
-
 		await axios.post(`http://localhost:8081/comments/${card.id}`, newActivity, config)
-			.then(() => {
+			.then((response) => {
+				const localActivity = {id: response.data.data.id, task_id: card.id, content: activity};
 				updateActivities([localActivity, ...activities]);
 				setIsActivityEditing(false);
 				setActivity("");

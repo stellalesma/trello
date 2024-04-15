@@ -8,7 +8,7 @@ import { useAccessToken } from "../../utils/AccessTokenContext";
 
 function AddList() {
 	const { config } = useAccessToken();
-	const { userId, lists, updateLists } = useContext(ListContext);
+	const { lists, updateLists } = useContext(ListContext);
 
 	const [listTitle, setListTitle] = useState<string>("");
 	const [showForm, setShowForm] = useState<boolean>(false);
@@ -29,11 +29,10 @@ function AddList() {
 		
 		if (listTitle.trim()) {
 			const newList = {title: listTitle};
-			const maxId = lists.reduce((max, list) => list.id > max ? list.id : max, 0);
-			const localList = {id: maxId + 1, title: listTitle, owner_id: userId};
 
 			await axios.post("http://localhost:8081/task-list", newList, config)
-				.then(() => {
+				.then((response) => {
+					const localList = {id: response.data.data.id, title: listTitle};
 					updateLists([...lists, localList]);
 					setListTitle("");
 					setShowForm(false);

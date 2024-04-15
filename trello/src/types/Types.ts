@@ -18,7 +18,6 @@ export interface CardObject {
 }
   
 export interface ListObject {
-	owner_id: number;
 	title: string;
 	id: number;
 }

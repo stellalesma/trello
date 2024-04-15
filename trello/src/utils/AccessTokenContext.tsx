@@ -5,8 +5,8 @@ import { AxiosRequestConfig } from "axios";
 type AccessToken = string;
 
 type TokenContextType = {
-  config: AxiosRequestConfig;
-  updateToken(token: AccessToken) : void;
+  	config: AxiosRequestConfig;
+  	updateToken(token: AccessToken) : void;
 };
 
 const defaultValue: TokenContextType = {
