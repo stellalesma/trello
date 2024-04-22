@@ -1,53 +1,44 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
-import { useToasts } from "react-toast-notifications";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
 import { FaTrello } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 
 import axios, { AxiosError } from "axios";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 
 import { useAccessToken } from "../utils/AccessTokenContext";
+
+type LoginValues = {
+	email: string,
+	password: string,
+};
 
 function Login() {
 	const navigate = useNavigate();
 	const { addToast } = useToasts();
 	const { updateToken } = useAccessToken();
 
-	const [email, setEmail] = useState<string>("");
-	const [password, setPassword] = useState<string>("");
-
-	const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
-		setEmail(e.target.value);
+	const handleValidate = (values: LoginValues) => {
+		const errors: Partial<LoginValues> = {};
+		if (!values.email) errors.email = "* This field is required";
+		if (!values.password) errors.password = "* This field is required";
+		return errors;
 	};
 
-	const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
-		setPassword(e.target.value);
-	};
-
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-	  
-		if (email.trim() && password.trim()) {
-			const user = {
-				email: email,
-				password: password,
-		    };
-	  
-			try {
-				const response = await axios.post("http://localhost:8081/user/login", user);
-				addToast("Login successful!", { appearance: "success", autoDismiss: true });
-				updateToken(response.data.access_token);
-				navigate("/home");
-			} catch (error) {
-				if (error instanceof AxiosError) {
-					if (error.response?.status === 401) {
-						addToast(error.response.data.detail, { appearance: "error", autoDismiss: false });
-					} else
-						console.error("Error logging in:", error);
-				} else {
-					console.error("Error logging in:", error);
-				}
+	const handleSubmit = async (values: LoginValues, { setSubmitting }: FormikHelpers<LoginValues>) => {
+		try {
+			const response = await axios.post("http://localhost:8081/user/login", values);
+			addToast("Login successful!", { appearance: "success", autoDismiss: true });
+			updateToken(response.data.access_token);
+			setSubmitting(false);
+			navigate("/home");
+		} catch (error) {
+			if (error instanceof AxiosError) {
+				if (error.response?.status === 401) addToast(error.response.data.detail, { appearance: "error", autoDismiss: false });
+				else console.error("Error logging in:", error);
+			} else {
+				console.error("Error logging in:", error);
 			}
-
 		}
 	};
 
@@ -62,11 +53,17 @@ function Login() {
 				</p>
 
 				<p className="flex justify-center mb-2.5">Log in to continue</p>
-				<form id="form-description" className="flex flex-col" onSubmit={handleSubmit}>
-					<input id="form-email" name="for-email" className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your email..." type="email" value={email} onChange={handleEmail}></input>
-					<input id="form-password" name="for-password" className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your password..." type="password" value={password} onChange={handlePassword}></input>
-					<button className="w-full h-10 mt-3.5 font-bold text-base text-white bg-cyan-400 hover:bg-cyan-300" type="submit">Log in</button>
-				</form>
+				<Formik initialValues={{ email: "", password: "" }} validate={handleValidate} onSubmit={handleSubmit}>
+					{({ isSubmitting }) => (
+						<Form className="flex flex-col">
+							<Field name="email" className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your email..." type="email" />
+							<ErrorMessage name="email" component="p" className="text-red-600 text-xs mb-1 ml-2.5" />
+							<Field name="password" className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your password..." type="password" />
+							<ErrorMessage name="password" component="p" className="text-red-600 text-xs mb-1 ml-2.5" />
+							<button className="w-full h-10 mt-3.5 font-bold text-base text-white bg-cyan-400 hover:bg-cyan-300" type="submit" disabled={isSubmitting}>Log in</button>
+						</Form>
+					)}
+				</Formik>
 
 				<div className="flex justify-center mt-7 text-[13px] sm:text-base">
 					<Link to="/password-reset" className=" text-blue-800 hover:underline">Can&apos;t log in?</Link>

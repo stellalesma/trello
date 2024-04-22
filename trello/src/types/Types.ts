@@ -23,12 +23,14 @@ export interface ListObject {
 }
 
 export interface StaticAttributs {
-	id: string;
-	name: string;
 	className: string;
 	placeholder: string;
 	styles: {
 		marginLeft: number;
 		marginBottom: number;
 	}
-};
+}
+
+export interface FormValue {
+	fieldContent: string,
+}

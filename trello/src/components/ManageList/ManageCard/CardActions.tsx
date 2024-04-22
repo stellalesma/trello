@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 
 import { RxDash } from "react-icons/rx";
-import { useToasts } from "react-toast-notifications";
 import { IoIosArrowRoundForward } from "react-icons/io";
 
 import axios from "axios";
@@ -20,7 +19,6 @@ type CardActionsProps = {
 };
 
 function CardActions({ list, card, onMainClose }: CardActionsProps) {
-	const { addToast } = useToasts();
 	const { config } = useAccessToken();
 	const { cards, activities, updateCards, updateActivities } = useContext(ListContext);
 

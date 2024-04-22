@@ -1,62 +1,50 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
-import { useToasts } from "react-toast-notifications";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
 import { FaTrello } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 
 import axios, { AxiosError } from "axios";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 
-import { User } from "../types/Types";
 import { useAccessToken } from "../utils/AccessTokenContext";
+
+type RegisterValues = {
+	name: string;
+	email: string;
+	password: string;
+};
 
 function Register() {
 	const navigate = useNavigate();
 	const { addToast } = useToasts();
 	const { updateToken } = useAccessToken();
 
-	const [name, setName] = useState<string>("");
-	const [email, setEmail] = useState<string>("");
-	const [password, setPassword] = useState<string>("");
-
-	const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
-		setEmail(e.target.value);
+	const handleValidate = (values: RegisterValues) => {
+		const errors: Partial<RegisterValues> = {};
+		if (!values.name) errors.name = "* This field is required";
+		if (!values.email) errors.email = "* This field is required";
+		if (!values.password) errors.password = "* This field is required";
+		return errors;
 	};
 
-	const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
-		setPassword(e.target.value);
-	};
+	const handleSubmit = async (values: RegisterValues, { setSubmitting }: FormikHelpers<RegisterValues>) => {
+		try {
+			await axios.post("http://localhost:8081/user/signup", values);
+			addToast("New user added !", { appearance: "success", autoDismiss: true });
 
-	const handlename = (e: ChangeEvent<HTMLInputElement>) => {
-		setName(e.target.value);
-	};
-
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
-		if (email.trim() && password.trim() && name.trim()) {
-			const newUser: User = {
-				name: name,
-				email: email,
-				password: password,
-			};
-
-			try {
-				await axios.post("http://localhost:8081/user/signup", newUser);
-				addToast("New user added !", { appearance: "success", autoDismiss: true });
-
-				const response = await axios.post("http://localhost:8081/user/login", {email: newUser.email, password: newUser.password});
-				addToast("Login successful!", { appearance: "success", autoDismiss: true });
-				updateToken(response.data.access_token);
-				navigate("/home");
-			} catch (error) {
-				if (error instanceof AxiosError) {
-					if (error.response?.status === 400) {
-						addToast(error.response.data.detail, { appearance: "error", autoDismiss: false });
-					} else {
-						console.error("Error adding new user:", error);
-					}
-				} else {
+			const response = await axios.post("http://localhost:8081/user/login", {email: values.email, password: values.password});
+			addToast("Login successful!", { appearance: "success", autoDismiss: true });
+			updateToken(response.data.access_token);
+			setSubmitting(false);
+			navigate("/home");
+		} catch (error) {
+			if (error instanceof AxiosError) {
+				if (error.response?.status === 400)
+					addToast(error.response.data.detail, { appearance: "error", autoDismiss: false });
+				else
 					console.error("Error adding new user:", error);
-				}
+			} else {
+				console.error("Error adding new user:", error);
 			}
 		}
 	};
@@ -72,12 +60,19 @@ function Register() {
 				</p>
 
 				<p className="flex justify-center mb-2.5">Sign up to continue</p>
-				<form id="form-description" className="flex flex-col" onSubmit={handleSubmit}>
-					<input id="form-name" name="form-name" className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your name..." type="text" value={name} onChange={handlename}></input>
-					<input id="form-email" name="form-email" className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your email..." type="email" value={email} onChange={handleEmail}></input>
-					<input id="form-password" name="form-password" className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your password..." type="password" value={password} onChange={handlePassword}></input>
-					<button className="w-full h-10 mt-3.5 font-bold text-base text-white bg-cyan-400 hover:bg-cyan-300" type="submit">Sign up</button>
-				</form>
+				<Formik initialValues={{ name: "", email: "", password: "" }} validate={handleValidate} onSubmit={handleSubmit}>
+					{({ isSubmitting }) => (
+						<Form className="flex flex-col">
+							<Field name="name" className="p-2.5 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your name..." type="text" />
+							<ErrorMessage name="name" component="p" className="text-red-600 text-xs mb-1 ml-2.5" />
+							<Field name="email" className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your email..." type="email" />
+							<ErrorMessage name="email" component="p" className="text-red-600 text-xs mb-1 ml-2.5" />
+							<Field name="password" className="p-2.5 mt-2 rounded border outline-stone-300/70 focus:outline-cyan-400" placeholder="Enter your password..." type="password" />
+							<ErrorMessage name="password" component="p" className="text-red-600 text-xs mb-1 ml-2.5" />
+							<button className="w-full h-10 mt-3.5 font-bold text-base text-white bg-cyan-400 hover:bg-cyan-300" type="submit" disabled={isSubmitting}>Sign up</button>
+						</Form>
+					)}
+				</Formik>
 
 				<div className="flex justify-center mt-7 text-[13px] sm:text-base">
 					<p className="cursor-default">Already have an account?&nbsp;</p>

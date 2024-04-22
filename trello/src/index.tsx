@@ -1,6 +1,6 @@
 import "./input.css";
 
-import React from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { ToastProvider } from "react-toast-notifications";
@@ -12,13 +12,13 @@ const rootElement = document.getElementById("root");
 if (rootElement) {
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(
-		<React.StrictMode>
+		<StrictMode>
 			<BrowserRouter>
 				<ToastProvider>
 					<App />
 				</ToastProvider>
 			</BrowserRouter>
-		</React.StrictMode>
+		</StrictMode>
 	);
 } else {
   	throw new Error("Root element not found in the DOM.");
