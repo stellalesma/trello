@@ -57,10 +57,8 @@ function List({ list }: { list: ListObject }) {
 	};
 
 	const handleClick = () => {
-		if (isListActions)
-			setIsListActions(false);
-		else
-			setIsListActions(true);
+		if (isListActions) setIsListActions(false);
+		else setIsListActions(true);
 	};
 
 	return (
@@ -75,7 +73,7 @@ function List({ list }: { list: ListObject }) {
 				<GoKebabHorizontal className="text-4xl p-2 rounded hover:bg-teal-100/70" onClick={handleClick} />
 			</div>
 
-			{isListActions ? <ListActions setFormState={handleFormState} onClose={() => setIsListActions(false)} /> : null}
+			{isListActions ? <ListActions list={list} setFormState={handleFormState} onClose={() => setIsListActions(false)} /> : null}
 
 			<AllCards list={list} isFormVisible={showForm} setFormState={handleFormState} />
 

@@ -49,7 +49,7 @@ function DescriptionActivities({ card }: { card: CardObject }) {
 	const handleActivitySubmit = async (values: FormValue, { setSubmitting, resetForm }: FormikHelpers<FormValue>) => {
 		await axios.post(`http://localhost:8081/comments/${card.id}`, { content: values.fieldContent }, config)
 			.then((response) => {
-				const localActivity = {id: response.data.data.id, task_id: card.id, content: values.fieldContent };
+				const localActivity = { id: response.data.data.id, task_id: card.id, content: values.fieldContent };
 				updateActivities([localActivity, ...activities]);
 				setIsActivityEditing(false);
 				setSubmitting(false);
