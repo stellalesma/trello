@@ -1,13 +1,18 @@
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 
-import PropTypes from "prop-types";
+type DeletionModalProps = {
+	text: string,
+	className: string,
+	modalName: string,
+	onClose: () => void,
+	onDelete: () => void,
+};
 
-function DeletionModal({modalName, text, style, onDelete, onClose}) {
-
+function DeletionModal ({modalName, text, className, onDelete, onClose}: DeletionModalProps) {
 	return (
 		<div className="relative">
-			<div className={style}>
+			<div className={className}>
 				<div className="flex flex-row items-center mb-5">
 					<p className="font-bold m-auto">{modalName}</p>
 					<IoMdClose className="text-3xl p-1 cursor-pointer rounded-full hover:bg-stone-200" onClick={onClose} />
@@ -18,13 +23,5 @@ function DeletionModal({modalName, text, style, onDelete, onClose}) {
 		</div>
 	);
 }
-
-DeletionModal.propTypes = {
-	text: PropTypes.string.isRequired,
-	style: PropTypes.string.isRequired,
-	onClose: PropTypes.func.isRequired,
-	onDelete: PropTypes.func.isRequired,
-	modalName: PropTypes.string.isRequired,
-};
 
 export default DeletionModal;
